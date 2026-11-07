@@ -1,0 +1,32 @@
+{
+  "model": "gpt-6-luna",
+  "answers": [
+    {
+      "type": "choice",
+      "name": "order_node_1",
+      "choice": "1",
+      "probabilities": [
+        {
+          "value": "1",
+          "probability": 0.8
+        }
+      ],
+      "confidence": 0.8
+    },
+    {
+      "type": "choice",
+      "name": "order_node_2",
+      "choice": "2",
+      "probabilities": [
+        {
+          "value": "2",
+          "probability": 0.8
+        }
+      ],
+      "confidence": 0.8
+    }
+  ],
+  "usage": {
+    "input_tokens": 300
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "candidates": "dashboard-24",
+  "catalog": "dashboard",
+  "prompt": "Show an operations dashboard with revenue trend, latency, users, uptime, open alerts and a refresh button",
+  "initialState": {
+    "title": "Operations"
+  },
+  "stopReason": "limit",
+  "requests": 2,
+  "elements": 10,
+  "rootChildren": [
+    "node_1",
+    "node_2",
+    "node_3",
+    "node_4",
+    "node_5",
+    "node_6",
+    "node_7",
+    "node_8",
+    "node_9"
+  ]
+}

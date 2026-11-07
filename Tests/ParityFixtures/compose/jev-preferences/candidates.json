@@ -1,0 +1,47 @@
+[
+  {
+    "id": "preferences",
+    "description": "Account preferences panel",
+    "element": {
+      "type": "Panel",
+      "props": {
+        "title": "Account preferences"
+      }
+    }
+  },
+  {
+    "id": "name",
+    "description": "Editable name field",
+    "root": false,
+    "element": {
+      "type": "Input",
+      "props": {
+        "label": "Name",
+        "value": {
+          "$bindState": "/name"
+        }
+      }
+    }
+  },
+  {
+    "id": "save",
+    "description": "Save preferences using the current name",
+    "root": false,
+    "element": {
+      "type": "Button",
+      "props": {
+        "label": "Save"
+      },
+      "on": {
+        "press": {
+          "action": "savePreferences",
+          "params": {
+            "name": {
+              "$state": "/name"
+            }
+          }
+        }
+      }
+    }
+  }
+]

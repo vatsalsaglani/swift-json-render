@@ -1,0 +1,10 @@
+{
+  "status": 429,
+  "body": {
+    "error": {
+      "message": "Rate limit reached for requests (recorded shape, not a real response)",
+      "type": "requests",
+      "code": "rate_limit_exceeded"
+    }
+  }
+}

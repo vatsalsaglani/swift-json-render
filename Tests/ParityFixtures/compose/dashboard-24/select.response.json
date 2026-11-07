@@ -1,0 +1,166 @@
+{
+  "model": "gpt-6-luna",
+  "answers": [
+    {
+      "type": "choice",
+      "name": "root",
+      "choice": "dashboard",
+      "probabilities": [
+        {
+          "value": "dashboard",
+          "probability": 0.82
+        }
+      ],
+      "confidence": 0.82
+    },
+    {
+      "type": "predicate",
+      "name": "select_0",
+      "probability": 0.1
+    },
+    {
+      "type": "choice",
+      "name": "select_1",
+      "choice": "2",
+      "probabilities": [
+        {
+          "value": "2",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "predicate",
+      "name": "select_2",
+      "probability": 0.9
+    },
+    {
+      "type": "predicate",
+      "name": "select_3",
+      "probability": 0.2
+    },
+    {
+      "type": "choice",
+      "name": "select_4",
+      "choice": "use:revenue_chart",
+      "probabilities": [
+        {
+          "value": "use:revenue_chart",
+          "probability": 0.8
+        }
+      ],
+      "confidence": 0.8
+    },
+    {
+      "type": "choice",
+      "name": "select_5",
+      "choice": "use:latency_stat",
+      "probabilities": [
+        {
+          "value": "use:latency_stat",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "select_6",
+      "choice": "omit",
+      "probabilities": [
+        {
+          "value": "omit",
+          "probability": 0.6
+        }
+      ],
+      "confidence": 0.6
+    },
+    {
+      "type": "predicate",
+      "name": "select_7",
+      "probability": 0.8
+    },
+    {
+      "type": "predicate",
+      "name": "select_8",
+      "probability": 0.3
+    },
+    {
+      "type": "predicate",
+      "name": "select_9",
+      "probability": 0.6
+    },
+    {
+      "type": "predicate",
+      "name": "select_10",
+      "probability": 0.1
+    },
+    {
+      "type": "predicate",
+      "name": "select_11",
+      "probability": 0.1
+    },
+    {
+      "type": "predicate",
+      "name": "select_12",
+      "probability": 0.2
+    },
+    {
+      "type": "predicate",
+      "name": "select_13",
+      "probability": 0.7
+    },
+    {
+      "type": "predicate",
+      "name": "select_14",
+      "probability": 0.2
+    },
+    {
+      "type": "predicate",
+      "name": "select_15",
+      "probability": 0.1
+    },
+    {
+      "type": "predicate",
+      "name": "select_16",
+      "probability": 0.9
+    },
+    {
+      "type": "predicate",
+      "name": "select_17",
+      "probability": 0.4
+    },
+    {
+      "type": "predicate",
+      "name": "select_18",
+      "probability": 0.1
+    },
+    {
+      "type": "score",
+      "name": "density",
+      "score": 1.8,
+      "probabilities": [
+        {
+          "value": 0,
+          "label": "sparse",
+          "probability": 0.2
+        },
+        {
+          "value": 1,
+          "label": "normal",
+          "probability": 0.3
+        },
+        {
+          "value": 2,
+          "label": "dense",
+          "probability": 0.5
+        }
+      ],
+      "confidence": 0.7
+    }
+  ],
+  "usage": {
+    "input_tokens": 1450
+  }
+}
