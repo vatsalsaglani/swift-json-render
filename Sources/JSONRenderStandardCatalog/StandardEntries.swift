@@ -1,4 +1,5 @@
 // Owner: jr-1b (wave 1). Frozen: wave-2 agents append to their group files only.
+// jr-3 edited it once at milestone 1: `Catalog.standard` registers the standard directives.
 public import JSONRenderCore
 internal import JSONRenderSwiftUI
 
@@ -15,11 +16,13 @@ public enum StandardEntries {
 }
 
 extension Catalog {
-    /// The standard catalog: the standard components and the built-in actions.
+    /// The standard catalog: the standard components, the standard directives (`$format`,
+    /// `$count`, `$join`, `$pluralize`) and the built-in actions.
     public static var standard: Catalog {
         get throws(CatalogError) {
             var catalog = Catalog()
             try StandardEntries.register(into: &catalog)
+            for directive in StandardEntries.standardDirectives { catalog.directive(directive) }
             return catalog
         }
     }
