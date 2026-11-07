@@ -101,6 +101,22 @@ import Testing
         #expect(rows.scopes.map(\.item) == ["x", "y"])
     }
 
+    @Test func nestedRepeatItemConditionGatesAgainstTheOuterRow() throws {
+        let element = UIElement(
+            type: "Stack", visible: VisibilityCondition(json: ["$item": "show"]),
+            repeat: RepeatConfig(statePath: .item("rows")))
+        let hidden = RepeatScope(item: ["show": false, "rows": ["x"]], index: 0, basePath: "/g/0")
+        let shown = RepeatScope(item: ["show": true, "rows": ["x"]], index: 1, basePath: "/g/1")
+        let state: JSONValue = ["g": [["show": false], ["show": true]]]
+        let off = ElementResolution.resolve(
+            element: element, scope: hidden, state: state, catalog: catalog)
+        let on = ElementResolution.resolve(
+            element: element, scope: shown, state: state, catalog: catalog)
+        #expect(!off.isVisible)
+        #expect(on.isVisible)
+        #expect(on.itemFilter == nil)
+    }
+
     @Test func repeatProblemsWarn() throws {
         let notArray = UIElement(type: "Stack", repeat: RepeatConfig(statePath: .absolute("/n")))
         let rows = ElementResolution.repeatRows(

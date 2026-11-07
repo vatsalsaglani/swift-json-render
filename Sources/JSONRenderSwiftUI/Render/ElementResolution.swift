@@ -78,7 +78,9 @@ public enum ElementResolution {
             directives: catalog.directives)
         let gate: VisibilityCondition?
         let itemFilter: VisibilityCondition?
-        if element.repeat != nil {
+        // Upstream (renderer.tsx 506-509) splits only outside an enclosing repeat: inside one,
+        // an `$item` condition on a nested repeat element gates it against the outer row.
+        if element.repeat != nil, scope == nil {
             (gate, itemFilter) = VisibilityCondition.splitForRepeat(element.visible)
         } else {
             (gate, itemFilter) = (element.visible, nil)
