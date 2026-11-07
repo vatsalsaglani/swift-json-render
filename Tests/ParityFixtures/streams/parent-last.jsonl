@@ -1,0 +1,4 @@
+{"op":"add","path":"/root","value":"main"}
+{"op":"add","path":"/elements/main","value":{"type":"Card","props":{"title":"Main"},"children":["box"]}}
+{"op":"add","path":"/elements/leaf","value":{"type":"Text","props":{"content":"Leaf"},"children":[]}}
+{"op":"add","path":"/elements/box","value":{"type":"Stack","props":{},"children":["leaf"]}}
