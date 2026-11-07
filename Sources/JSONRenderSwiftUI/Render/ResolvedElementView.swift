@@ -1,0 +1,95 @@
+// Owner: jr-3 (wave 2). Resolves one element and hands its context to the catalog factory.
+internal import JSONRenderCore
+internal import SwiftUI
+internal import os
+
+/// Resolves props, bindings and visibility, builds the `JRRenderContext` and calls the
+/// catalog's `ViewFactory` (the only renderer lookup). An unknown type draws a fallback
+/// block. The element's effective theme, repeat rows, events and watchers apply here.
+struct ResolvedElementView: View {
+    let id: String
+    let node: RenderPlan.Node
+    let element: UIElement
+    let model: RenderModel
+
+    @Environment(\.jrRepeatScope) private var scope
+    @Environment(\.jrStreamPhase) private var phase
+    @Environment(\.jrAncestors) private var ancestors
+    @Environment(\.jsonRenderTheme) private var theme
+    @Environment(\.jsonRenderTypeThemes) private var typeThemes
+    @Environment(\.jsonRenderThemeTokens) private var tokens
+    @Environment(\.colorSchemeContrast) private var contrast
+
+    var body: some View {
+        let resolved = RenderSignpost.element {
+            ElementResolution.resolve(
+                element: element, scope: scope, state: model.stateSnapshot.state,
+                catalog: model.catalog)
+        }
+        let _ = record(resolved.warnings.map { .resolution(id: id, $0) })
+        if resolved.isVisible {
+            if let factory = model.catalog.viewFactory(for: node.type) {
+                component(factory, resolved)
+            } else {
+                JRFallbackBlock(reason: node.type, symbol: "puzzlepiece.extension")
+                    .onAppear { model.record(.unknownType(id: id, type: node.type)) }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func component(_ factory: ViewFactory, _ resolved: ResolvedElement) -> some View {
+        let _ = record(
+            ElementResolution.slotWarnings(
+                id: id, type: node.type, slots: node.slotIDs,
+                declared: model.catalog.component(named: node.type)?.slots ?? []))
+        let rows = repeatRows(resolved)
+        let context = JRRenderContext(
+            id: id, props: resolved.props, bindings: resolved.bindings,
+            children: JRChildren(ids: rows?.flatIDs ?? ElementResolution.childIDs(of: node)),
+            slots: ElementResolution.namedSlots(of: node).mapValues { JRChildren(ids: $0) },
+            scope: scope,
+            emit: { [model, id, scope] event, payload in
+                _ = model.emit(id: id, event: event, payload: payload, scope: scope)
+            },
+            isStreaming: phase == .streaming)
+        let view = factory.make(context)
+            .environment(\.jrRepeatRows, rows)
+            .environment(\.jrElementEvents, Set((element.on ?? [:]).keys))
+            .environment(\.jrAncestors, ancestors.union([id]))
+            .environment(
+                \.jsonRenderTheme,
+                theme.effective(
+                    forType: node.type, typeThemes: typeThemes, tokens: tokens,
+                    contrast: contrast))
+        // TODO(jr-2): add `.jrStreamReveal()` here once jr-2's modifier is on main.
+        if let watch = element.watch, !watch.isEmpty {
+            view.modifier(WatchHost(id: id, watch: watch, scope: scope, model: model))
+        } else {
+            view
+        }
+    }
+
+    private func repeatRows(_ resolved: ResolvedElement) -> JRRepeatRows? {
+        guard element.repeat != nil else { return nil }
+        let rows = ElementResolution.repeatRows(
+            element: element, id: id, scope: scope, state: model.stateSnapshot.state,
+            itemFilter: resolved.itemFilter, limits: model.limits)
+        record(rows.warnings)
+        return JRRepeatRows(
+            elementID: id, scopes: rows.scopes, childIDs: ElementResolution.childIDs(of: node))
+    }
+
+    private func record(_ warnings: [RenderWarning]) {
+        for warning in warnings { model.record(warning) }
+    }
+}
+
+/// Signposts for Instruments: `jsonrender.render.element` around each resolution.
+enum RenderSignpost {
+    static let signposter = OSSignposter(subsystem: "swift-json-render", category: "render")
+
+    static func element<T>(_ body: () -> T) -> T {
+        signposter.withIntervalSignpost("jsonrender.render.element") { body() }
+    }
+}
