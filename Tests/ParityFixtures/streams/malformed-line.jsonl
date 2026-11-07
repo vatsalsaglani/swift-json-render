@@ -1,0 +1,5 @@
+{"op":"add","path":"/root","value":"main"}
+{"op":"add","path":"/elements/main","value":{"type":"Card"
+this is not json
+{"op":"add","path":"/elements/main","value":{"type":"Card","props":{"title":"Main"},"children":[]}}
+{"path":"/elements/x"}
