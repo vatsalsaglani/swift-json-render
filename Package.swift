@@ -49,16 +49,25 @@ var targets: [Target] = [
             .product(name: "SwiftSyntaxMacrosGenericTestSupport", package: "swift-syntax"),
         ],
         swiftSettings: strict),
+    .testTarget(
+        name: "JSONRenderComposeTests", dependencies: ["JSONRenderCompose", "JSONRenderCore"],
+        swiftSettings: strict),
 ]
 
 if includeAppleTargets {
     products += [
+        // One import for hosts: core, SwiftUI renderer and the standard catalog.
+        .library(name: "JSONRender", targets: ["JSONRender"]),
         .library(name: "JSONRenderSwiftUI", targets: ["JSONRenderSwiftUI"]),
         .library(name: "JSONRenderStandardCatalog", targets: ["JSONRenderStandardCatalog"]),
         .library(name: "JSONRenderCharts", targets: ["JSONRenderCharts"]),
         .library(name: "JSONRenderRemoteImages", targets: ["JSONRenderRemoteImages"]),
     ]
     targets += [
+        .target(
+            name: "JSONRender",
+            dependencies: ["JSONRenderCore", "JSONRenderSwiftUI", "JSONRenderStandardCatalog"],
+            swiftSettings: strict),
         .target(name: "JSONRenderSwiftUI", dependencies: ["JSONRenderCore"], swiftSettings: strict),
         .target(
             name: "JSONRenderStandardCatalog",
@@ -93,7 +102,8 @@ let package = Package(
     platforms: [.macOS(.v14), .iOS(.v17)],
     products: products,
     dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", "602.0.0"..<"605.0.0")
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", "602.0.0"..<"605.0.0"),
+        .package(url: "https://github.com/swiftlang/swift-docc-plugin", from: "1.4.0"),
     ],
     targets: targets
 )
