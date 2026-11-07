@@ -15,6 +15,7 @@ enum GalleryPages {
         StatusPage.self,
         FixtureSpecsPage.self,
         // Inputs (jr-3b)
+        FormFieldsPage.self, ButtonsPage.self, TablePage.self, MediaPage.self, FeedbackPage.self,
         // Charts (jr-3c, jr-3d)
         BarChartPage.self, LineChartPage.self, AreaChartPage.self, PieChartPage.self,
         GaugePage.self, SparklinePage.self, ScatterChartPage.self, HeatmapPage.self,

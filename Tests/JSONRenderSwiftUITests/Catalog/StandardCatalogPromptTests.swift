@@ -16,6 +16,11 @@ import Testing
         "Drawer": (["open"], ["footer"], [:]),
         "Badge": ([], [], ["variant": ["good", "warning", "critical"]]),
         "Skeleton": (["shape"], [], [:]),
+        // Group 2 (jr-3b).
+        "Image": (["fit"], ["error", "loading"], [:]),
+        "Carousel": ([], ["default"], [:]),
+        "Table": (["sortable"], ["default", "empty", "loading"], [:]),
+        "Button": (["size", "icon"], [], ["variant": ["destructive", "plain"]]),
     ]
 
     static let group1 = [
