@@ -25,7 +25,9 @@ import Testing
             prompt.contains(
                 "- $pluralize (Select singular/plural/zero form based on count. Output: \"3 items\", \"1 item\", or \"no items\".): { $pluralize: unknown, zero?: string, one: string, other: string }"
             ))
-        #expect(prompt.contains("- $count (Get the length of an array or string.): { $count: unknown }"))
+        #expect(
+            prompt.contains("- $count (Get the length of an array or string.): { $count: unknown }")
+        )
     }
 
     @Test func countArraysAndStrings() {
@@ -66,7 +68,8 @@ import Testing
         let us: JSONValue = "en-US"
         #expect(resolve(["$format": "currency", "value": 1234.5, "locale": us]) == "$1,234.50")
         #expect(
-            resolve(["$format": "currency", "value": 9, "currency": "EUR", "locale": us]) == "€9.00")
+            resolve(["$format": "currency", "value": 9, "currency": "EUR", "locale": us]) == "€9.00"
+        )
         #expect(resolve(["$format": "number", "value": 1234.5678, "locale": us]) == "1,234.568")
         #expect(
             resolve(["$format": "number", "value": 1_250_000, "notation": "compact", "locale": us])
@@ -74,7 +77,8 @@ import Testing
         #expect(resolve(["$format": "percent", "value": 0.256, "locale": us]) == "26%")
         #expect(resolve(["$format": "number", "value": "abc", "locale": us]) == nil)
         #expect(
-            resolve(["$format": "number", "value": ["$state": "/n"], "locale": us], state: ["n": 12])
+            resolve(
+                ["$format": "number", "value": ["$state": "/n"], "locale": us], state: ["n": 12])
                 == "12")
     }
 

@@ -11,7 +11,8 @@ import Testing
     }
 
     @Test func followsEveryStoreCommit() async throws {
-        let spec = try decode(#"{"root":"t","state":{"n":0},"elements":{"t":{"type":"Text","props":{"text":"x"}}}}"#)
+        let spec = try decode(
+            #"{"root":"t","state":{"n":0},"elements":{"t":{"type":"Text","props":{"text":"x"}}}}"#)
         let store = StateStore(initial: spec.state)
         let model = RenderModel(spec: spec, catalog: try .standard, store: store)
         let runner = Task { await model.run() }
@@ -25,7 +26,9 @@ import Testing
     }
 
     @Test func boundWritesAreImmediateOrderedAndOneCommitEach() async throws {
-        let spec = try decode(#"{"root":"t","state":{"q":""},"elements":{"t":{"type":"Text","props":{"text":{"$state":"/q"}}}}}"#)
+        let spec = try decode(
+            #"{"root":"t","state":{"q":""},"elements":{"t":{"type":"Text","props":{"text":{"$state":"/q"}}}}}"#
+        )
         let store = StateStore(initial: spec.state)
         let model = RenderModel(spec: spec, catalog: try .standard, store: store)
         var typed = ""
@@ -50,7 +53,8 @@ import Testing
             """#)
         let observer = RecordingObserver()
         let store = StateStore(initial: spec.state)
-        let model = RenderModel(spec: spec, catalog: try .standard, store: store, observer: observer)
+        let model = RenderModel(
+            spec: spec, catalog: try .standard, store: store, observer: observer)
         await model.emit(id: "b", event: "press").value
         let state = await store.snapshot.state
         #expect(state["a"] == 1)
@@ -105,7 +109,8 @@ import Testing
             """#)
         let observer = RecordingObserver()
         let store = StateStore(initial: spec.state)
-        let model = RenderModel(spec: spec, catalog: try .standard, store: store, observer: observer)
+        let model = RenderModel(
+            spec: spec, catalog: try .standard, store: store, observer: observer)
         let watchers = await model.startWatchers()
         defer { watchers.cancel() }
         await store.set("/country", "")  // equal value: no commit, no fire
@@ -128,19 +133,22 @@ import Testing
         let missingRoot = RenderModel(
             spec: Spec(root: "r", elements: [:]), catalog: try .standard)
         #expect(missingRoot.walk().warnings == [.missingElement(id: "r")])
-        let dangling = try decode(#"{"root":"s","elements":{"s":{"type":"Stack","children":["late"]}}}"#)
+        let dangling = try decode(
+            #"{"root":"s","elements":{"s":{"type":"Stack","children":["late"]}}}"#)
         let model = RenderModel(spec: dangling, catalog: try .standard)
         #expect(model.plan.dangling == ["late"])
         #expect(model.walk().fallbacks == [.missingElement(id: "late")])
     }
 
     @Test func specUpdateRebuildsThePlanOnlyOnChange() throws {
-        let first = try decode(#"{"root":"t","elements":{"t":{"type":"Text","props":{"text":"a"}}}}"#)
+        let first = try decode(
+            #"{"root":"t","elements":{"t":{"type":"Text","props":{"text":"a"}}}}"#)
         let model = RenderModel(spec: first, catalog: try .standard)
         let plan = model.plan
         model.update(spec: first)
         #expect(model.plan == plan)
-        let second = try decode(#"{"root":"t","elements":{"t":{"type":"Heading","props":{"text":"a"}}}}"#)
+        let second = try decode(
+            #"{"root":"t","elements":{"t":{"type":"Heading","props":{"text":"a"}}}}"#)
         model.update(spec: second)
         #expect(model.plan.nodes["t"]?.type == "Heading")
     }
@@ -154,7 +162,8 @@ import Testing
             version: 2,
             spec: Spec(
                 root: "s",
-                elements: spec.elements.merging(["a": UIElement(type: "Text", props: ["text": "x"])]) { $1 }))
+                elements: spec.elements.merging(["a": UIElement(type: "Text", props: ["text": "x"])]
+                ) { $1 }))
         model.update(snapshot: next)
         #expect(model.plan == next.plan)
         #expect(model.plan.dangling.isEmpty)

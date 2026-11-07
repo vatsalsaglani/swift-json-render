@@ -84,7 +84,10 @@ private struct DefaultTabsBody: View {
             configuration.selection.wrappedValue = tab.value
         } label: {
             Text(tab.label)
-                .font(theme.type.body.weight(selected ? theme.type.weights.medium : theme.type.weights.regular))
+                .font(
+                    theme.type.body.weight(
+                        selected ? theme.type.weights.medium : theme.type.weights.regular)
+                )
                 .foregroundStyle(selected ? theme.color.text : theme.color.textSecondary)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)

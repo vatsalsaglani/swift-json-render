@@ -61,13 +61,24 @@ struct ResolvedElementView: View {
                 \.jsonRenderTheme,
                 theme.effective(
                     forType: node.type, typeThemes: typeThemes, tokens: tokens,
-                    contrast: contrast))
-        // TODO(jr-2): add `.jrStreamReveal()` here once jr-2's modifier is on main.
+                    contrast: contrast)
+            )
+            // The reveal fades only while streaming: elsewhere it reads a theme with no
+            // motion, so a static spec appears at once. Always applied, so the view identity
+            // does not change when the stream ends.
+            .jrStreamReveal()
+            .environment(\.jsonRenderTheme, phase == .streaming ? theme : revealFree)
         if let watch = element.watch, !watch.isEmpty {
             view.modifier(WatchHost(id: id, watch: watch, scope: scope, model: model))
         } else {
             view
         }
+    }
+
+    private var revealFree: JSONRenderTheme {
+        var copy = theme
+        copy.motion = .none
+        return copy
     }
 
     private func repeatRows(_ resolved: ResolvedElement) -> JRRepeatRows? {

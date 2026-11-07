@@ -42,11 +42,13 @@ import Testing
         copy.slots.removeAll { extra.slots.contains($0) }
         copy.props.kind = .object(
             fields.filter { !extra.props.contains($0.name) }.map { field in
-                guard let drop = extra.values[field.name], case .enum(let values) = field.schema.kind
+                guard let drop = extra.values[field.name],
+                    case .enum(let values) = field.schema.kind
                 else { return field }
                 var schema = field.schema
                 schema.kind = .enum(values.filter { !drop.contains($0) })
-                return PropSchema.Field(name: field.name, schema: schema, description: field.description)
+                return PropSchema.Field(
+                    name: field.name, schema: schema, description: field.description)
             })
         return copy
     }

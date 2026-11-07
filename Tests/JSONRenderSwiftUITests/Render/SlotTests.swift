@@ -50,6 +50,31 @@ import Testing
 
     @Test func vocabularyIsFixed() {
         #expect(
-            JRSlots.vocabulary == ["header", "footer", "leading", "trailing", "empty", "loading", "error"])
+            JRSlots.vocabulary == [
+                "header", "footer", "leading", "trailing", "empty", "loading", "error",
+            ])
+    }
+}
+
+@Suite struct AccessibilityAuditTests {
+    @Test func labelsComeFromSpecPropsAndControlsNeedOne() throws {
+        let spec = Spec(
+            root: "s",
+            elements: [
+                "s": UIElement(type: "Stack", children: ["h", "tabs", "pop", "bare"]),
+                "h": UIElement(type: "Heading", props: ["text": "Status"]),
+                "tabs": UIElement(
+                    type: "Tabs", props: ["tabs": [], "value": ["$bindState": "/t"]]),
+                "pop": UIElement(type: "Popover", props: ["trigger": "More", "content": "x"]),
+                "bare": UIElement(type: "Text", props: ["text": "  "]),
+            ])
+        let walk = RenderWalk(
+            spec: spec, plan: RenderPlan(spec: spec), state: [:], catalog: try .standard)
+        let entries = AccessibilityAudit.entries(in: walk)
+        #expect(entries.map(\.id) == ["s", "h", "tabs", "pop", "bare"])
+        #expect(entries[1].label == "Status" && !entries[1].isControl)
+        #expect(entries[2].isMissingLabel)
+        #expect(entries[3].label == "More" && entries[3].isControl && !entries[3].isMissingLabel)
+        #expect(entries[4].label == nil && !entries[4].isMissingLabel)
     }
 }

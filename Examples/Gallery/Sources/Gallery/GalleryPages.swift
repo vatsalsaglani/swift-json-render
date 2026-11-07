@@ -20,5 +20,6 @@ enum GalleryPages {
         // Theme (jr-3)
         ThemePresetsPage.self,
         // Accessibility (jr-3)
+        AccessibilityPage.self,
     ]
 }

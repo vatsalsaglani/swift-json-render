@@ -2,8 +2,8 @@ import Foundation
 import JSONRenderCore
 import JSONRenderSwiftUI
 import Observation
-import os
 import Testing
+import os
 
 /// The upstream fixtures, located from this file's path.
 enum Fixtures {

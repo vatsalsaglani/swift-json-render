@@ -84,7 +84,9 @@ import Testing
         }
         #expect(fields.map(\.name) == shape.props)
         // Required = neither optional nor nullable (upstream nullable reads as "?").
-        #expect(fields.filter { !$0.schema.isOptional && !$0.schema.isNullable }.map(\.name) == shape.required)
+        #expect(
+            fields.filter { !$0.schema.isOptional && !$0.schema.isNullable }.map(\.name)
+                == shape.required)
         #expect(shape.definition.slots == shape.slots)
         #expect(shape.definition.events == shape.events)
         #expect(!shape.definition.description.isEmpty)
@@ -149,7 +151,8 @@ import Testing
             ]))
         #expect(tabs.tabs.count == 3)  // null dropped by the macro decoder
         let items = LabelValueItem.list(tabs.tabs)
-        #expect(items.map(\.value) == ["a", "B"])  // missing value uses the label; duplicate dropped
+        // A missing value uses the label; a duplicate value is dropped.
+        #expect(items.map(\.value) == ["a", "B"])
         #expect(items.map(\.label) == ["A", "B"])
     }
 
@@ -196,7 +199,8 @@ import Testing
     }
 
     @Test func gapScale() {
-        #expect(["none", "sm", "md", "lg", "xl"].map { StandardGap.points($0) } == [0, 6, 10, 16, 20])
+        #expect(
+            ["none", "sm", "md", "lg", "xl"].map { StandardGap.points($0) } == [0, 6, 10, 16, 20])
         #expect(StandardGap.points(nil) == 10)
     }
 

@@ -97,7 +97,8 @@ public struct JRPagination: View {
 
     public var body: some View {
         let total = max(totalPages, 1)
-        let current = min(max((jrContext.isBound("page") ? page : localPage ?? page) ?? 1, 1), total)
+        let current = min(
+            max((jrContext.isBound("page") ? page : localPage ?? page) ?? 1, 1), total)
         let binding = Binding<Int>(
             get: { current },
             set: { newValue in

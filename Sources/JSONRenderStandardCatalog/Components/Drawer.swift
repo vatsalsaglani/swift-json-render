@@ -40,7 +40,8 @@ extension View {
 /// draws inline with a hairline.
 @JRComponent(
     "Drawer",
-    description: "Bottom sheet drawer. Set openPath to a boolean state path. Use setState to toggle.",
+    description:
+        "Bottom sheet drawer. Set openPath to a boolean state path. Use setState to toggle.",
     slots: ["default", "footer"])
 public struct JRDrawer: View {
     @JRProp var title: String

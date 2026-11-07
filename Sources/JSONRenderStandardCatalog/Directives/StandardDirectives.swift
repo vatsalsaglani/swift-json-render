@@ -1,6 +1,6 @@
+internal import Foundation
 // Owner: jr-3 (wave 2). The four shipped directives (upstream packages/directives).
 public import JSONRenderCore
-internal import Foundation
 
 extension StandardEntries {
     /// `$format`, `$count`, `$join`, `$pluralize`, with upstream names, schemas and
@@ -63,14 +63,18 @@ enum StandardDirectives {
             }
             return .string(
                 number.formatted(
-                    .number.precision(.fractionLength(0...3)).rounded(rule: .toNearestOrAwayFromZero)
-                        .locale(locale)))
+                    .number.precision(.fractionLength(0...3)).rounded(
+                        rule: .toNearestOrAwayFromZero
+                    )
+                    .locale(locale)))
         case "percent":
             guard let number = DirectiveValue.number(value) else { return nil }
             return .string(
                 number.formatted(
-                    .percent.precision(.fractionLength(0...0)).rounded(rule: .toNearestOrAwayFromZero)
-                        .locale(locale)))
+                    .percent.precision(.fractionLength(0...0)).rounded(
+                        rule: .toNearestOrAwayFromZero
+                    )
+                    .locale(locale)))
         default:
             return value
         }

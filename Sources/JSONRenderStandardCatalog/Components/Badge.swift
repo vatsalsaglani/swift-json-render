@@ -61,7 +61,8 @@ private struct DefaultBadgeBody: View {
             Text(configuration.text)
                 .font(theme.type.caption.weight(theme.type.weights.semibold))
                 .foregroundStyle(
-                    configuration.variant == .default ? theme.color.text : theme.color.textSecondary)
+                    configuration.variant == .default ? theme.color.text : theme.color.textSecondary
+                )
                 .lineLimit(1)
         }
         .padding(.horizontal, 7)

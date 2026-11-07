@@ -64,8 +64,10 @@ struct PresentationHost<Panel: View>: View {
     var body: some View {
         if isInline {
             if isOpen.wrappedValue {
-                panel.clipShape(RoundedRectangle(cornerRadius: theme.radius.card, style: .continuous))
-                    .standardHairline(theme, radius: theme.radius.card)
+                panel.clipShape(
+                    RoundedRectangle(cornerRadius: theme.radius.card, style: .continuous)
+                )
+                .standardHairline(theme, radius: theme.radius.card)
             }
         } else {
             Color.clear

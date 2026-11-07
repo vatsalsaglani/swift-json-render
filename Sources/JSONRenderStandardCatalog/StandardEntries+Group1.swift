@@ -25,29 +25,29 @@ extension StandardEntries {
         JRSkeleton.definition,
     ]
 
-    /// `register(view:)`, never `register(X.self)` (that stores no renderer). Components
-    /// with object-list props then replace their definition with the spelled-out schema.
+    /// Definition and renderer per component. Components with object-list props then
+    /// replace their definition with the spelled-out schema.
     static func registerGroup1(into catalog: inout Catalog) throws(CatalogError) {
-        try catalog.register(view: JRCard.self)
-        try catalog.register(view: JRStack.self)
-        try catalog.register(view: JRGrid.self)
-        try catalog.register(view: JRSeparator.self)
-        try catalog.register(view: JRTabs.self)
+        try catalog.register(JRCard.self)
+        try catalog.register(JRStack.self)
+        try catalog.register(JRGrid.self)
+        try catalog.register(JRSeparator.self)
+        try catalog.register(JRTabs.self)
         try catalog.replaceDefinition(JRTabs.catalogDefinition)
-        try catalog.register(view: JRAccordion.self)
+        try catalog.register(JRAccordion.self)
         try catalog.replaceDefinition(JRAccordion.catalogDefinition)
-        try catalog.register(view: JRCollapsible.self)
-        try catalog.register(view: JRPagination.self)
-        try catalog.register(view: JRDialog.self)
-        try catalog.register(view: JRDrawer.self)
-        try catalog.register(view: JRTooltip.self)
-        try catalog.register(view: JRPopover.self)
-        try catalog.register(view: JRDropdownMenu.self)
+        try catalog.register(JRCollapsible.self)
+        try catalog.register(JRPagination.self)
+        try catalog.register(JRDialog.self)
+        try catalog.register(JRDrawer.self)
+        try catalog.register(JRTooltip.self)
+        try catalog.register(JRPopover.self)
+        try catalog.register(JRDropdownMenu.self)
         try catalog.replaceDefinition(JRDropdownMenu.catalogDefinition)
-        try catalog.register(view: JRHeading.self)
-        try catalog.register(view: JRText.self)
-        try catalog.register(view: JRBadge.self)
-        try catalog.register(view: JRAlert.self)
-        try catalog.register(view: JRSkeleton.self)
+        try catalog.register(JRHeading.self)
+        try catalog.register(JRText.self)
+        try catalog.register(JRBadge.self)
+        try catalog.register(JRAlert.self)
+        try catalog.register(JRSkeleton.self)
     }
 }
