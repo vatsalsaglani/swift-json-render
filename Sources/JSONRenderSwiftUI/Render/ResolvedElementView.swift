@@ -27,6 +27,19 @@ struct ResolvedElementView: View {
                 catalog: model.catalog)
         }
         let _ = record(resolved.warnings.map { .resolution(id: id, $0) })
+        // Watchers run whether the element is visible and whether its type is known, as
+        // upstream: the watch task wraps every branch, so it lives while the element is in
+        // the plan.
+        if let watch = element.watch, !watch.isEmpty {
+            branches(resolved, watched: true)
+                .modifier(WatchHost(id: id, watch: watch, scope: scope, model: model))
+        } else {
+            branches(resolved, watched: false)
+        }
+    }
+
+    @ViewBuilder
+    private func branches(_ resolved: ResolvedElement, watched: Bool) -> some View {
         if resolved.isVisible {
             if let factory = model.catalog.viewFactory(for: node.type) {
                 component(factory, resolved)
@@ -34,6 +47,13 @@ struct ResolvedElementView: View {
                 JRFallbackBlock(reason: node.type, symbol: "puzzlepiece.extension")
                     .onAppear { model.record(.unknownType(id: id, type: node.type)) }
             }
+        } else if watched {
+            // A hidden element draws nothing, but an empty view never appears, so its task
+            // would never start. A zero-size, hidden carrier holds the watch task. In a
+            // stack it takes one spacing gap; only hidden elements with `watch` pay it.
+            Color.clear
+                .frame(width: 0, height: 0)
+                .accessibilityHidden(true)
         }
     }
 
@@ -68,11 +88,7 @@ struct ResolvedElementView: View {
             // does not change when the stream ends.
             .jrStreamReveal()
             .environment(\.jsonRenderTheme, phase == .streaming ? theme : revealFree)
-        if let watch = element.watch, !watch.isEmpty {
-            view.modifier(WatchHost(id: id, watch: watch, scope: scope, model: model))
-        } else {
-            view
-        }
+        view
     }
 
     private var revealFree: JSONRenderTheme {

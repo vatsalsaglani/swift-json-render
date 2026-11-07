@@ -22,8 +22,18 @@ public struct RenderWalk: Sendable {
         public let hasWatch: Bool
     }
 
+    /// An element whose `watch` bindings run: drawn, hidden or of an unknown type (upstream
+    /// runs `watch` regardless of visibility). Children of a hidden element are not visited.
+    public struct WatchSite: Sendable, Hashable {
+        public let id: String
+        public let scope: RepeatScope?
+    }
+
     /// The drawn elements in draw order.
     public private(set) var elements: [Element] = []
+    /// The elements with a non-empty `watch` field, in visit order, including hidden and
+    /// unknown-type elements (which `elements` leaves out).
+    public private(set) var watchSites: [WatchSite] = []
     /// Each warning once, in first-seen order.
     public private(set) var warnings: [RenderWarning] = []
     private var seen: Set<RenderWarning> = []
@@ -39,6 +49,7 @@ public struct RenderWalk: Sendable {
         var walker = Walker(spec: spec, plan: plan, state: state, catalog: catalog, limits: limits)
         walker.visit(root, scope: nil, ancestors: [])
         elements = walker.elements
+        watchSites = walker.watchSites
         for warning in walker.warnings { record(warning) }
     }
 
@@ -56,6 +67,7 @@ public struct RenderWalk: Sendable {
         let catalog: Catalog
         let limits: SpecLimits
         var elements: [Element] = []
+        var watchSites: [WatchSite] = []
         var warnings: [RenderWarning] = []
 
         init(spec: Spec, plan: RenderPlan, state: JSONValue, catalog: Catalog, limits: SpecLimits) {
@@ -82,6 +94,9 @@ public struct RenderWalk: Sendable {
             let resolved = ElementResolution.resolve(
                 element: element, scope: scope, state: state, catalog: catalog)
             warnings += resolved.warnings.map { .resolution(id: id, $0) }
+            if !(element.watch ?? [:]).isEmpty {
+                watchSites.append(WatchSite(id: id, scope: scope))
+            }
             guard resolved.isVisible else { return }
             guard catalog.renderers[node.type] != nil else {
                 warnings.append(.unknownType(id: id, type: node.type))

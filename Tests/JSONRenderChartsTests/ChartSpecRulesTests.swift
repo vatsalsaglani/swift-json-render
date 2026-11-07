@@ -1,3 +1,4 @@
+import Foundation
 import JSONRenderCore
 import Testing
 
@@ -114,6 +115,25 @@ struct ChartSpecRulesTests {
         let rows = JSONValue.array((0..<21).map { ["group": .string("g\($0)")] })
         #expect(messages("BoxPlot", ["data": rows]) == ["BoxPlot c: 21 groups; the limit is 20."])
         #expect(messages("BoxPlot", ["data": [["group": "a"]]]).isEmpty)
+    }
+
+    /// jr-2p item 12: blocking text comes from `ChartWarning`, never from a hand-built
+    /// string in a plot.
+    @Test("No component builds a ChartMessage from a hand-written string")
+    func noHandBuiltMessages() throws {
+        let folder = URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent()  // JSONRenderChartsTests
+            .deletingLastPathComponent()  // Tests
+            .deletingLastPathComponent()  // package root
+            .appendingPathComponent("Sources/JSONRenderCharts/Components")
+        let names = try FileManager.default.contentsOfDirectory(atPath: folder.path)
+            .filter { $0.hasSuffix(".swift") }
+        #expect(names.count >= 15)
+        for name in names {
+            let text = try String(
+                contentsOf: folder.appendingPathComponent(name), encoding: .utf8)
+            #expect(!text.contains("ChartMessage("), "\(name)")
+        }
     }
 
     @Test("Unknown format")

@@ -9,8 +9,11 @@ import Foundation
 ///   is not a patch gives `.error(.badLine)` and the stream goes on (upstream skips it
 ///   silently; the final result is the same).
 /// - `.mixed`: upstream `createMixedStreamParser`. Text lines and patch lines, with the
-///   optional ```` ```spec ```` fence. Lines in the fence that are not patches are dropped
-///   silently, as upstream.
+///   optional ```` ```spec ```` fence. Outside the fence, a line that is not a patch is
+///   `.text` (prose, and a JSON object without a string `op`, as upstream). A JSON object
+///   with a string `op` that is not a valid patch (an unknown `op`, no `path`) is a bad
+///   patch, not prose: it gives `.error(.badLine)`, inside or outside the fence. Other lines
+///   in the fence that are not patches are dropped silently, as upstream.
 /// - `.object`: one JSON spec document that arrives in pieces (for example function-call
 ///   argument deltas). No upstream equivalent. See `push(_:)`.
 ///
@@ -59,7 +62,9 @@ public struct SpecStreamDecoder: Sendable {
     /// A part is emitted only when it is complete in the buffer (its closing quote or brace
     /// has arrived), so it never flaps; an element is emitted only when it has a string
     /// `type`. Past `bufferLimit` bytes the decoder reports `.unrecoverable("buffer limit")`
-    /// once and ignores later pushes.
+    /// once and ignores later pushes. Bytes that no continuation can make valid JSON (a
+    /// definite syntax error, not a cut) report `.unrecoverable("invalid JSON")` at once;
+    /// later pushes and `flush()` then return nothing.
     public mutating func push(_ text: String) -> [SpecStreamEvent] {
         push(bytes: text.utf8)
     }
@@ -80,7 +85,14 @@ public struct SpecStreamDecoder: Sendable {
             }
             document.append(contentsOf: bytes)
             let parsed = TolerantJSON.parse(document[..<TolerantJSON.completeUTF8Prefix(document)])
-            guard let value = parsed.value else { return [] }
+            guard let value = parsed.value else {
+                // No value and no cut: the bytes are not a JSON prefix. More bytes cannot
+                // repair them, so fail now instead of waiting for `flush`.
+                guard parsed.cutPath == nil else { return [] }
+                documentFailed = true
+                document = []
+                return [.error(.unrecoverable("invalid JSON"))]
+            }
             return diff(value, cutPath: parsed.cutPath)
         }
     }
@@ -114,15 +126,34 @@ public struct SpecStreamDecoder: Sendable {
     /// Upstream `parseSpecStreamLine`: the trimmed line starts with `{`, parses as JSON, and
     /// has a known string `op` and a string `path`.
     public static func parseLine(_ line: String) -> Result<SpecPatch, LineError> {
+        switch attempt(line) {
+        case .patch(let patch): .success(patch)
+        case .notAnObject: .failure(.notAnObject)
+        case .invalidJSON: .failure(.invalidJSON)
+        case .noOp, .badPatch: .failure(.noOpOrPath)
+        }
+    }
+
+    /// What one line is, with the `.noOpOrPath` failure split in two for `.mixed` mode.
+    private enum LineAttempt {
+        case patch(SpecPatch)
+        case notAnObject, invalidJSON
+        /// A JSON object without a string `op`: upstream treats it as text.
+        case noOp
+        /// A JSON object with a string `op` that is not a valid patch.
+        case badPatch
+    }
+
+    private static func attempt(_ line: String) -> LineAttempt {
         let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard trimmed.hasPrefix("{") else { return .failure(.notAnObject) }
+        guard trimmed.hasPrefix("{") else { return .notAnObject }
         guard let json = try? JSONDecoder().decode(JSONValue.self, from: Data(trimmed.utf8)),
             case .object(let members) = json
-        else { return .failure(.invalidJSON) }
-        guard case .string(let opName)? = members["op"], let op = PatchOperation(rawValue: opName),
-            case .string(let path)? = members["path"]
-        else { return .failure(.noOpOrPath) }
-        return .success(
+        else { return .invalidJSON }
+        guard case .string(let opName)? = members["op"] else { return .noOp }
+        guard let op = PatchOperation(rawValue: opName), case .string(let path)? = members["path"]
+        else { return .badPatch }
+        return .patch(
             SpecPatch(
                 op: op, path: path, value: members["value"], from: members["from"]?.stringValue))
     }
@@ -161,10 +192,14 @@ public struct SpecStreamDecoder: Sendable {
                 return []
             }
             if trimmed.isEmpty { return [] }
-            if case .success(let patch) = SpecStreamDecoder.parseLine(trimmed) {
+            switch SpecStreamDecoder.attempt(trimmed) {
+            case .patch(let patch):
                 return [.patch(patch)]
+            case .badPatch:
+                return [.error(.badLine(index: index, reason: LineError.noOpOrPath.rawValue))]
+            case .notAnObject, .invalidJSON, .noOp:
+                return inFence ? [] : [.text(line)]
             }
-            return inFence ? [] : [.text(line)]
         case .object:
             return []
         }

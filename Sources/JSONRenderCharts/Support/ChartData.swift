@@ -86,11 +86,17 @@ public enum ChartWarning: Sendable, Hashable {
     case negativeSlice
     /// Blocking: more than 2,500 heatmap cells.
     case tooManyCells(Int)
+    /// Blocking: more than `CompositeBudgets.maxBoxPlotGroups` (20) box plot groups.
+    case tooManyGroups(Int)
+    /// Blocking: funnel stage `n` (1-based) is larger than the stage before it and `sort`
+    /// is not set.
+    case stageIncrease(Int)
 
     /// `true` when the chart shows a message instead of marks.
     public var isBlocking: Bool {
         switch self {
-        case .tooManyPoints, .tooManySeries, .tooManySlices, .negativeSlice, .tooManyCells:
+        case .tooManyPoints, .tooManySeries, .tooManySlices, .negativeSlice, .tooManyCells,
+            .tooManyGroups, .stageIncrease:
             true
         default:
             false
@@ -115,6 +121,10 @@ public enum ChartWarning: Sendable, Hashable {
         case .negativeSlice: "A pie cannot show negative values. Use BarChart."
         case .tooManyCells(let count):
             "This heatmap has \(count) cells; the limit is \(ChartBudgets.maxHeatmapCells)."
+        case .tooManyGroups(let count):
+            "This box plot has \(count) groups; the limit is \(CompositeBudgets.maxBoxPlotGroups)."
+        case .stageIncrease(let stage):
+            "Stage \(stage) is larger than the stage before it; set sort: \"none\" to allow it."
         }
     }
 }

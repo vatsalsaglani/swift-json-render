@@ -36,7 +36,11 @@ public struct JRTableSort: Sendable, Hashable {
 /// spec sets `sortable`. `empty` is the `empty` slot (or `nil`).
 public struct JRTableStyleConfiguration {
     public let columns: [JRTableColumn]
+    /// At most `SpecLimits.maxRepeatRows` rows (500 by default).
     public let rows: [JRTableRow]
+    /// The rows in the data. More than `rows.count` when the row cap cut the rest; the
+    /// Table then draws "Showing 500 of N rows" below the style's body.
+    public let totalRows: Int
     public let caption: String?
     public let sort: Binding<JRTableSort?>?
     public let empty: JRStyleContent?
@@ -209,6 +213,8 @@ extension View {
 /// - `sortable`: header buttons sort the drawn rows (view state only).
 /// - the `empty` slot replaces "No rows"; the `loading` slot replaces the streaming
 ///   placeholder.
+/// - literal `rows` past `SpecLimits.maxRepeatRows` (500) are not drawn, as `repeat` rows:
+///   a caption says "Showing 500 of N rows" and the render model records `tooManyRows`.
 @JRComponent(
     "Table",
     description:
@@ -224,6 +230,7 @@ public struct JRTable: View {
     @Environment(\.jrTableStyle) private var style
     @Environment(\.jsonRenderTheme) private var theme
     @Environment(\.jrRepeatRows) private var inheritedRows
+    @Environment(\.jrRenderModel) private var renderModel
 
     /// The definition with `columns` and `rows` spelled out as upstream prints them.
     nonisolated static var catalogDefinition: ComponentDefinition {
@@ -236,7 +243,13 @@ public struct JRTable: View {
         // Named-slot children of a repeat element inherit its rows: use them only when they
         // belong to this Table.
         let repeatRows = inheritedRows.flatMap { $0.elementID == jrContext.id ? $0 : nil }
-        let model = JRTableModel(columns: columns, rows: rows, repeatRows: repeatRows)
+        let model = JRTableModel(
+            columns: columns, rows: rows, repeatRows: repeatRows,
+            maxRows: renderModel?.limits.maxRepeatRows ?? SpecLimits.defaultMaxRepeatRows)
+        // `record` does not publish, so it is safe during a view update.
+        let _ =
+            model.isTruncated
+            ? renderModel?.record(.tooManyRows(id: jrContext.id, count: model.totalRows)) : nil
         let sorted = model.sorted(by: (sortable ?? false) ? sort : nil)
         if jrContext.isStreaming, model.columns.isEmpty, sorted.isEmpty {
             if let loading = jrContext.slot(JRSlots.loading) {
@@ -252,13 +265,19 @@ public struct JRTable: View {
                         ? nil : JRStyleContent(JRChildren(ids: row.childIDs)))
             }
             let configuration = JRTableStyleConfiguration(
-                columns: model.columns, rows: tableRows,
+                columns: model.columns, rows: tableRows, totalRows: model.totalRows,
                 caption: caption.flatMap { $0.isEmpty ? nil : $0 },
                 sort: (sortable ?? false) ? $sort : nil,
                 empty: jrContext.slot(JRSlots.empty).map { JRStyleContent($0) },
                 hasActions: sorted.contains { !$0.childIDs.isEmpty }, theme: theme)
             VStack(alignment: .leading, spacing: theme.space.s2) {
                 JRStyleContent(style.makeBody(configuration: configuration))
+                // Outside the style, so every style shows that rows are missing.
+                if let footer = model.footer {
+                    Text(footer)
+                        .font(theme.type.caption)
+                        .foregroundStyle(theme.color.textSecondary)
+                }
                 // Children of a Table without `repeat` are not row actions: draw them below.
                 if repeatRows == nil, !jrContext.children.isEmpty {
                     jrContext.children
@@ -279,9 +298,17 @@ struct JRTableModel {
     }
 
     let columns: [JRTableColumn]
+    /// At most `maxRows` rows.
     let rows: [Row]
+    /// The rows in the data before the cap (repeat rows are capped upstream of the Table, by
+    /// `ElementResolution.repeatRows`).
+    let totalRows: Int
 
-    init(columns rawColumns: [JSONValue], rows rawRows: [JSONValue], repeatRows: JRRepeatRows?) {
+    /// `maxRows` caps literal `rows` (the spec's `maxRepeatRows`, 500 by default).
+    init(
+        columns rawColumns: [JSONValue], rows rawRows: [JSONValue], repeatRows: JRRepeatRows?,
+        maxRows: Int = SpecLimits.defaultMaxRepeatRows
+    ) {
         var seen: Set<String> = []
         let specs: [(key: String, label: String, align: String?)] = rawColumns.compactMap {
             column in
@@ -300,6 +327,7 @@ struct JRTableModel {
         }
         let rows: [Row]
         if let repeatRows {
+            totalRows = repeatRows.scopes.count
             rows = repeatRows.scopes.indices.map { position in
                 let scope = repeatRows.scopes[position]
                 return Row(
@@ -308,7 +336,8 @@ struct JRTableModel {
                     childIDs: repeatRows.ids(forRow: position))
             }
         } else {
-            rows = rawRows.enumerated().map { index, raw in
+            totalRows = rawRows.count
+            rows = rawRows.prefix(max(maxRows, 0)).enumerated().map { index, raw in
                 let cells: [String]
                 switch raw {
                 case .array(let values): cells = values.map { JRTableModel.cell($0) }
@@ -328,6 +357,14 @@ struct JRTableModel {
                     && values.allSatisfy { JRTableModel.number($0) != nil })
             return JRTableColumn(key: spec.key, label: spec.label, isNumeric: numeric)
         }
+    }
+
+    /// `true` when the cap cut rows.
+    var isTruncated: Bool { totalRows > rows.count }
+
+    /// "Showing 500 of 1200 rows" when the cap cut rows, else `nil`.
+    var footer: String? {
+        isTruncated ? "Showing \(rows.count) of \(totalRows) rows" : nil
     }
 
     /// A scalar as text (JavaScript `String(v)`); `null`, missing, objects and arrays are

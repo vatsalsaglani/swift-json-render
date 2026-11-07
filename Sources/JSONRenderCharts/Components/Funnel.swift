@@ -107,6 +107,10 @@ public enum FunnelData {
         CompositeData.finish(
             &data, range: CompositeData.extent(stages.map(\.value) + [0]), reader: reader,
             includeZero: true)
+        if reader.value("sort") == nil, let index = firstIncrease(stages.map(\.value)) {
+            warnings.append(.stageIncrease(index + 1))
+        }
+        data.blocking = warnings.first(where: \.isBlocking)
         return (data, warnings)
     }
 
@@ -137,20 +141,11 @@ struct FunnelPlot: View {
     private static let rowHeight = 34.0
 
     var body: some View {
+        // A larger stage without `sort` is `ChartWarning.stageIncrease`: the frame shows the
+        // message and never builds this plot.
         let values = input.data.points.map(\.y)
-        if ChartPropReader(input.props).value("sort") == nil,
-            let index = FunnelData.firstIncrease(values)
-        {
-            ChartMessage(
-                text:
-                    "Funnel: stage \(index + 1) is larger than the stage before it; set sort: \"none\" to allow it.",
-                theme: input.theme
-            )
-            .frame(minHeight: input.height)
-        } else {
-            chart(values: values)
-                .frame(height: max(input.height, Double(values.count) * Self.rowHeight))
-        }
+        chart(values: values)
+            .frame(height: max(input.height, Double(values.count) * Self.rowHeight))
     }
 
     private var show: FunnelOptions.Show {

@@ -48,9 +48,13 @@ public struct ReferenceLineMarks: ChartContent {
 extension View {
     /// The default axes: a value axis with 3–5 nice ticks and hairline grid lines, a
     /// category axis without grid lines, tabular digits, both hidden for `variant: minimal`.
-    /// `horizontal` puts the values on x.
+    /// `horizontal` puts the values on x. `aligned` (horizontal only) puts the category
+    /// labels on the leading edge with `.aligned`, so short rows keep their label beside the
+    /// row (box plot, waterfall).
     @ViewBuilder
-    public func jrValueAxes(_ input: ChartPlotInput, horizontal: Bool = false) -> some View {
+    public func jrValueAxes(
+        _ input: ChartPlotInput, horizontal: Bool = false, aligned: Bool = false
+    ) -> some View {
         let tokens = input.tokens
         let format = input.data.axisFormat
         let visibility: Visibility = input.hidesAxes ? .hidden : .automatic
@@ -69,8 +73,14 @@ extension View {
                     }
                 }
                 .chartYAxis {
-                    AxisMarks { _ in
-                        AxisValueLabel().font(tokens.axisFont)
+                    if aligned {
+                        AxisMarks(preset: .aligned, position: .leading) { _ in
+                            AxisValueLabel().font(tokens.axisFont)
+                        }
+                    } else {
+                        AxisMarks { _ in
+                            AxisValueLabel().font(tokens.axisFont)
+                        }
                     }
                 }
                 .chartXAxis(visibility)
@@ -200,8 +210,11 @@ public enum ChartPointerAxis: Sendable, Hashable {
     case x
     /// The y axis (horizontal bars).
     case y
-    /// The angle (pie and donut slices).
+    /// The angle (pie and donut slices). A pointer in a donut's hole selects nothing.
     case angle
+    /// A `Double` x index into `data.categories` (candlestick periods): the label at the
+    /// rounded index.
+    case index
 }
 
 /// Maps a pointer location to the label of the point under it.
@@ -216,7 +229,11 @@ public enum ChartPointerAxis: Sendable, Hashable {
         let data = input.data
         switch axis {
         case .angle:
-            return sliceLabel(at: location, in: frame, data: data)
+            return sliceLabel(
+                at: location, in: frame, data: data,
+                innerRatio: data.options.donut ? ChartPointer.donutInnerRatio : 0)
+        case .index:
+            return indexLabel(proxy.value(atX: location.x - frame.minX, as: Double.self), in: data)
         case .y:
             return proxy.value(atY: location.y - frame.minY, as: String.self)
         case .x:
@@ -236,14 +253,28 @@ public enum ChartPointerAxis: Sendable, Hashable {
         }
     }
 
-    /// The pie slice under `location`: slices start at 12 o'clock and run clockwise.
-    static func sliceLabel(at location: CGPoint, in frame: CGRect, data: ChartData) -> String? {
+    /// The inner radius of a donut, as a ratio of the outer radius (`PieChart` draws with it).
+    nonisolated static let donutInnerRatio = 0.62
+
+    /// The pie slice under `location`: slices start at 12 o'clock and run clockwise. Outside
+    /// the outer radius, or inside the hole (`innerRatio` × the outer radius), it is `nil`.
+    static func sliceLabel(
+        at location: CGPoint, in frame: CGRect, data: ChartData, innerRatio: Double = 0
+    ) -> String? {
         let dx = location.x - frame.midX
         let dy = location.y - frame.midY
         let radius = min(frame.width, frame.height) / 2
-        guard (dx * dx + dy * dy).squareRoot() <= radius else { return nil }
+        let distance = (dx * dx + dy * dy).squareRoot()
+        guard distance <= radius, distance >= radius * innerRatio else { return nil }
         var angle = atan2(dy, dx) + .pi / 2
         if angle < 0 { angle += 2 * .pi }
         return ChartSelection.slice(atFraction: angle / (2 * .pi), in: data)
+    }
+
+    /// The category at the rounded x index, or `nil` off the ends.
+    static func indexLabel(_ value: Double?, in data: ChartData) -> String? {
+        guard let value, value.isFinite else { return nil }
+        let index = Int(value.rounded())
+        return data.categories.indices.contains(index) ? data.categories[index] : nil
     }
 }

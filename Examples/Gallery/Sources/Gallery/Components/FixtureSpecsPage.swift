@@ -16,14 +16,16 @@ struct FixtureSpecsPage: GalleryPage {
         "feature-comparison", "registration-form", "cascading-selects",
     ]
 
-    @State private var models: [(String, RenderModel)] = FixtureSpecsPage.loadModels()
+    /// Loaded once, on first appearance (a `@State` initial value is evaluated on every
+    /// `init`, so file reads there run on every parent body).
+    @State private var models: [(String, RenderModel)]?
 
     var body: some View {
         GalleryPageLayout(
             title: Self.title,
             note: "The eight upstream example specs, rendered with Catalog.standard."
         ) {
-            ForEach(models, id: \.0) { file, model in
+            ForEach(models ?? [], id: \.0) { file, model in
                 VStack(alignment: .leading, spacing: 8) {
                     Text(file.uppercased())
                         .font(.system(size: 10, weight: .semibold))
@@ -32,6 +34,9 @@ struct FixtureSpecsPage: GalleryPage {
                 }
                 .onAppear { FixtureSpecsPage.report(file: file, model: model) }
             }
+        }
+        .onAppear {
+            if models == nil { models = FixtureSpecsPage.loadModels() }
         }
     }
 

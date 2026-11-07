@@ -147,60 +147,6 @@ enum CompositeData {
 // MARK: - Axes
 
 extension View {
-    /// The value axis (3–5 nice ticks, hairline grid) and the category axis (no grid) of a
-    /// composite chart. A horizontal chart puts the categories on y with `.aligned` labels,
-    /// so short rows keep their labels beside the row.
-    @ViewBuilder
-    func jrCompositeAxes(_ input: ChartPlotInput, horizontal: Bool) -> some View {
-        let tokens = input.tokens
-        let format = input.data.axisFormat
-        let visibility: Visibility = input.hidesAxes ? .hidden : .automatic
-        if horizontal {
-            self
-                .chartXScale(domain: input.yDomain)
-                .chartXAxis {
-                    AxisMarks(values: .automatic(desiredCount: 4)) { value in
-                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                            .foregroundStyle(tokens.gridline)
-                        AxisValueLabel {
-                            if let number = value.as(Double.self) {
-                                Text(format.axisString(number)).font(tokens.axisFont)
-                            }
-                        }
-                    }
-                }
-                .chartYAxis {
-                    AxisMarks(preset: .aligned, position: .leading) { _ in
-                        AxisValueLabel().font(tokens.axisFont)
-                    }
-                }
-                .chartXAxis(visibility)
-                .chartYAxis(visibility)
-        } else {
-            self
-                .chartYScale(domain: input.yDomain)
-                .chartYAxis {
-                    AxisMarks(position: .leading, values: .automatic(desiredCount: 4)) { value in
-                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                            .foregroundStyle(tokens.gridline)
-                        AxisValueLabel {
-                            if let number = value.as(Double.self) {
-                                Text(format.axisString(number)).font(tokens.axisFont)
-                            }
-                        }
-                    }
-                }
-                .chartXAxis {
-                    AxisMarks { _ in
-                        AxisValueLabel(collisionResolution: .greedy(minimumSpacing: 4))
-                            .font(tokens.axisFont)
-                    }
-                }
-                .chartXAxis(visibility)
-                .chartYAxis(visibility)
-        }
-    }
-
     /// Pointer selection along the category axis (y for a horizontal chart). Hover only
     /// highlights; a click or an arrow key writes the selection to state.
     func jrCategorySelection(_ input: ChartPlotInput, horizontal: Bool) -> some View {

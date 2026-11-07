@@ -204,7 +204,8 @@ public final class RenderModel {
         }
     }
 
-    /// Runs the `watch` bindings of every element the walk draws until cancelled. Views run
+    /// Runs the `watch` bindings of every element in the walk's `watchSites` (drawn, hidden
+    /// or of an unknown type, as upstream) until cancelled. Views run
     /// watchers through `WatchHost`; this is for headless hosts and tests. Each watcher's
     /// baseline is the state when this call subscribes (before it returns the task).
     public func startWatchers() async -> Task<Void, Never> {
@@ -213,9 +214,9 @@ public final class RenderModel {
         let functions = catalog.functions
         let directives = catalog.directives
         var jobs: [(String, [String: [ActionBinding]], RepeatScope?, StateSubscription)] = []
-        for element in walk.elements where element.hasWatch {
-            guard let watch = spec.elements[element.id]?.watch else { continue }
-            jobs.append((element.id, watch, element.scope, await store.subscribe()))
+        for site in walk.watchSites {
+            guard let watch = spec.elements[site.id]?.watch else { continue }
+            jobs.append((site.id, watch, site.scope, await store.subscribe()))
         }
         return Task {
             await withTaskGroup(of: Void.self) { group in

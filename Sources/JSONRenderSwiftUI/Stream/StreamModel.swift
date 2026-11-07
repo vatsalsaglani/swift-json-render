@@ -22,6 +22,8 @@ public struct StreamFrameStats: Sendable, Hashable {
 /// - State: while the stream runs, the stream's `/state` wins: after each commit whose
 ///   `spec.state` changed, `store.replaceAll` copies it in (a user write in that window is
 ///   overwritten). After the stream ends, the store belongs to the user; nothing is copied.
+///   A second run resets the store to the initial spec's state (`{}` when it has none), so
+///   no state from the earlier run is left.
 /// - A stream that throws journals `.unrecoverable(<error type name>)`, never the message.
 /// - Decoding and patch application run off the main actor.
 @MainActor @Observable public final class StreamModel {
@@ -56,10 +58,47 @@ public struct StreamFrameStats: Sendable, Hashable {
 
     /// Consumes `text` until it ends, throws, or the task is cancelled. Returns after the
     /// last publish. A second call while a stream runs returns at once; a call after a
-    /// stream ended starts again from the initial spec.
+    /// stream ended starts again from the initial spec and its state.
     public func run(
         _ text: AsyncThrowingStream<String, any Error>, mode: SpecStreamDecoder.Mode,
         onFinish: ((ValidationReport) -> Void)? = nil
+    ) async {
+        await start(mode: mode, onFinish: onFinish) { specStore, store in
+            await StreamModel.pump(text, mode: mode, into: specStore, mirror: store) {
+                $0.push($1)
+            }
+        }
+    }
+
+    /// `run(_:mode:onFinish:)` for any sendable sequence of text chunks (for example an
+    /// `AsyncStream<String>` or a provider SDK's delta stream).
+    public func run<S: AsyncSequence & Sendable>(
+        _ source: S, mode: SpecStreamDecoder.Mode,
+        onFinish: ((ValidationReport) -> Void)? = nil
+    ) async where S.Element == String {
+        await start(mode: mode, onFinish: onFinish) { specStore, store in
+            await StreamModel.pump(source, mode: mode, into: specStore, mirror: store) {
+                $0.push($1)
+            }
+        }
+    }
+
+    /// `run(_:mode:onFinish:)` for UTF-8 byte chunks (`Data`, `[UInt8]`, for example from
+    /// `URLSession.bytes` grouped into chunks). A scalar split across two chunks is safe.
+    public func run<S: AsyncSequence & Sendable>(
+        bytes source: S, mode: SpecStreamDecoder.Mode,
+        onFinish: ((ValidationReport) -> Void)? = nil
+    ) async where S.Element: Collection, S.Element.Element == UInt8 {
+        await start(mode: mode, onFinish: onFinish) { specStore, store in
+            await StreamModel.pump(source, mode: mode, into: specStore, mirror: store) {
+                $0.push(bytes: $1)
+            }
+        }
+    }
+
+    private func start(
+        mode: SpecStreamDecoder.Mode, onFinish: ((ValidationReport) -> Void)?,
+        pump: @escaping @Sendable (SpecStore, StateStore) async -> PumpOutcome
     ) async {
         guard phase != .streaming else { return }
         let specStore = specStore
@@ -77,6 +116,9 @@ public struct StreamFrameStats: Sendable, Hashable {
         }
         if needsReset {
             await specStore.reset(initial)
+            // The store starts again too: the pump mirrors `/state` only when the spec has
+            // one, so without this a re-run keeps the earlier run's state.
+            await store.replaceAll(initial?.state ?? .object([:]))
         }
         let snapshots = await specStore.snapshots()
         let coalescer = FrameCoalescer<SpecSnapshot>(clock: clock)
@@ -87,7 +129,7 @@ public struct StreamFrameStats: Sendable, Hashable {
                 return nil
             }
             group.addTask {
-                await StreamModel.pump(text, mode: mode, into: specStore, mirror: store)
+                await pump(specStore, store)
             }
             group.addTask {
                 for await _ in signal { return .cancelled }
@@ -156,11 +198,12 @@ public struct StreamFrameStats: Sendable, Hashable {
         if stats != frameStats { frameStats = stats }
     }
 
-    /// Reads `text`, decodes it, and applies each chunk's events as one commit. Runs off the
-    /// main actor.
-    nonisolated static func pump(
-        _ text: AsyncThrowingStream<String, any Error>, mode: SpecStreamDecoder.Mode,
-        into specStore: SpecStore, mirror store: StateStore
+    /// Reads `source`, decodes each chunk with `decode`, and applies each chunk's events as
+    /// one commit. Runs off the main actor.
+    nonisolated static func pump<S: AsyncSequence>(
+        _ source: S, mode: SpecStreamDecoder.Mode, into specStore: SpecStore,
+        mirror store: StateStore,
+        decode: (inout SpecStreamDecoder, S.Element) -> [SpecStreamEvent]
     ) async -> PumpOutcome {
         var decoder = SpecStreamDecoder(mode: mode)
         var mirrored = await specStore.current.spec.state
@@ -177,9 +220,9 @@ public struct StreamFrameStats: Sendable, Hashable {
         }
 
         do {
-            for try await chunk in text {
+            for try await chunk in source {
                 if Task.isCancelled { return .cancelled }
-                await commit(decoder.push(chunk))
+                await commit(decode(&decoder, chunk))
             }
         } catch is CancellationError {
             return .cancelled

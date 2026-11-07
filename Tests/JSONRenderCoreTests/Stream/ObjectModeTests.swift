@@ -86,10 +86,18 @@ struct ObjectModeTests {
             ])
     }
 
-    @Test("Text that is not JSON gives one error at flush and no patches")
+    @Test("Text that is not JSON fails at the first push, once; flush gives nothing")
     func notJSON() {
         var decoder = SpecStreamDecoder(mode: .object)
-        #expect(decoder.push("hello").isEmpty)
+        #expect(decoder.push("hello") == [.error(.unrecoverable("invalid JSON"))])
+        #expect(decoder.push(#"{"root":"main"}"#).isEmpty)
+        #expect(decoder.flush().isEmpty)
+    }
+
+    @Test("A cut literal that never completes still reports invalid JSON at flush")
+    func cutLiteralAtFlush() {
+        var decoder = SpecStreamDecoder(mode: .object)
+        #expect(decoder.push("tr").isEmpty)
         #expect(decoder.flush() == [.error(.badLine(index: 0, reason: "invalid JSON"))])
     }
 }
