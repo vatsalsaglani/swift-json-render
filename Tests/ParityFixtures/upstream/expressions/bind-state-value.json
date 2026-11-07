@@ -1,0 +1,12 @@
+{
+  "kind": "value",
+  "state": {
+    "form": {
+      "email": "alice@example.com"
+    }
+  },
+  "input": {
+    "$bindState": "/form/email"
+  },
+  "expected": "alice@example.com"
+}

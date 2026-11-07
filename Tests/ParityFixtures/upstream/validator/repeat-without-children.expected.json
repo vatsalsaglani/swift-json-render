@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "repeat_without_children"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "repeat_without_children",
+      "severity": "error",
+      "elementKey": "list",
+      "message": "Element \"list\" has \"repeat\" but no children. The repeated template must be a child element: add a child that renders one item (it may read fields with {\"$item\": \"field\"})."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "repeat_without_children"
+  ]
+}

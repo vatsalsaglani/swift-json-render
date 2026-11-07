@@ -1,0 +1,15 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "test",
+        "path": "/missing",
+        "value": "anything"
+      },
+      "throws": true
+    }
+  ],
+  "expected": {}
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "bindings",
+  "state": {},
+  "input": {
+    "value": {
+      "$bindState": "/form/name"
+    },
+    "checked": {
+      "$bindState": "/form/agree"
+    },
+    "label": "Name"
+  },
+  "expectedBindings": {
+    "value": "/form/name",
+    "checked": "/form/agree"
+  }
+}

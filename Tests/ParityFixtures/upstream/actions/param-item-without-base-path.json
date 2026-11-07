@@ -1,0 +1,14 @@
+{
+  "kind": "param",
+  "state": {},
+  "repeatItem": {
+    "title": "Hello"
+  },
+  "repeatIndex": 0,
+  "input": {
+    "$item": "title"
+  },
+  "expected": {
+    "$undefined": true
+  }
+}

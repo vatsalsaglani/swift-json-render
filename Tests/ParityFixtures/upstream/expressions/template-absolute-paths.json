@@ -1,0 +1,13 @@
+{
+  "kind": "value",
+  "state": {
+    "user": {
+      "name": "Alice"
+    },
+    "count": 3
+  },
+  "input": {
+    "$template": "Hello, ${/user/name}! You have ${/count} messages."
+  },
+  "expected": "Hello, Alice! You have 3 messages."
+}

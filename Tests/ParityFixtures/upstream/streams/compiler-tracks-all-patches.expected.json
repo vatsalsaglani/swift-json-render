@@ -1,0 +1,30 @@
+{
+  "chunks": [
+    "{\"op\":\"add\",\"path\":\"/a\",\"value\":1}\n",
+    "{\"op\":\"add\",\"path\":\"/b\",\"value\":2}\n"
+  ],
+  "pushes": [
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    }
+  ],
+  "result": {
+    "a": 1,
+    "b": 2
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/a",
+      "value": 1
+    },
+    {
+      "op": "add",
+      "path": "/b",
+      "value": 2
+    }
+  ]
+}

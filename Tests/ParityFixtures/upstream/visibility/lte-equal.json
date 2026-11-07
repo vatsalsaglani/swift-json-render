@@ -1,0 +1,11 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "count": 5
+  },
+  "condition": {
+    "$state": "/count",
+    "lte": 5
+  },
+  "expected": true
+}

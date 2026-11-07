@@ -1,0 +1,12 @@
+{
+  "kind": "value",
+  "state": {
+    "user": {
+      "name": "Alice"
+    }
+  },
+  "input": {
+    "$state": "/user/name"
+  },
+  "expected": "Alice"
+}

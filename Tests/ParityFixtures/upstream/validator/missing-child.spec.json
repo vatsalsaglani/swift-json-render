@@ -1,0 +1,12 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "nonexistent"
+      ]
+    }
+  }
+}

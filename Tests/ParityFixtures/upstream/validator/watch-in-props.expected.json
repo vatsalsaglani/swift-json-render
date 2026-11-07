@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "watch_in_props"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "watch_in_props",
+      "severity": "error",
+      "elementKey": "root",
+      "message": "Element \"root\" has \"watch\" inside \"props\". It should be a top-level field on the element (sibling of type/props/children)."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "watch_in_props"
+  ]
+}

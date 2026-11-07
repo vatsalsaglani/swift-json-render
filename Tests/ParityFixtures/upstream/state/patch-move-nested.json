@@ -1,0 +1,24 @@
+{
+  "initial": {
+    "source": {
+      "val": 42
+    },
+    "target": {}
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "move",
+        "path": "/target/val",
+        "from": "/source/val"
+      }
+    }
+  ],
+  "expected": {
+    "source": {},
+    "target": {
+      "val": 42
+    }
+  }
+}

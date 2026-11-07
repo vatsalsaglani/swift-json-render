@@ -1,0 +1,22 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "password",
+  "config": {
+    "checks": [
+      {
+        "type": "matches",
+        "args": {
+          "other": "different"
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

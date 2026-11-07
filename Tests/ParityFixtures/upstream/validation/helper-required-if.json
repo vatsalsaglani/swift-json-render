@@ -1,0 +1,17 @@
+{
+  "kind": "helper",
+  "fn": "requiredIf",
+  "args": [
+    "/toggle",
+    "Required when toggle is on"
+  ],
+  "expected": {
+    "type": "requiredIf",
+    "args": {
+      "field": {
+        "$state": "/toggle"
+      }
+    },
+    "message": "Required when toggle is on"
+  }
+}

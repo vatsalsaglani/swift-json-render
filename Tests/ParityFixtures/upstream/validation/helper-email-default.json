@@ -1,0 +1,9 @@
+{
+  "kind": "helper",
+  "fn": "email",
+  "args": [],
+  "expected": {
+    "type": "email",
+    "message": "Invalid email address"
+  }
+}

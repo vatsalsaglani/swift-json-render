@@ -1,0 +1,20 @@
+{
+  "kind": "bindings",
+  "state": {},
+  "repeatItem": {
+    "completed": false
+  },
+  "repeatIndex": 1,
+  "repeatBasePath": "/todos/1",
+  "input": {
+    "checked": {
+      "$bindItem": "completed"
+    },
+    "label": {
+      "$item": "title"
+    }
+  },
+  "expectedBindings": {
+    "checked": "/todos/1/completed"
+  }
+}

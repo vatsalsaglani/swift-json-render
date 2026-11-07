@@ -1,0 +1,16 @@
+{
+  "kind": "split",
+  "condition": {
+    "$item": "status",
+    "eq": "todo"
+  },
+  "expected": {
+    "container": {
+      "$undefined": true
+    },
+    "itemFilter": {
+      "$item": "status",
+      "eq": "todo"
+    }
+  }
+}

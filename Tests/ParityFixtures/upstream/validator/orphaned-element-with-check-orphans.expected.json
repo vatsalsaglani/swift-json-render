@@ -1,0 +1,21 @@
+{
+  "valid": true,
+  "codes": [
+    "orphaned_element"
+  ],
+  "options": {
+    "checkOrphans": true
+  },
+  "issues": [
+    {
+      "code": "orphaned_element",
+      "severity": "warning",
+      "elementKey": "orphan",
+      "message": "Element \"orphan\" is not reachable from root \"root\"."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "orphaned_element"
+  ]
+}

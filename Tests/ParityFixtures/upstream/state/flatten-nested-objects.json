@@ -1,0 +1,23 @@
+{
+  "initial": {
+    "user": {
+      "name": "Alice",
+      "age": 30
+    }
+  },
+  "ops": [
+    {
+      "op": "flatten",
+      "expect": {
+        "/user/name": "Alice",
+        "/user/age": 30
+      }
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "Alice",
+      "age": 30
+    }
+  }
+}

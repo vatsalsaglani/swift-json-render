@@ -1,0 +1,10 @@
+{
+  "kind": "evaluate",
+  "state": {},
+  "repeatIndex": 1,
+  "condition": {
+    "$index": true,
+    "eq": 0
+  },
+  "expected": false
+}

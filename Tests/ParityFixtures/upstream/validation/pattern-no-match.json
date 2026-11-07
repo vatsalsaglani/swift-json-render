@@ -1,0 +1,22 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "ABC",
+  "config": {
+    "checks": [
+      {
+        "type": "pattern",
+        "args": {
+          "pattern": "^[a-z]+$"
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

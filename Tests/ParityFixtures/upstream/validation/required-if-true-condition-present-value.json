@@ -1,0 +1,20 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "hello",
+  "config": {
+    "checks": [
+      {
+        "type": "requiredIf",
+        "args": {
+          "field": true
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

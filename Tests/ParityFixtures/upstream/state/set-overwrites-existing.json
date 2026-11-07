@@ -1,0 +1,15 @@
+{
+  "initial": {
+    "count": 5
+  },
+  "ops": [
+    {
+      "op": "set",
+      "path": "/count",
+      "value": 10
+    }
+  ],
+  "expected": {
+    "count": 10
+  }
+}

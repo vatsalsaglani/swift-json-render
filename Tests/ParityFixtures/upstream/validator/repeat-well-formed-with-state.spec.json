@@ -1,0 +1,27 @@
+{
+  "root": "list",
+  "state": {
+    "items": [
+      {
+        "id": "1"
+      }
+    ]
+  },
+  "elements": {
+    "list": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "card"
+      ],
+      "repeat": {
+        "statePath": "/items"
+      }
+    },
+    "card": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    }
+  }
+}

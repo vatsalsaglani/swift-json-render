@@ -1,0 +1,11 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "visible": false
+  },
+  "condition": {
+    "$state": "/visible",
+    "not": true
+  },
+  "expected": true
+}

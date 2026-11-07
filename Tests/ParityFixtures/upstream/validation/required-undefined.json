@@ -1,0 +1,21 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": {
+    "$undefined": true
+  },
+  "config": {
+    "checks": [
+      {
+        "type": "required",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

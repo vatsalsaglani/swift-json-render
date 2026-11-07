@@ -1,0 +1,17 @@
+{
+  "initial": {
+    "value": "string"
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/value/nested",
+      "expect": {
+        "$undefined": true
+      }
+    }
+  ],
+  "expected": {
+    "value": "string"
+  }
+}

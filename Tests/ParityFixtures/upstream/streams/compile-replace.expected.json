@@ -1,0 +1,17 @@
+{
+  "result": {
+    "name": "Bob"
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/name",
+      "value": "Alice"
+    },
+    {
+      "op": "replace",
+      "path": "/name",
+      "value": "Bob"
+    }
+  ]
+}

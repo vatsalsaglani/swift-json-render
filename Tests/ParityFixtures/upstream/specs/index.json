@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Confetti",
+    "description": "A button that fires confetti when clicked",
+    "file": "confetti.json"
+  },
+  {
+    "name": "User Profile Card",
+    "description": "A card with user info, badges, and a progress bar",
+    "file": "user-profile-card.json"
+  },
+  {
+    "name": "Settings Form",
+    "description": "A form with inputs, selects, switches, and checkboxes",
+    "file": "settings-form.json"
+  },
+  {
+    "name": "Pricing Table",
+    "description": "A grid of pricing cards with feature lists",
+    "file": "pricing-table.json"
+  },
+  {
+    "name": "Status Dashboard",
+    "description": "System status with alerts, a table, and an accordion",
+    "file": "status-dashboard.json"
+  },
+  {
+    "name": "Feature Comparison",
+    "description": "Tables inside an accordion for comparing plan tiers",
+    "file": "feature-comparison.json"
+  },
+  {
+    "name": "Registration Form",
+    "description": "Cross-field validation, $template preview, and validateForm action",
+    "file": "registration-form.json"
+  },
+  {
+    "name": "Cascading Selects",
+    "description": "Watchers reset dependent fields, $computed derives display values",
+    "file": "cascading-selects.json"
+  }
+]

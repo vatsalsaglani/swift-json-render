@@ -1,0 +1,16 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Text",
+      "props": {
+        "text": "hi"
+      },
+      "children": [],
+      "visible": {
+        "when": "/tasks",
+        "is": "todo"
+      }
+    }
+  }
+}

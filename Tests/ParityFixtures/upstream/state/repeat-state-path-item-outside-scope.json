@@ -1,0 +1,15 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "resolveRepeatStatePath",
+      "value": {
+        "$item": "items"
+      },
+      "expect": {
+        "$undefined": true
+      }
+    }
+  ],
+  "expected": {}
+}

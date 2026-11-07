@@ -1,0 +1,297 @@
+{
+  "root": "card",
+  "state": {
+    "form": {
+      "name": "",
+      "email": "",
+      "password": "",
+      "confirmPassword": "",
+      "accountType": "personal",
+      "company": ""
+    },
+    "result": null
+  },
+  "elements": {
+    "card": {
+      "type": "Card",
+      "props": {
+        "title": "Create Account",
+        "description": "Fill out the form below to register",
+        "maxWidth": "md",
+        "centered": null
+      },
+      "children": [
+        "formStack"
+      ]
+    },
+    "formStack": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "preview",
+        "sep0",
+        "nameInput",
+        "emailInput",
+        "passwordInput",
+        "confirmInput",
+        "sep1",
+        "accountTypeRadio",
+        "companyInput",
+        "sep2",
+        "actions",
+        "statusText"
+      ]
+    },
+    "preview": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$template": "Welcome, ${/form/name}! Your email: ${/form/email}"
+        },
+        "variant": "muted"
+      },
+      "visible": {
+        "$state": "/form/name",
+        "neq": ""
+      },
+      "children": []
+    },
+    "sep0": {
+      "type": "Separator",
+      "props": {
+        "orientation": null
+      },
+      "children": []
+    },
+    "nameInput": {
+      "type": "Input",
+      "props": {
+        "label": "Full Name",
+        "name": "name",
+        "type": "text",
+        "placeholder": "Jane Doe",
+        "value": {
+          "$bindState": "/form/name"
+        },
+        "checks": [
+          {
+            "type": "required",
+            "message": "Name is required"
+          },
+          {
+            "type": "minLength",
+            "args": {
+              "min": 2
+            },
+            "message": "Name must be at least 2 characters"
+          }
+        ],
+        "validateOn": "blur"
+      },
+      "children": []
+    },
+    "emailInput": {
+      "type": "Input",
+      "props": {
+        "label": "Email",
+        "name": "email",
+        "type": "email",
+        "placeholder": "jane@example.com",
+        "value": {
+          "$bindState": "/form/email"
+        },
+        "checks": [
+          {
+            "type": "required",
+            "message": "Email is required"
+          },
+          {
+            "type": "email",
+            "message": "Enter a valid email address"
+          }
+        ],
+        "validateOn": "blur"
+      },
+      "children": []
+    },
+    "passwordInput": {
+      "type": "Input",
+      "props": {
+        "label": "Password",
+        "name": "password",
+        "type": "password",
+        "placeholder": "At least 8 characters",
+        "value": {
+          "$bindState": "/form/password"
+        },
+        "checks": [
+          {
+            "type": "required",
+            "message": "Password is required"
+          },
+          {
+            "type": "minLength",
+            "args": {
+              "min": 8
+            },
+            "message": "Password must be at least 8 characters"
+          }
+        ],
+        "validateOn": "blur"
+      },
+      "children": []
+    },
+    "confirmInput": {
+      "type": "Input",
+      "props": {
+        "label": "Confirm Password",
+        "name": "confirmPassword",
+        "type": "password",
+        "placeholder": "Re-enter your password",
+        "value": {
+          "$bindState": "/form/confirmPassword"
+        },
+        "checks": [
+          {
+            "type": "required",
+            "message": "Please confirm your password"
+          },
+          {
+            "type": "matches",
+            "args": {
+              "other": {
+                "$state": "/form/password"
+              }
+            },
+            "message": "Passwords must match"
+          }
+        ],
+        "validateOn": "blur"
+      },
+      "children": []
+    },
+    "sep1": {
+      "type": "Separator",
+      "props": {
+        "orientation": null
+      },
+      "children": []
+    },
+    "accountTypeRadio": {
+      "type": "Radio",
+      "props": {
+        "label": "Account Type",
+        "name": "accountType",
+        "options": [
+          "personal",
+          "business"
+        ],
+        "value": {
+          "$bindState": "/form/accountType"
+        },
+        "checks": null,
+        "validateOn": null
+      },
+      "children": []
+    },
+    "companyInput": {
+      "type": "Input",
+      "props": {
+        "label": "Company Name",
+        "name": "company",
+        "type": "text",
+        "placeholder": "Acme Inc.",
+        "value": {
+          "$bindState": "/form/company"
+        },
+        "checks": [
+          {
+            "type": "requiredIf",
+            "args": {
+              "field": {
+                "$state": "/form/accountType"
+              }
+            },
+            "message": "Company name is required for business accounts"
+          }
+        ],
+        "validateOn": "blur"
+      },
+      "visible": {
+        "$state": "/form/accountType",
+        "eq": "business"
+      },
+      "children": []
+    },
+    "sep2": {
+      "type": "Separator",
+      "props": {
+        "orientation": null
+      },
+      "children": []
+    },
+    "actions": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "sm",
+        "align": null,
+        "justify": "end"
+      },
+      "children": [
+        "submitBtn"
+      ]
+    },
+    "submitBtn": {
+      "type": "Button",
+      "props": {
+        "label": "Register",
+        "variant": "primary",
+        "disabled": null
+      },
+      "on": {
+        "press": [
+          {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/result"
+            }
+          }
+        ]
+      },
+      "children": []
+    },
+    "statusText": {
+      "type": "Alert",
+      "props": {
+        "title": "Validation Result",
+        "message": {
+          "$cond": {
+            "$state": "/result/valid",
+            "eq": true
+          },
+          "$then": "All fields are valid -- ready to submit!",
+          "$else": "Please fix the errors above before submitting."
+        },
+        "type": {
+          "$cond": {
+            "$state": "/result/valid",
+            "eq": true
+          },
+          "$then": "success",
+          "$else": "error"
+        }
+      },
+      "visible": {
+        "$state": "/result",
+        "neq": null
+      },
+      "children": []
+    }
+  }
+}

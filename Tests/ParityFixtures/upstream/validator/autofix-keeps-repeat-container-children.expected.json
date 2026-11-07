@@ -1,0 +1,29 @@
+{
+  "autoFix": true,
+  "options": {},
+  "fixes": [],
+  "fixDetails": [],
+  "fixed": {
+    "root": "list",
+    "elements": {
+      "list": {
+        "type": "Stack",
+        "props": {},
+        "children": [
+          "ghost"
+        ],
+        "repeat": {
+          "statePath": "/items"
+        }
+      }
+    },
+    "state": {
+      "items": [
+        {
+          "id": "1"
+        }
+      ]
+    }
+  },
+  "validAfterFix": false
+}

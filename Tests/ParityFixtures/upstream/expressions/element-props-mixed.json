@@ -1,0 +1,32 @@
+{
+  "kind": "props",
+  "state": {
+    "active": true
+  },
+  "repeatItem": {
+    "title": "Item 1"
+  },
+  "repeatIndex": 2,
+  "input": {
+    "title": {
+      "$item": "title"
+    },
+    "index": {
+      "$index": true
+    },
+    "color": {
+      "$cond": {
+        "$state": "/active"
+      },
+      "$then": "green",
+      "$else": "gray"
+    },
+    "width": 100
+  },
+  "expected": {
+    "title": "Item 1",
+    "index": 2,
+    "color": "green",
+    "width": 100
+  }
+}

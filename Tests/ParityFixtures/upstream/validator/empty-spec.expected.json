@@ -1,0 +1,26 @@
+{
+  "valid": false,
+  "codes": [
+    "empty_spec",
+    "root_not_found"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "root_not_found",
+      "severity": "error",
+      "message": "Root element \"r\" not found in elements map."
+    },
+    {
+      "code": "empty_spec",
+      "severity": "error",
+      "message": "Spec has no elements."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "empty_spec"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "run",
+  "state": {
+    "form": {
+      "password": "secret123"
+    }
+  },
+  "value": "secret123",
+  "config": {
+    "checks": [
+      {
+        "type": "matches",
+        "args": {
+          "other": {
+            "$state": "/form/password"
+          }
+        },
+        "message": "Passwords must match"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

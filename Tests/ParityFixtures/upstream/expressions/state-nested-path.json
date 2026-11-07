@@ -1,0 +1,14 @@
+{
+  "kind": "value",
+  "state": {
+    "a": {
+      "b": {
+        "c": 42
+      }
+    }
+  },
+  "input": {
+    "$state": "/a/b/c"
+  },
+  "expected": 42
+}

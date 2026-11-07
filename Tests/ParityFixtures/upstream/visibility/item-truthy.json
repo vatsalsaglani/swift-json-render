@@ -1,0 +1,11 @@
+{
+  "kind": "evaluate",
+  "state": {},
+  "repeatItem": {
+    "active": true
+  },
+  "condition": {
+    "$item": "active"
+  },
+  "expected": true
+}

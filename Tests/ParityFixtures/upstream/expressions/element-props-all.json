@@ -1,0 +1,23 @@
+{
+  "kind": "props",
+  "state": {
+    "user": {
+      "name": "Alice",
+      "role": "admin"
+    }
+  },
+  "input": {
+    "label": {
+      "$state": "/user/name"
+    },
+    "badge": {
+      "$state": "/user/role"
+    },
+    "static": "always"
+  },
+  "expected": {
+    "label": "Alice",
+    "badge": "admin",
+    "static": "always"
+  }
+}

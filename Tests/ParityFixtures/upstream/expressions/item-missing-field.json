@@ -1,0 +1,14 @@
+{
+  "kind": "value",
+  "state": {},
+  "repeatItem": {
+    "title": "Hello"
+  },
+  "repeatIndex": 0,
+  "input": {
+    "$item": "missing"
+  },
+  "expected": {
+    "$undefined": true
+  }
+}

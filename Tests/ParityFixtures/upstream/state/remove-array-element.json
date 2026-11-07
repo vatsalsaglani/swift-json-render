@@ -1,0 +1,21 @@
+{
+  "initial": {
+    "arr": [
+      1,
+      2,
+      3
+    ]
+  },
+  "ops": [
+    {
+      "op": "remove",
+      "path": "/arr/1"
+    }
+  ],
+  "expected": {
+    "arr": [
+      1,
+      3
+    ]
+  }
+}

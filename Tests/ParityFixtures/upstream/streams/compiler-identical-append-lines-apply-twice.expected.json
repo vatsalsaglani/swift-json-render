@@ -1,0 +1,44 @@
+{
+  "chunks": [
+    "{\"op\":\"add\",\"path\":\"/items\",\"value\":[]}\n",
+    "{\"op\":\"add\",\"path\":\"/items/-\",\"value\":\"apple\"}\n",
+    "{\"op\":\"add\",\"path\":\"/items/-\",\"value\":\"apple\"}\n"
+  ],
+  "pushes": [
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    }
+  ],
+  "result": {
+    "items": [
+      "apple",
+      "apple"
+    ]
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/items",
+      "value": [
+        "apple",
+        "apple"
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/items/-",
+      "value": "apple"
+    },
+    {
+      "op": "add",
+      "path": "/items/-",
+      "value": "apple"
+    }
+  ]
+}

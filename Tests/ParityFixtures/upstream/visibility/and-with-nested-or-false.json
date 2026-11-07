@@ -1,0 +1,27 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "isAdmin": false,
+    "isModerator": false,
+    "tab": "settings"
+  },
+  "condition": {
+    "$and": [
+      {
+        "$or": [
+          {
+            "$state": "/isAdmin"
+          },
+          {
+            "$state": "/isModerator"
+          }
+        ]
+      },
+      {
+        "$state": "/tab",
+        "eq": "settings"
+      }
+    ]
+  },
+  "expected": false
+}

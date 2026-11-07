@@ -1,0 +1,22 @@
+{
+  "kind": "value",
+  "state": {
+    "name": "alice"
+  },
+  "directives": [
+    "$double",
+    "$upper"
+  ],
+  "input": {
+    "label": {
+      "$upper": {
+        "$state": "/name"
+      }
+    },
+    "count": 1
+  },
+  "expected": {
+    "label": "ALICE",
+    "count": 1
+  }
+}

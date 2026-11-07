@@ -1,0 +1,16 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "resolveRepeatStatePath",
+      "value": "/items",
+      "expect": "/items"
+    },
+    {
+      "op": "resolveRepeatStatePath",
+      "value": "items",
+      "expect": "items"
+    }
+  ],
+  "expected": {}
+}

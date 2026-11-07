@@ -1,0 +1,70 @@
+{
+  "result": {
+    "root": "root",
+    "elements": {
+      "root": {
+        "type": "Card",
+        "props": {
+          "title": "Dashboard"
+        },
+        "children": [
+          "metric-1",
+          "metric-2"
+        ]
+      },
+      "metric-1": {
+        "type": "Metric",
+        "props": {
+          "label": "Revenue"
+        }
+      },
+      "metric-2": {
+        "type": "Metric",
+        "props": {
+          "label": "Users"
+        }
+      }
+    }
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/root",
+      "value": "root"
+    },
+    {
+      "op": "add",
+      "path": "/elements/root",
+      "value": {
+        "type": "Card",
+        "props": {
+          "title": "Dashboard"
+        },
+        "children": [
+          "metric-1",
+          "metric-2"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/elements/metric-1",
+      "value": {
+        "type": "Metric",
+        "props": {
+          "label": "Revenue"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/elements/metric-2",
+      "value": {
+        "type": "Metric",
+        "props": {
+          "label": "Users"
+        }
+      }
+    }
+  ]
+}

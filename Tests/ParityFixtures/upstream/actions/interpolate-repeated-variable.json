@@ -1,0 +1,12 @@
+{
+  "kind": "interpolate",
+  "cases": [
+    {
+      "state": {
+        "name": "Bob"
+      },
+      "input": "${/name} says ${/name}",
+      "expected": "Bob says Bob"
+    }
+  ]
+}

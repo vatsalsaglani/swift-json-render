@@ -1,0 +1,29 @@
+{
+  "autoFix": true,
+  "options": {
+    "lossy": false
+  },
+  "fixes": [
+    "Moved \"visible\" from props to element level on \"root\"."
+  ],
+  "fixDetails": [
+    {
+      "message": "Moved \"visible\" from props to element level on \"root\".",
+      "lossy": false
+    }
+  ],
+  "fixed": {
+    "root": "root",
+    "elements": {
+      "root": {
+        "type": "Card",
+        "props": {},
+        "children": [
+          "ghost"
+        ],
+        "visible": true
+      }
+    }
+  },
+  "validAfterFix": false
+}

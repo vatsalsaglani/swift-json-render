@@ -1,0 +1,21 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": {
+    "$nan": true
+  },
+  "config": {
+    "checks": [
+      {
+        "type": "numeric",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

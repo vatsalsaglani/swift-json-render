@@ -1,0 +1,49 @@
+{
+  "root": "items",
+  "state": {
+    "items": [
+      {
+        "nested": []
+      }
+    ]
+  },
+  "elements": {
+    "items": {
+      "type": "Layout",
+      "props": {},
+      "repeat": {
+        "statePath": "/items"
+      },
+      "children": [
+        "body"
+      ],
+      "slots": {
+        "header": [
+          "nested"
+        ]
+      }
+    },
+    "body": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    },
+    "nested": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "label"
+      ],
+      "repeat": {
+        "statePath": {
+          "$item": "nested"
+        }
+      }
+    },
+    "label": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    }
+  }
+}

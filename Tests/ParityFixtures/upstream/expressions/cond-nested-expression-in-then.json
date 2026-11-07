@@ -1,0 +1,19 @@
+{
+  "kind": "value",
+  "state": {
+    "isAdmin": true,
+    "admin": {
+      "greeting": "Hello Admin"
+    }
+  },
+  "input": {
+    "$cond": {
+      "$state": "/isAdmin"
+    },
+    "$then": {
+      "$state": "/admin/greeting"
+    },
+    "$else": "Welcome"
+  },
+  "expected": "Hello Admin"
+}

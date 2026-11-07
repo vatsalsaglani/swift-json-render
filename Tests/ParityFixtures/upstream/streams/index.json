@@ -1,0 +1,233 @@
+[
+  {
+    "name": "compile-add-patches",
+    "kind": "compile",
+    "input": "compile-add-patches.jsonl",
+    "expected": "compile-add-patches.expected.json",
+    "upstreamTest": "types.test.ts:628"
+  },
+  {
+    "name": "compile-remove",
+    "kind": "compile",
+    "input": "compile-remove.jsonl",
+    "expected": "compile-remove.expected.json",
+    "upstreamTest": "types.test.ts:635"
+  },
+  {
+    "name": "compile-replace",
+    "kind": "compile",
+    "input": "compile-replace.jsonl",
+    "expected": "compile-replace.expected.json",
+    "upstreamTest": "types.test.ts:644"
+  },
+  {
+    "name": "compile-move",
+    "kind": "compile",
+    "input": "compile-move.jsonl",
+    "expected": "compile-move.expected.json",
+    "upstreamTest": "types.test.ts:651"
+  },
+  {
+    "name": "compile-copy",
+    "kind": "compile",
+    "input": "compile-copy.jsonl",
+    "expected": "compile-copy.expected.json",
+    "upstreamTest": "types.test.ts:658"
+  },
+  {
+    "name": "compile-skips-empty-lines",
+    "kind": "compile",
+    "input": "compile-skips-empty-lines.jsonl",
+    "expected": "compile-skips-empty-lines.expected.json",
+    "upstreamTest": "types.test.ts:665"
+  },
+  {
+    "name": "compile-uses-initial-value",
+    "kind": "compile",
+    "input": "compile-uses-initial-value.jsonl",
+    "expected": "compile-uses-initial-value.expected.json",
+    "upstreamTest": "types.test.ts:673"
+  },
+  {
+    "name": "docs-streaming-example",
+    "kind": "compile",
+    "input": "docs-streaming-example.jsonl",
+    "expected": "docs-streaming-example.expected.json",
+    "upstreamTest": "streaming.mdx:12"
+  },
+  {
+    "name": "compiler-incremental-chunk",
+    "kind": "compiler",
+    "input": "compiler-incremental-chunk.jsonl",
+    "expected": "compiler-incremental-chunk.expected.json",
+    "upstreamTest": "types.test.ts:685"
+  },
+  {
+    "name": "compiler-partial-line-across-chunks",
+    "kind": "compiler",
+    "input": "compiler-partial-line-across-chunks.jsonl",
+    "expected": "compiler-partial-line-across-chunks.expected.json",
+    "upstreamTest": "types.test.ts:694"
+  },
+  {
+    "name": "compiler-getresult-processes-buffer",
+    "kind": "compiler",
+    "input": "compiler-getresult-processes-buffer.jsonl",
+    "expected": "compiler-getresult-processes-buffer.expected.json",
+    "upstreamTest": "types.test.ts:707"
+  },
+  {
+    "name": "compiler-reset",
+    "kind": "compiler",
+    "input": "compiler-reset.jsonl",
+    "expected": "compiler-reset.expected.json",
+    "upstreamTest": "types.test.ts:715"
+  },
+  {
+    "name": "compiler-tracks-all-patches",
+    "kind": "compiler",
+    "input": "compiler-tracks-all-patches.jsonl",
+    "expected": "compiler-tracks-all-patches.expected.json",
+    "upstreamTest": "types.test.ts:723"
+  },
+  {
+    "name": "compiler-all-rfc6902-ops",
+    "kind": "compiler",
+    "input": "compiler-all-rfc6902-ops.jsonl",
+    "expected": "compiler-all-rfc6902-ops.expected.json",
+    "upstreamTest": "types.test.ts:733"
+  },
+  {
+    "name": "compiler-identical-append-lines-apply-twice",
+    "kind": "compiler",
+    "input": "compiler-identical-append-lines-apply-twice.jsonl",
+    "expected": "compiler-identical-append-lines-apply-twice.expected.json",
+    "upstreamTest": "types.test.ts:744"
+  },
+  {
+    "name": "spec-patch-sets-root",
+    "kind": "spec-patch",
+    "input": "spec-patch-sets-root.jsonl",
+    "expected": "spec-patch-sets-root.expected.json",
+    "upstreamTest": "types.test.ts:760"
+  },
+  {
+    "name": "spec-patch-adds-element",
+    "kind": "spec-patch",
+    "input": "spec-patch-adds-element.jsonl",
+    "expected": "spec-patch-adds-element.expected.json",
+    "upstreamTest": "types.test.ts:766"
+  },
+  {
+    "name": "spec-patch-replaces-element-prop",
+    "kind": "spec-patch",
+    "input": "spec-patch-replaces-element-prop.jsonl",
+    "expected": "spec-patch-replaces-element-prop.expected.json",
+    "upstreamTest": "types.test.ts:780"
+  },
+  {
+    "name": "spec-patch-removes-element",
+    "kind": "spec-patch",
+    "input": "spec-patch-removes-element.jsonl",
+    "expected": "spec-patch-removes-element.expected.json",
+    "upstreamTest": "types.test.ts:378"
+  },
+  {
+    "name": "spec-patch-adds-state",
+    "kind": "spec-patch",
+    "input": "spec-patch-adds-state.jsonl",
+    "expected": "spec-patch-adds-state.expected.json",
+    "upstreamTest": "types.test.ts:808"
+  },
+  {
+    "name": "mixed-jsonl-line-is-patch",
+    "kind": "mixed",
+    "input": "mixed/mixed-jsonl-line-is-patch.txt",
+    "expected": "mixed/mixed-jsonl-line-is-patch.expected.json",
+    "upstreamTest": "types.test.ts:834"
+  },
+  {
+    "name": "mixed-non-jsonl-line-is-text",
+    "kind": "mixed",
+    "input": "mixed/mixed-non-jsonl-line-is-text.txt",
+    "expected": "mixed/mixed-non-jsonl-line-is-text.expected.json",
+    "upstreamTest": "types.test.ts:849"
+  },
+  {
+    "name": "mixed-text-then-patch",
+    "kind": "mixed",
+    "input": "mixed/mixed-text-then-patch.txt",
+    "expected": "mixed/mixed-text-then-patch.expected.json",
+    "upstreamTest": "types.test.ts:863"
+  },
+  {
+    "name": "mixed-partial-line-across-chunks",
+    "kind": "mixed",
+    "input": "mixed/mixed-partial-line-across-chunks.txt",
+    "expected": "mixed/mixed-partial-line-across-chunks.expected.json",
+    "upstreamTest": "types.test.ts:880"
+  },
+  {
+    "name": "mixed-flush-emits-pending-patch",
+    "kind": "mixed",
+    "input": "mixed/mixed-flush-emits-pending-patch.txt",
+    "expected": "mixed/mixed-flush-emits-pending-patch.expected.json",
+    "upstreamTest": "types.test.ts:896"
+  },
+  {
+    "name": "mixed-no-flush-keeps-pending-patch",
+    "kind": "mixed",
+    "input": "mixed/mixed-no-flush-keeps-pending-patch.txt",
+    "expected": "mixed/mixed-no-flush-keeps-pending-patch.expected.json",
+    "upstreamTest": "types.test.ts:896"
+  },
+  {
+    "name": "mixed-flush-emits-pending-text",
+    "kind": "mixed",
+    "input": "mixed/mixed-flush-emits-pending-text.txt",
+    "expected": "mixed/mixed-flush-emits-pending-text.expected.json",
+    "upstreamTest": "types.test.ts:912"
+  },
+  {
+    "name": "mixed-skips-empty-lines",
+    "kind": "mixed",
+    "input": "mixed/mixed-skips-empty-lines.txt",
+    "expected": "mixed/mixed-skips-empty-lines.expected.json",
+    "upstreamTest": "types.test.ts:928"
+  },
+  {
+    "name": "mixed-json-object-that-is-not-a-patch-is-text",
+    "kind": "mixed",
+    "input": "mixed/mixed-json-object-that-is-not-a-patch-is-text.txt",
+    "expected": "mixed/mixed-json-object-that-is-not-a-patch-is-text.expected.json",
+    "upstreamTest": "types.test.ts:1135"
+  },
+  {
+    "name": "mixed-heuristic-text-patch-text",
+    "kind": "mixed",
+    "input": "mixed/mixed-heuristic-text-patch-text.txt",
+    "expected": "mixed/mixed-heuristic-text-patch-text.expected.json",
+    "upstreamTest": "types.test.ts:1168"
+  },
+  {
+    "name": "mixed-spec-fence",
+    "kind": "mixed",
+    "input": "mixed/mixed-spec-fence.txt",
+    "expected": "mixed/mixed-spec-fence.expected.json",
+    "upstreamTest": "types.test.ts:1339"
+  },
+  {
+    "name": "mixed-fence-delimiters-not-emitted",
+    "kind": "mixed",
+    "input": "mixed/mixed-fence-delimiters-not-emitted.txt",
+    "expected": "mixed/mixed-fence-delimiters-not-emitted.expected.json",
+    "upstreamTest": "types.test.ts:1360"
+  },
+  {
+    "name": "mixed-fence-with-prose-and-two-patches",
+    "kind": "mixed",
+    "input": "mixed/mixed-fence-with-prose-and-two-patches.txt",
+    "expected": "mixed/mixed-fence-with-prose-and-two-patches.expected.json",
+    "upstreamTest": "types.test.ts:1145"
+  }
+]

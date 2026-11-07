@@ -1,0 +1,10 @@
+{
+  "kind": "value",
+  "state": {},
+  "input": {
+    "$index": true
+  },
+  "expected": {
+    "$undefined": true
+  }
+}

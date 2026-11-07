@@ -1,0 +1,317 @@
+[
+  {
+    "name": "valid-spec",
+    "kind": "validate",
+    "input": "valid-spec.spec.json",
+    "expected": "valid-spec.expected.json",
+    "upstreamTest": "spec-validator.test.ts:10"
+  },
+  {
+    "name": "missing-root",
+    "kind": "validate",
+    "input": "missing-root.spec.json",
+    "expected": "missing-root.expected.json",
+    "upstreamTest": "spec-validator.test.ts:23"
+  },
+  {
+    "name": "root-not-found",
+    "kind": "validate",
+    "input": "root-not-found.spec.json",
+    "expected": "root-not-found.expected.json",
+    "upstreamTest": "spec-validator.test.ts:33"
+  },
+  {
+    "name": "empty-spec",
+    "kind": "validate",
+    "input": "empty-spec.spec.json",
+    "expected": "empty-spec.expected.json",
+    "upstreamTest": "spec-validator.test.ts:43"
+  },
+  {
+    "name": "missing-child",
+    "kind": "validate",
+    "input": "missing-child.spec.json",
+    "expected": "missing-child.expected.json",
+    "upstreamTest": "spec-validator.test.ts:50"
+  },
+  {
+    "name": "missing-child-in-named-slot",
+    "kind": "validate",
+    "input": "missing-child-in-named-slot.spec.json",
+    "expected": "missing-child-in-named-slot.expected.json",
+    "upstreamTest": "spec-validator.test.ts:62"
+  },
+  {
+    "name": "visible-in-props",
+    "kind": "validate",
+    "input": "visible-in-props.spec.json",
+    "expected": "visible-in-props.expected.json",
+    "upstreamTest": "spec-validator.test.ts:84"
+  },
+  {
+    "name": "on-in-props",
+    "kind": "validate",
+    "input": "on-in-props.spec.json",
+    "expected": "on-in-props.expected.json",
+    "upstreamTest": "spec-validator.test.ts:100"
+  },
+  {
+    "name": "repeat-in-props",
+    "kind": "validate",
+    "input": "repeat-in-props.spec.json",
+    "expected": "repeat-in-props.expected.json",
+    "upstreamTest": "spec-validator.test.ts:116"
+  },
+  {
+    "name": "watch-in-props",
+    "kind": "validate",
+    "input": "watch-in-props.spec.json",
+    "expected": "watch-in-props.expected.json",
+    "upstreamTest": "spec-validator.test.ts:132"
+  },
+  {
+    "name": "orphaned-element-with-check-orphans",
+    "kind": "validate",
+    "input": "orphaned-element-with-check-orphans.spec.json",
+    "expected": "orphaned-element-with-check-orphans.expected.json",
+    "upstreamTest": "spec-validator.test.ts:154"
+  },
+  {
+    "name": "named-slot-children-are-reachable",
+    "kind": "validate",
+    "input": "named-slot-children-are-reachable.spec.json",
+    "expected": "named-slot-children-are-reachable.expected.json",
+    "upstreamTest": "spec-validator.test.ts:167"
+  },
+  {
+    "name": "repeat-without-children",
+    "kind": "validate",
+    "input": "repeat-without-children.spec.json",
+    "expected": "repeat-without-children.expected.json",
+    "upstreamTest": "spec-validator.test.ts:190"
+  },
+  {
+    "name": "repeat-over-non-array-state",
+    "kind": "validate",
+    "input": "repeat-over-non-array-state.spec.json",
+    "expected": "repeat-over-non-array-state.expected.json",
+    "upstreamTest": "spec-validator.test.ts:209"
+  },
+  {
+    "name": "repeat-over-missing-state-path",
+    "kind": "validate",
+    "input": "repeat-over-missing-state-path.spec.json",
+    "expected": "repeat-over-missing-state-path.expected.json",
+    "upstreamTest": "spec-validator.test.ts:229"
+  },
+  {
+    "name": "repeat-well-formed-with-state",
+    "kind": "validate",
+    "input": "repeat-well-formed-with-state.spec.json",
+    "expected": "repeat-well-formed-with-state.expected.json",
+    "upstreamTest": "spec-validator.test.ts:249"
+  },
+  {
+    "name": "repeat-well-formed-without-state",
+    "kind": "validate",
+    "input": "repeat-well-formed-without-state.spec.json",
+    "expected": "repeat-well-formed-without-state.expected.json",
+    "upstreamTest": "spec-validator.test.ts:249"
+  },
+  {
+    "name": "repeat-nested-relative-to-item",
+    "kind": "validate",
+    "input": "repeat-nested-relative-to-item.spec.json",
+    "expected": "repeat-nested-relative-to-item.expected.json",
+    "upstreamTest": "spec-validator.test.ts:279"
+  },
+  {
+    "name": "repeat-item-outside-scope",
+    "kind": "validate",
+    "input": "repeat-item-outside-scope.spec.json",
+    "expected": "repeat-item-outside-scope.expected.json",
+    "upstreamTest": "spec-validator.test.ts:306"
+  },
+  {
+    "name": "repeat-slots-do-not-get-element-repeat-scope",
+    "kind": "validate",
+    "input": "repeat-slots-do-not-get-element-repeat-scope.spec.json",
+    "expected": "repeat-slots-do-not-get-element-repeat-scope.expected.json",
+    "upstreamTest": "spec-validator.test.ts:327"
+  },
+  {
+    "name": "repeat-nested-with-empty-outer-array",
+    "kind": "validate",
+    "input": "repeat-nested-with-empty-outer-array.spec.json",
+    "expected": "repeat-nested-with-empty-outer-array.expected.json",
+    "upstreamTest": "spec-validator.test.ts:355"
+  },
+  {
+    "name": "repeat-nested-relative-not-array",
+    "kind": "validate",
+    "input": "repeat-nested-relative-not-array.spec.json",
+    "expected": "repeat-nested-relative-not-array.expected.json",
+    "upstreamTest": "spec-validator.test.ts:379"
+  },
+  {
+    "name": "repeat-issue-not-duplicated-per-structural-context",
+    "kind": "validate",
+    "input": "repeat-issue-not-duplicated-per-structural-context.spec.json",
+    "expected": "repeat-issue-not-duplicated-per-structural-context.expected.json",
+    "upstreamTest": "spec-validator.test.ts:406"
+  },
+  {
+    "name": "repeat-reused-inside-and-outside-scope",
+    "kind": "validate",
+    "input": "repeat-reused-inside-and-outside-scope.spec.json",
+    "expected": "repeat-reused-inside-and-outside-scope.expected.json",
+    "upstreamTest": "spec-validator.test.ts:443"
+  },
+  {
+    "name": "repeat-terminates-on-cyclic-children",
+    "kind": "validate",
+    "input": "repeat-terminates-on-cyclic-children.spec.json",
+    "expected": "repeat-terminates-on-cyclic-children.expected.json",
+    "upstreamTest": "spec-validator.test.ts:479"
+  },
+  {
+    "name": "visible-true",
+    "kind": "validate",
+    "input": "visible-true.spec.json",
+    "expected": "visible-true.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-false",
+    "kind": "validate",
+    "input": "visible-false.spec.json",
+    "expected": "visible-false.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-state-eq",
+    "kind": "validate",
+    "input": "visible-state-eq.spec.json",
+    "expected": "visible-state-eq.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-item-eq",
+    "kind": "validate",
+    "input": "visible-item-eq.spec.json",
+    "expected": "visible-item-eq.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-index-lt",
+    "kind": "validate",
+    "input": "visible-index-lt.spec.json",
+    "expected": "visible-index-lt.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-implicit-and-array",
+    "kind": "validate",
+    "input": "visible-implicit-and-array.spec.json",
+    "expected": "visible-implicit-and-array.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-or-with-nested-and",
+    "kind": "validate",
+    "input": "visible-or-with-nested-and.spec.json",
+    "expected": "visible-or-with-nested-and.expected.json",
+    "upstreamTest": "spec-validator.test.ts:518"
+  },
+  {
+    "name": "visible-mixing-state-and-item-rejected",
+    "kind": "validate",
+    "input": "visible-mixing-state-and-item-rejected.spec.json",
+    "expected": "visible-mixing-state-and-item-rejected.expected.json",
+    "upstreamTest": "spec-validator.test.ts:535"
+  },
+  {
+    "name": "visible-unknown-shape-rejected",
+    "kind": "validate",
+    "input": "visible-unknown-shape-rejected.spec.json",
+    "expected": "visible-unknown-shape-rejected.expected.json",
+    "upstreamTest": "spec-validator.test.ts:545"
+  },
+  {
+    "name": "autofix-prunes-undefined-children",
+    "kind": "autofix",
+    "input": "autofix-prunes-undefined-children.spec.json",
+    "expected": "autofix-prunes-undefined-children.expected.json",
+    "upstreamTest": "spec-validator.test.ts:553"
+  },
+  {
+    "name": "autofix-leaves-intact-children",
+    "kind": "autofix",
+    "input": "autofix-leaves-intact-children.spec.json",
+    "expected": "autofix-leaves-intact-children.expected.json",
+    "upstreamTest": "spec-validator.test.ts:576"
+  },
+  {
+    "name": "autofix-prunes-undefined-slot-children",
+    "kind": "autofix",
+    "input": "autofix-prunes-undefined-slot-children.spec.json",
+    "expected": "autofix-prunes-undefined-slot-children.expected.json",
+    "upstreamTest": "spec-validator.test.ts:589"
+  },
+  {
+    "name": "autofix-keeps-repeat-container-children",
+    "kind": "autofix",
+    "input": "autofix-keeps-repeat-container-children.spec.json",
+    "expected": "autofix-keeps-repeat-container-children.expected.json",
+    "upstreamTest": "spec-validator.test.ts:611"
+  },
+  {
+    "name": "autofix-withholds-lossy-fixes",
+    "kind": "autofix",
+    "input": "autofix-withholds-lossy-fixes.spec.json",
+    "expected": "autofix-withholds-lossy-fixes.expected.json",
+    "upstreamTest": "spec-validator.test.ts:633"
+  },
+  {
+    "name": "autofix-field-relocation-is-lossless",
+    "kind": "autofix",
+    "input": "autofix-field-relocation-is-lossless.spec.json",
+    "expected": "autofix-field-relocation-is-lossless.expected.json",
+    "upstreamTest": "spec-validator.test.ts:650"
+  },
+  {
+    "name": "autofix-moves-visible-to-element",
+    "kind": "autofix",
+    "input": "autofix-moves-visible-to-element.spec.json",
+    "expected": "autofix-moves-visible-to-element.expected.json",
+    "upstreamTest": "spec-validator.test.ts:669"
+  },
+  {
+    "name": "autofix-moves-on-to-element",
+    "kind": "autofix",
+    "input": "autofix-moves-on-to-element.spec.json",
+    "expected": "autofix-moves-on-to-element.expected.json",
+    "upstreamTest": "spec-validator.test.ts:688"
+  },
+  {
+    "name": "autofix-moves-repeat-to-element",
+    "kind": "autofix",
+    "input": "autofix-moves-repeat-to-element.spec.json",
+    "expected": "autofix-moves-repeat-to-element.expected.json",
+    "upstreamTest": "spec-validator.test.ts:707"
+  },
+  {
+    "name": "autofix-moves-watch-to-element",
+    "kind": "autofix",
+    "input": "autofix-moves-watch-to-element.spec.json",
+    "expected": "autofix-moves-watch-to-element.expected.json",
+    "upstreamTest": "spec-validator.test.ts:727"
+  },
+  {
+    "name": "autofix-no-fixes-for-correct-spec",
+    "kind": "autofix",
+    "input": "autofix-no-fixes-for-correct-spec.spec.json",
+    "expected": "autofix-no-fixes-for-correct-spec.expected.json",
+    "upstreamTest": "spec-validator.test.ts:753"
+  }
+]

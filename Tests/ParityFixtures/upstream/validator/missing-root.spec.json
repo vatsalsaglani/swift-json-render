@@ -1,0 +1,10 @@
+{
+  "root": "",
+  "elements": {
+    "a": {
+      "type": "T",
+      "props": {},
+      "children": []
+    }
+  }
+}

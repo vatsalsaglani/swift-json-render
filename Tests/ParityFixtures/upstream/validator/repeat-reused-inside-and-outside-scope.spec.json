@@ -1,0 +1,47 @@
+{
+  "root": "root",
+  "state": {
+    "groups": [
+      {
+        "items": []
+      }
+    ]
+  },
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "groups",
+        "shared"
+      ]
+    },
+    "groups": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "shared"
+      ],
+      "repeat": {
+        "statePath": "/groups"
+      }
+    },
+    "shared": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "label"
+      ],
+      "repeat": {
+        "statePath": {
+          "$item": "items"
+        }
+      }
+    },
+    "label": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    }
+  }
+}

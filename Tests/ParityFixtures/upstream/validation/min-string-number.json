@@ -1,0 +1,22 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "5",
+  "config": {
+    "checks": [
+      {
+        "type": "min",
+        "args": {
+          "min": 3
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

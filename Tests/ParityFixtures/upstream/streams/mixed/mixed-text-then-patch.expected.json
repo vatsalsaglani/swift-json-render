@@ -1,0 +1,20 @@
+{
+  "chunks": [
+    "Here is the dashboard:\n{\"op\":\"add\",\"path\":\"/root\",\"value\":\"dash\"}\n"
+  ],
+  "flush": false,
+  "events": [
+    {
+      "kind": "text",
+      "value": "Here is the dashboard:"
+    },
+    {
+      "kind": "patch",
+      "value": {
+        "op": "add",
+        "path": "/root",
+        "value": "dash"
+      }
+    }
+  ]
+}

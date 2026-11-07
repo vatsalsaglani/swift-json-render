@@ -1,0 +1,23 @@
+{
+  "kind": "resolve",
+  "state": {
+    "user": {
+      "name": "Alice"
+    }
+  },
+  "binding": {
+    "action": "delete",
+    "confirm": {
+      "title": "Delete ${/user/name}",
+      "message": "Are you sure you want to delete ${/user/name}?"
+    }
+  },
+  "expectedResolved": {
+    "action": "delete",
+    "params": {},
+    "confirm": {
+      "title": "Delete Alice",
+      "message": "Are you sure you want to delete Alice?"
+    }
+  }
+}

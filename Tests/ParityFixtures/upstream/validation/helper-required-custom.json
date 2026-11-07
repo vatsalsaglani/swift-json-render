@@ -1,0 +1,11 @@
+{
+  "kind": "helper",
+  "fn": "required",
+  "args": [
+    "Custom message"
+  ],
+  "expected": {
+    "type": "required",
+    "message": "Custom message"
+  }
+}

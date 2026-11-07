@@ -1,0 +1,27 @@
+{
+  "kind": "resolve",
+  "state": {},
+  "binding": {
+    "action": "save",
+    "onSuccess": {
+      "navigate": "/success"
+    },
+    "onError": {
+      "set": {
+        "error": "$error.message"
+      }
+    }
+  },
+  "expectedResolved": {
+    "action": "save",
+    "params": {},
+    "onSuccess": {
+      "navigate": "/success"
+    },
+    "onError": {
+      "set": {
+        "error": "$error.message"
+      }
+    }
+  }
+}

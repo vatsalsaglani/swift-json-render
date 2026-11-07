@@ -1,0 +1,17 @@
+{
+  "initial": {
+    "a": 1
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "move",
+        "path": "/b"
+      }
+    }
+  ],
+  "expected": {
+    "a": 1
+  }
+}

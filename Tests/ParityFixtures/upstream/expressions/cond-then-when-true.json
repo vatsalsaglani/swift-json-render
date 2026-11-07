@@ -1,0 +1,14 @@
+{
+  "kind": "value",
+  "state": {
+    "active": true
+  },
+  "input": {
+    "$cond": {
+      "$state": "/active"
+    },
+    "$then": "blue",
+    "$else": "gray"
+  },
+  "expected": "blue"
+}

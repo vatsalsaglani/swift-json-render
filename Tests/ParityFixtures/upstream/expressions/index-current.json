@@ -1,0 +1,12 @@
+{
+  "kind": "value",
+  "state": {},
+  "repeatItem": {
+    "id": "1"
+  },
+  "repeatIndex": 3,
+  "input": {
+    "$index": true
+  },
+  "expected": 3
+}

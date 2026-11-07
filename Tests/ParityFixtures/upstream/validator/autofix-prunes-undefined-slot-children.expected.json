@@ -1,0 +1,32 @@
+{
+  "autoFix": true,
+  "options": {},
+  "fixes": [
+    "Removed reference to undefined element \"ghost\" from slot \"header\" of \"root\"."
+  ],
+  "fixDetails": [
+    {
+      "message": "Removed reference to undefined element \"ghost\" from slot \"header\" of \"root\".",
+      "lossy": true
+    }
+  ],
+  "fixed": {
+    "root": "root",
+    "elements": {
+      "root": {
+        "type": "Layout",
+        "props": {},
+        "slots": {
+          "header": [
+            "heading"
+          ]
+        }
+      },
+      "heading": {
+        "type": "Heading",
+        "props": {}
+      }
+    }
+  },
+  "validAfterFix": true
+}

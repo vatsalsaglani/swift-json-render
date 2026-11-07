@@ -1,0 +1,241 @@
+{
+  "root": "outer",
+  "elements": {
+    "outer": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "lg",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "header",
+        "grid"
+      ]
+    },
+    "header": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm",
+        "align": "center",
+        "justify": null
+      },
+      "children": [
+        "title",
+        "subtitle"
+      ]
+    },
+    "title": {
+      "type": "Heading",
+      "props": {
+        "text": "Simple, transparent pricing",
+        "level": "h1"
+      }
+    },
+    "subtitle": {
+      "type": "Text",
+      "props": {
+        "text": "Choose the plan that fits your needs. Upgrade or downgrade at any time.",
+        "variant": "muted"
+      }
+    },
+    "grid": {
+      "type": "Grid",
+      "props": {
+        "columns": 3,
+        "gap": "md"
+      },
+      "children": [
+        "free",
+        "pro",
+        "enterprise"
+      ]
+    },
+    "free": {
+      "type": "Card",
+      "props": {
+        "title": "Free",
+        "description": "$0/month",
+        "maxWidth": null,
+        "centered": null
+      },
+      "children": [
+        "freeContent"
+      ]
+    },
+    "freeContent": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "f1",
+        "f2",
+        "f3",
+        "freeBtn"
+      ]
+    },
+    "f1": {
+      "type": "Text",
+      "props": {
+        "text": "Up to 3 projects",
+        "variant": "body"
+      }
+    },
+    "f2": {
+      "type": "Text",
+      "props": {
+        "text": "1 GB storage",
+        "variant": "body"
+      }
+    },
+    "f3": {
+      "type": "Text",
+      "props": {
+        "text": "Community support",
+        "variant": "body"
+      }
+    },
+    "freeBtn": {
+      "type": "Button",
+      "props": {
+        "label": "Get Started",
+        "variant": "secondary",
+        "disabled": null
+      }
+    },
+    "pro": {
+      "type": "Card",
+      "props": {
+        "title": "Pro",
+        "description": "$19/month",
+        "maxWidth": null,
+        "centered": null
+      },
+      "children": [
+        "proContent"
+      ]
+    },
+    "proContent": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "proBtn"
+      ]
+    },
+    "p1": {
+      "type": "Text",
+      "props": {
+        "text": "Unlimited projects",
+        "variant": "body"
+      }
+    },
+    "p2": {
+      "type": "Text",
+      "props": {
+        "text": "50 GB storage",
+        "variant": "body"
+      }
+    },
+    "p3": {
+      "type": "Text",
+      "props": {
+        "text": "Priority support",
+        "variant": "body"
+      }
+    },
+    "p4": {
+      "type": "Text",
+      "props": {
+        "text": "Custom domains",
+        "variant": "body"
+      }
+    },
+    "proBtn": {
+      "type": "Button",
+      "props": {
+        "label": "Upgrade to Pro",
+        "variant": "primary",
+        "disabled": null
+      }
+    },
+    "enterprise": {
+      "type": "Card",
+      "props": {
+        "title": "Enterprise",
+        "description": "Custom pricing",
+        "maxWidth": null,
+        "centered": null
+      },
+      "children": [
+        "entContent"
+      ]
+    },
+    "entContent": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "e1",
+        "e2",
+        "e3",
+        "e4",
+        "entBtn"
+      ]
+    },
+    "e1": {
+      "type": "Text",
+      "props": {
+        "text": "Everything in Pro",
+        "variant": "body"
+      }
+    },
+    "e2": {
+      "type": "Text",
+      "props": {
+        "text": "Unlimited storage",
+        "variant": "body"
+      }
+    },
+    "e3": {
+      "type": "Text",
+      "props": {
+        "text": "Dedicated support",
+        "variant": "body"
+      }
+    },
+    "e4": {
+      "type": "Text",
+      "props": {
+        "text": "SLA guarantees",
+        "variant": "body"
+      }
+    },
+    "entBtn": {
+      "type": "Button",
+      "props": {
+        "label": "Contact Sales",
+        "variant": "secondary",
+        "disabled": null
+      }
+    }
+  }
+}

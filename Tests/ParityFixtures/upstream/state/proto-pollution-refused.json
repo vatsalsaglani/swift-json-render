@@ -1,0 +1,40 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "set",
+      "path": "/__proto__/polluted",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/__proto__/polluted",
+      "value": true
+    },
+    {
+      "op": "remove",
+      "path": "/__proto__/toString"
+    },
+    {
+      "op": "patch",
+      "patch": {
+        "op": "move",
+        "from": "/__proto__",
+        "path": "/alias"
+      }
+    },
+    {
+      "op": "patch",
+      "patch": {
+        "op": "add",
+        "path": "/alias/polluted",
+        "value": true
+      }
+    }
+  ],
+  "expected": {
+    "alias": {
+      "polluted": true
+    }
+  }
+}

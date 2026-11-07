@@ -1,0 +1,24 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "resolveRepeatItemStatePath",
+      "base": "/items",
+      "index": 2,
+      "expect": "/items/2"
+    },
+    {
+      "op": "resolveRepeatItemStatePath",
+      "base": "/",
+      "index": 2,
+      "expect": "/2"
+    },
+    {
+      "op": "resolveRepeatItemStatePath",
+      "base": "items",
+      "index": 2,
+      "expect": "items/2"
+    }
+  ],
+  "expected": {}
+}

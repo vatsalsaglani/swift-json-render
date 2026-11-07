@@ -1,0 +1,12 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "tab": "home"
+  },
+  "condition": {
+    "$state": "/tab",
+    "eq": "home",
+    "not": true
+  },
+  "expected": false
+}

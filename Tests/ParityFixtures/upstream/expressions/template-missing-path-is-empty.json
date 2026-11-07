@@ -1,0 +1,8 @@
+{
+  "kind": "value",
+  "state": {},
+  "input": {
+    "$template": "Hi ${/name}!"
+  },
+  "expected": "Hi !"
+}

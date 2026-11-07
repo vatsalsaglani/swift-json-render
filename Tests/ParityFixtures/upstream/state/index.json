@@ -1,0 +1,357 @@
+[
+  {
+    "name": "get-nested-json-pointer",
+    "file": "get-nested-json-pointer.json",
+    "upstreamTest": "types.test.ts:126"
+  },
+  {
+    "name": "get-root-path",
+    "file": "get-root-path.json",
+    "upstreamTest": "types.test.ts:134"
+  },
+  {
+    "name": "get-missing-path",
+    "file": "get-missing-path.json",
+    "upstreamTest": "types.test.ts:141"
+  },
+  {
+    "name": "get-path-without-leading-slash",
+    "file": "get-path-without-leading-slash.json",
+    "upstreamTest": "types.test.ts:148"
+  },
+  {
+    "name": "get-through-non-object",
+    "file": "get-through-non-object.json",
+    "upstreamTest": "types.test.ts:154"
+  },
+  {
+    "name": "get-through-null",
+    "file": "get-through-null.json",
+    "upstreamTest": "types.test.ts:160"
+  },
+  {
+    "name": "get-unescape-tilde-1",
+    "file": "get-unescape-tilde-1.json",
+    "upstreamTest": "types.test.ts:288"
+  },
+  {
+    "name": "get-unescape-tilde-0",
+    "file": "get-unescape-tilde-0.json",
+    "upstreamTest": "types.test.ts:293"
+  },
+  {
+    "name": "get-combined-escapes",
+    "file": "get-combined-escapes.json",
+    "upstreamTest": "types.test.ts:298"
+  },
+  {
+    "name": "set-unescape-tilde-1",
+    "file": "set-unescape-tilde-1.json",
+    "upstreamTest": "types.test.ts:303"
+  },
+  {
+    "name": "set-unescape-tilde-0",
+    "file": "set-unescape-tilde-0.json",
+    "upstreamTest": "types.test.ts:309"
+  },
+  {
+    "name": "get-array-elements",
+    "file": "get-array-elements.json",
+    "upstreamTest": "types.test.ts:315"
+  },
+  {
+    "name": "set-existing-path",
+    "file": "set-existing-path.json",
+    "upstreamTest": "types.test.ts:203"
+  },
+  {
+    "name": "set-creates-intermediates",
+    "file": "set-creates-intermediates.json",
+    "upstreamTest": "types.test.ts:211"
+  },
+  {
+    "name": "set-path-without-leading-slash",
+    "file": "set-path-without-leading-slash.json",
+    "upstreamTest": "types.test.ts:221"
+  },
+  {
+    "name": "set-overwrites-existing",
+    "file": "set-overwrites-existing.json",
+    "upstreamTest": "types.test.ts:229"
+  },
+  {
+    "name": "set-array-like-path-on-object",
+    "file": "set-array-like-path-on-object.json",
+    "upstreamTest": "types.test.ts:237"
+  },
+  {
+    "name": "add-object-property",
+    "file": "add-object-property.json",
+    "upstreamTest": "types.test.ts:327"
+  },
+  {
+    "name": "add-replaces-object-property",
+    "file": "add-replaces-object-property.json",
+    "upstreamTest": "types.test.ts:333"
+  },
+  {
+    "name": "add-inserts-into-array",
+    "file": "add-inserts-into-array.json",
+    "upstreamTest": "types.test.ts:339"
+  },
+  {
+    "name": "add-appends-with-dash",
+    "file": "add-appends-with-dash.json",
+    "upstreamTest": "types.test.ts:345"
+  },
+  {
+    "name": "add-inserts-at-index-zero",
+    "file": "add-inserts-at-index-zero.json",
+    "upstreamTest": "types.test.ts:351"
+  },
+  {
+    "name": "add-creates-intermediates",
+    "file": "add-creates-intermediates.json",
+    "upstreamTest": "types.test.ts:357"
+  },
+  {
+    "name": "remove-object-property",
+    "file": "remove-object-property.json",
+    "upstreamTest": "types.test.ts:371"
+  },
+  {
+    "name": "remove-array-element",
+    "file": "remove-array-element.json",
+    "upstreamTest": "types.test.ts:378"
+  },
+  {
+    "name": "remove-nested-property",
+    "file": "remove-nested-property.json",
+    "upstreamTest": "types.test.ts:384"
+  },
+  {
+    "name": "remove-nonexistent-is-noop",
+    "file": "remove-nonexistent-is-noop.json",
+    "upstreamTest": "types.test.ts:390"
+  },
+  {
+    "name": "proto-pollution-refused",
+    "file": "proto-pollution-refused.json",
+    "upstreamTest": "types.test.ts:402"
+  },
+  {
+    "name": "no-holes-past-array-end",
+    "file": "no-holes-past-array-end.json",
+    "upstreamTest": "types.test.ts:421"
+  },
+  {
+    "name": "dynamic-state-ref",
+    "file": "dynamic-state-ref.json",
+    "upstreamTest": "types.test.ts:260"
+  },
+  {
+    "name": "patch-add-property",
+    "file": "patch-add-property.json",
+    "upstreamTest": "types.test.ts:440"
+  },
+  {
+    "name": "patch-add-nested-creates-intermediates",
+    "file": "patch-add-nested-creates-intermediates.json",
+    "upstreamTest": "types.test.ts:446"
+  },
+  {
+    "name": "patch-add-array-index",
+    "file": "patch-add-array-index.json",
+    "upstreamTest": "types.test.ts:456"
+  },
+  {
+    "name": "patch-add-array-append",
+    "file": "patch-add-array-append.json",
+    "upstreamTest": "types.test.ts:462"
+  },
+  {
+    "name": "patch-remove-property",
+    "file": "patch-remove-property.json",
+    "upstreamTest": "types.test.ts:470"
+  },
+  {
+    "name": "patch-remove-array-index",
+    "file": "patch-remove-array-index.json",
+    "upstreamTest": "types.test.ts:477"
+  },
+  {
+    "name": "patch-replace-value",
+    "file": "patch-replace-value.json",
+    "upstreamTest": "types.test.ts:485"
+  },
+  {
+    "name": "patch-replace-nested",
+    "file": "patch-replace-nested.json",
+    "upstreamTest": "types.test.ts:495"
+  },
+  {
+    "name": "patch-move-value",
+    "file": "patch-move-value.json",
+    "upstreamTest": "types.test.ts:507"
+  },
+  {
+    "name": "patch-move-nested",
+    "file": "patch-move-nested.json",
+    "upstreamTest": "types.test.ts:514"
+  },
+  {
+    "name": "patch-move-without-from-is-noop",
+    "file": "patch-move-without-from-is-noop.json",
+    "upstreamTest": "types.test.ts:528"
+  },
+  {
+    "name": "patch-copy-value",
+    "file": "patch-copy-value.json",
+    "upstreamTest": "types.test.ts:536"
+  },
+  {
+    "name": "patch-copy-complex-value",
+    "file": "patch-copy-complex-value.json",
+    "upstreamTest": "types.test.ts:542"
+  },
+  {
+    "name": "patch-copy-without-from-is-noop",
+    "file": "patch-copy-without-from-is-noop.json",
+    "upstreamTest": "types.test.ts:558"
+  },
+  {
+    "name": "patch-test-matching-value",
+    "file": "patch-test-matching-value.json",
+    "upstreamTest": "types.test.ts:566"
+  },
+  {
+    "name": "patch-test-matching-object",
+    "file": "patch-test-matching-object.json",
+    "upstreamTest": "types.test.ts:577"
+  },
+  {
+    "name": "patch-test-matching-array",
+    "file": "patch-test-matching-array.json",
+    "upstreamTest": "types.test.ts:588"
+  },
+  {
+    "name": "patch-test-mismatch-throws",
+    "file": "patch-test-mismatch-throws.json",
+    "upstreamTest": "types.test.ts:599"
+  },
+  {
+    "name": "patch-test-missing-path-throws",
+    "file": "patch-test-missing-path-throws.json",
+    "upstreamTest": "types.test.ts:610"
+  },
+  {
+    "name": "repeat-state-path-string-preserved",
+    "file": "repeat-state-path-string-preserved.json",
+    "upstreamTest": "types.test.ts:168"
+  },
+  {
+    "name": "repeat-state-path-item-relative",
+    "file": "repeat-state-path-item-relative.json",
+    "upstreamTest": "types.test.ts:173"
+  },
+  {
+    "name": "repeat-state-path-empty-item",
+    "file": "repeat-state-path-empty-item.json",
+    "upstreamTest": "types.test.ts:182"
+  },
+  {
+    "name": "repeat-state-path-item-outside-scope",
+    "file": "repeat-state-path-item-outside-scope.json",
+    "upstreamTest": "types.test.ts:191"
+  },
+  {
+    "name": "repeat-item-state-path",
+    "file": "repeat-item-state-path.json",
+    "upstreamTest": "types.test.ts:195"
+  },
+  {
+    "name": "flatten-top-level-keys",
+    "file": "flatten-top-level-keys.json",
+    "upstreamTest": "state-store.test.ts:141"
+  },
+  {
+    "name": "flatten-nested-objects",
+    "file": "flatten-nested-objects.json",
+    "upstreamTest": "state-store.test.ts:148"
+  },
+  {
+    "name": "flatten-arrays-are-leaves",
+    "file": "flatten-arrays-are-leaves.json",
+    "upstreamTest": "state-store.test.ts:155"
+  },
+  {
+    "name": "flatten-null-is-leaf",
+    "file": "flatten-null-is-leaf.json",
+    "upstreamTest": "state-store.test.ts:161"
+  },
+  {
+    "name": "flatten-deeply-nested",
+    "file": "flatten-deeply-nested.json",
+    "upstreamTest": "state-store.test.ts:165"
+  },
+  {
+    "name": "flatten-empty",
+    "file": "flatten-empty.json",
+    "upstreamTest": "state-store.test.ts:171"
+  },
+  {
+    "name": "flatten-mixed-nesting",
+    "file": "flatten-mixed-nesting.json",
+    "upstreamTest": "state-store.test.ts:175"
+  },
+  {
+    "name": "form-value-direct-literal",
+    "file": "form-value-direct-literal.json",
+    "upstreamTest": "types.test.ts:29"
+  },
+  {
+    "name": "form-value-dotted-key-literal",
+    "file": "form-value-dotted-key-literal.json",
+    "upstreamTest": "types.test.ts:35"
+  },
+  {
+    "name": "form-value-raw-dotted-param-is-literal",
+    "file": "form-value-raw-dotted-param-is-literal.json",
+    "upstreamTest": "types.test.ts:45"
+  },
+  {
+    "name": "form-value-direct-beats-dotted-and-state",
+    "file": "form-value-direct-beats-dotted-and-state.json",
+    "upstreamTest": "types.test.ts:56"
+  },
+  {
+    "name": "form-value-dotted-beats-state-skips-undefined-direct",
+    "file": "form-value-dotted-beats-state-skips-undefined-direct.json",
+    "upstreamTest": "types.test.ts:66"
+  },
+  {
+    "name": "form-value-first-dotted-key-wins-even-if-undefined",
+    "file": "form-value-first-dotted-key-wins-even-if-undefined.json",
+    "upstreamTest": "types.test.ts:76"
+  },
+  {
+    "name": "form-value-flat-state-keys",
+    "file": "form-value-flat-state-keys.json",
+    "upstreamTest": "types.test.ts:86"
+  },
+  {
+    "name": "form-value-slash-paths-not-bare-names",
+    "file": "form-value-slash-paths-not-bare-names.json",
+    "upstreamTest": "types.test.ts:99"
+  },
+  {
+    "name": "form-value-nonmatching-and-omitted",
+    "file": "form-value-nonmatching-and-omitted.json",
+    "upstreamTest": "types.test.ts:111"
+  },
+  {
+    "name": "form-value-preserves-falsy-direct",
+    "file": "form-value-preserves-falsy-direct.json",
+    "upstreamTest": "types.test.ts:118"
+  }
+]

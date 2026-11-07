@@ -1,0 +1,17 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "http://localhost:3000",
+  "config": {
+    "checks": [
+      {
+        "type": "url",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

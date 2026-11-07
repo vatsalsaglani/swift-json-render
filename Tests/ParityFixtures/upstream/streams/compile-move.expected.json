@@ -1,0 +1,17 @@
+{
+  "result": {
+    "new": "data"
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/old",
+      "value": "data"
+    },
+    {
+      "op": "move",
+      "path": "/new",
+      "from": "/old"
+    }
+  ]
+}

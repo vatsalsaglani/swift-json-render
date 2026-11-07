@@ -1,0 +1,27 @@
+{
+  "initial": {
+    "user": {
+      "name": "Alice",
+      "age": 30
+    }
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "test",
+        "path": "/user",
+        "value": {
+          "name": "Alice",
+          "age": 30
+        }
+      }
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "Alice",
+      "age": 30
+    }
+  }
+}

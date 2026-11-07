@@ -1,0 +1,20 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "Apple",
+  "customFunctions": [
+    "startsWithA"
+  ],
+  "config": {
+    "checks": [
+      {
+        "type": "startsWithA",
+        "message": "Must start with A"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

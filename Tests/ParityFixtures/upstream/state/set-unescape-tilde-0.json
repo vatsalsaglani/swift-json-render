@@ -1,0 +1,13 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "set",
+      "path": "/a~0b",
+      "value": "value"
+    }
+  ],
+  "expected": {
+    "a~b": "value"
+  }
+}

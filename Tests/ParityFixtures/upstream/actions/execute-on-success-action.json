@@ -1,0 +1,30 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {},
+    "onSuccess": {
+      "action": "followUp"
+    }
+  },
+  "handler": "resolves",
+  "hooks": [
+    "executeAction"
+  ],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "executeAction",
+      "args": [
+        {
+          "action": "followUp"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {}
+  },
+  "handler": "rejects",
+  "errorMessage": "Unhandled",
+  "hooks": [],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    }
+  ],
+  "expectThrows": "Unhandled"
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "https://example.com",
+  "config": {
+    "checks": [
+      {
+        "type": "url",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

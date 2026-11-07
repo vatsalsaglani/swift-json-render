@@ -1,0 +1,5 @@
+{"op":"add","path":"/x","value":1}
+{"op":"add","path":"/y","value":2}
+{"op":"move","path":"/z","from":"/x"}
+{"op":"copy","path":"/w","from":"/y"}
+{"op":"remove","path":"/y"}

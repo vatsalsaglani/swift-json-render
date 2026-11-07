@@ -1,0 +1,32 @@
+{
+  "initial": {
+    "root": "main",
+    "elements": {}
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/elements/main",
+      "value": {
+        "type": "Card",
+        "props": {
+          "title": "Hello"
+        },
+        "children": []
+      }
+    }
+  ],
+  "result": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "Hello"
+        },
+        "children": []
+      }
+    }
+  },
+  "applier": "applySpecPatch"
+}

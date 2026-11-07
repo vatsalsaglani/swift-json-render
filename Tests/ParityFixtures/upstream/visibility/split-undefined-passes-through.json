@@ -1,0 +1,14 @@
+{
+  "kind": "split",
+  "condition": {
+    "$undefined": true
+  },
+  "expected": {
+    "container": {
+      "$undefined": true
+    },
+    "itemFilter": {
+      "$undefined": true
+    }
+  }
+}

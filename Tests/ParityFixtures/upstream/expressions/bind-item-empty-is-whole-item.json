@@ -1,0 +1,16 @@
+{
+  "kind": "value",
+  "state": {
+    "items": [
+      "hello",
+      "world"
+    ]
+  },
+  "repeatItem": "hello",
+  "repeatIndex": 0,
+  "repeatBasePath": "/items/0",
+  "input": {
+    "$bindItem": ""
+  },
+  "expected": "hello"
+}

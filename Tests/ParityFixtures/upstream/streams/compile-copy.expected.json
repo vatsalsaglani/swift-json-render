@@ -1,0 +1,18 @@
+{
+  "result": {
+    "original": "data",
+    "duplicate": "data"
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/original",
+      "value": "data"
+    },
+    {
+      "op": "copy",
+      "path": "/duplicate",
+      "from": "/original"
+    }
+  ]
+}

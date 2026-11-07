@@ -1,0 +1,24 @@
+{
+  "kind": "run",
+  "state": {
+    "enabled": true
+  },
+  "value": "",
+  "config": {
+    "checks": [
+      {
+        "type": "required",
+        "message": "Required"
+      }
+    ],
+    "enabled": {
+      "$state": "/enabled"
+    }
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "Required"
+    ]
+  }
+}

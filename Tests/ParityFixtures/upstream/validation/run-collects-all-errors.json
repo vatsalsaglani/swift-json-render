@@ -1,0 +1,24 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "",
+  "config": {
+    "checks": [
+      {
+        "type": "required",
+        "message": "Required"
+      },
+      {
+        "type": "email",
+        "message": "Invalid email"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "Required",
+      "Invalid email"
+    ]
+  }
+}

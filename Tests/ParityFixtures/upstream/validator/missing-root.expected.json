@@ -1,0 +1,20 @@
+{
+  "valid": false,
+  "codes": [
+    "missing_root"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "missing_root",
+      "severity": "error",
+      "message": "Spec has no root element defined."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "missing_root"
+  ]
+}

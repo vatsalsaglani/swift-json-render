@@ -1,0 +1,14 @@
+{
+  "kind": "helper",
+  "fn": "max",
+  "args": [
+    100
+  ],
+  "expected": {
+    "type": "max",
+    "args": {
+      "max": 100
+    }
+  },
+  "partial": true
+}

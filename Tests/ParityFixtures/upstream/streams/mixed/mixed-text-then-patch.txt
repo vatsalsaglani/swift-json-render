@@ -1,0 +1,2 @@
+Here is the dashboard:
+{"op":"add","path":"/root","value":"dash"}

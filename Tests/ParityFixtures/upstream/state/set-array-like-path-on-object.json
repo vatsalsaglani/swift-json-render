@@ -1,0 +1,17 @@
+{
+  "initial": {
+    "items": {}
+  },
+  "ops": [
+    {
+      "op": "set",
+      "path": "/items/0",
+      "value": "first"
+    }
+  ],
+  "expected": {
+    "items": {
+      "0": "first"
+    }
+  }
+}

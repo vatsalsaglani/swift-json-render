@@ -1,0 +1,35 @@
+{
+  "initial": {
+    "count": 1,
+    "user": {
+      "name": "Alice"
+    },
+    "tags": [
+      "a",
+      "b"
+    ]
+  },
+  "ops": [
+    {
+      "op": "flatten",
+      "expect": {
+        "/count": 1,
+        "/user/name": "Alice",
+        "/tags": [
+          "a",
+          "b"
+        ]
+      }
+    }
+  ],
+  "expected": {
+    "count": 1,
+    "user": {
+      "name": "Alice"
+    },
+    "tags": [
+      "a",
+      "b"
+    ]
+  }
+}

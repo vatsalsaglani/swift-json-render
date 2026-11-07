@@ -1,0 +1,56 @@
+{
+  "chunks": [
+    "{\"op\":\"add\",\"path\":\"/x\",\"value\":1}\n",
+    "{\"op\":\"add\",\"path\":\"/y\",\"value\":2}\n",
+    "{\"op\":\"move\",\"path\":\"/z\",\"from\":\"/x\"}\n",
+    "{\"op\":\"copy\",\"path\":\"/w\",\"from\":\"/y\"}\n",
+    "{\"op\":\"remove\",\"path\":\"/y\"}\n"
+  ],
+  "pushes": [
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    },
+    {
+      "newPatches": 1
+    }
+  ],
+  "result": {
+    "z": 1,
+    "w": 2
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/x",
+      "value": 1
+    },
+    {
+      "op": "add",
+      "path": "/y",
+      "value": 2
+    },
+    {
+      "op": "move",
+      "path": "/z",
+      "from": "/x"
+    },
+    {
+      "op": "copy",
+      "path": "/w",
+      "from": "/y"
+    },
+    {
+      "op": "remove",
+      "path": "/y"
+    }
+  ]
+}

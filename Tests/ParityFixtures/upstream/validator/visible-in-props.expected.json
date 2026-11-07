@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "visible_in_props"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "visible_in_props",
+      "severity": "error",
+      "elementKey": "root",
+      "message": "Element \"root\" has \"visible\" inside \"props\". It should be a top-level field on the element (sibling of type/props/children)."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "visible_in_props"
+  ]
+}

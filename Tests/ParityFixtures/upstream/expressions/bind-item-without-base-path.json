@@ -1,0 +1,14 @@
+{
+  "kind": "value",
+  "state": {},
+  "repeatItem": {
+    "completed": true
+  },
+  "repeatIndex": 0,
+  "input": {
+    "$bindItem": "completed"
+  },
+  "expected": {
+    "$undefined": true
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "chunks": [
+    "{\"not\":\"a patch\"}\n"
+  ],
+  "flush": false,
+  "events": [
+    {
+      "kind": "text",
+      "value": "{\"not\":\"a patch\"}"
+    }
+  ]
+}

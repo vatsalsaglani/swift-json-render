@@ -1,0 +1,37 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {},
+    "onSuccess": {
+      "set": {
+        "saved": true,
+        "message": "Done"
+      }
+    }
+  },
+  "handler": "resolves",
+  "hooks": [],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "setState",
+      "args": [
+        "saved",
+        true
+      ]
+    },
+    {
+      "fn": "setState",
+      "args": [
+        "message",
+        "Done"
+      ]
+    }
+  ]
+}

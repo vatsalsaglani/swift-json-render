@@ -1,0 +1,15 @@
+{
+  "kind": "helper",
+  "fn": "minLength",
+  "args": [
+    5,
+    "Too short"
+  ],
+  "expected": {
+    "type": "minLength",
+    "args": {
+      "min": 5
+    },
+    "message": "Too short"
+  }
+}

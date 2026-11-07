@@ -1,0 +1,8 @@
+{
+  "kind": "evaluate",
+  "state": {},
+  "condition": {
+    "$undefined": true
+  },
+  "expected": true
+}

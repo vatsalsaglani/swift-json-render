@@ -1,0 +1,19 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "user@",
+  "config": {
+    "checks": [
+      {
+        "type": "email",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

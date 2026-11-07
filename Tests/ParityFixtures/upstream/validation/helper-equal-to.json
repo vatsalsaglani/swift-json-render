@@ -1,0 +1,17 @@
+{
+  "kind": "helper",
+  "fn": "equalTo",
+  "args": [
+    "/email",
+    "Emails must match"
+  ],
+  "expected": {
+    "type": "equalTo",
+    "args": {
+      "other": {
+        "$state": "/email"
+      }
+    },
+    "message": "Emails must match"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "save",
+    "params": {},
+    "onSuccess": {
+      "action": "toast",
+      "params": {
+        "message": "Saved"
+      }
+    }
+  },
+  "handler": "resolves",
+  "hooks": [
+    "executeAction"
+  ],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "executeAction",
+      "args": [
+        {
+          "action": "toast",
+          "params": {
+            "message": "Saved"
+          }
+        }
+      ]
+    }
+  ]
+}

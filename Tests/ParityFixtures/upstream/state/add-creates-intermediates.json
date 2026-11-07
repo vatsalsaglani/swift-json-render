@@ -1,0 +1,17 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "add",
+      "path": "/x/y/z",
+      "value": "deep"
+    }
+  ],
+  "expected": {
+    "x": {
+      "y": {
+        "z": "deep"
+      }
+    }
+  }
+}

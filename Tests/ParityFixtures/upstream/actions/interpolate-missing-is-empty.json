@@ -1,0 +1,10 @@
+{
+  "kind": "interpolate",
+  "cases": [
+    {
+      "state": {},
+      "input": "Hello ${/missing}!",
+      "expected": "Hello !"
+    }
+  ]
+}

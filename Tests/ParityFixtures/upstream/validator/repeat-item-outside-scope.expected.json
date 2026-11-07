@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "repeat_item_outside_scope"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "repeat_item_outside_scope",
+      "severity": "error",
+      "elementKey": "items",
+      "message": "Element \"items\" uses relative repeat statePath {\"$item\":\"items\"} outside a repeat scope."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "repeat_item_outside_scope"
+  ]
+}

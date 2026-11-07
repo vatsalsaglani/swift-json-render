@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "a/b": {
+      "c": 42
+    }
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/a~1b/c",
+      "expect": 42
+    }
+  ],
+  "expected": {
+    "a/b": {
+      "c": 42
+    }
+  }
+}

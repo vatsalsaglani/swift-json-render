@@ -1,0 +1,17 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "params": {
+        "email": "john.doe@example.com"
+      },
+      "state": {
+        "email": "state"
+      },
+      "expect": "john.doe@example.com"
+    }
+  ],
+  "expected": {}
+}

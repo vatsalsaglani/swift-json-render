@@ -1,0 +1,18 @@
+{
+  "kind": "resolve",
+  "state": {},
+  "binding": {
+    "action": "navigate",
+    "params": {
+      "url": "/home",
+      "count": 5
+    }
+  },
+  "expectedResolved": {
+    "action": "navigate",
+    "params": {
+      "url": "/home",
+      "count": 5
+    }
+  }
+}

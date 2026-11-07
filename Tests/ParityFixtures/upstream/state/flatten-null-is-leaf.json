@@ -1,0 +1,16 @@
+{
+  "initial": {
+    "x": null
+  },
+  "ops": [
+    {
+      "op": "flatten",
+      "expect": {
+        "/x": null
+      }
+    }
+  ],
+  "expected": {
+    "x": null
+  }
+}

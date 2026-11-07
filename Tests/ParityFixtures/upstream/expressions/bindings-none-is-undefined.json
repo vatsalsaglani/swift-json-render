@@ -1,0 +1,11 @@
+{
+  "kind": "bindings",
+  "state": {},
+  "input": {
+    "label": "Hello",
+    "count": 42
+  },
+  "expectedBindings": {
+    "$undefined": true
+  }
+}

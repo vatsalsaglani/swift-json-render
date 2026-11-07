@@ -1,0 +1,31 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "state": {
+        "email": "exact"
+      },
+      "expect": "exact"
+    },
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "state": {
+        "form.email": "dotted state"
+      },
+      "expect": "dotted state"
+    },
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "state": {
+        "email": "first",
+        "form.email": "second"
+      },
+      "expect": "first"
+    }
+  ],
+  "expected": {}
+}

@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "user": {
+      "name": "John"
+    }
+  },
+  "ops": [
+    {
+      "op": "set",
+      "path": "/user/name",
+      "value": "Alice"
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "Alice"
+    }
+  }
+}

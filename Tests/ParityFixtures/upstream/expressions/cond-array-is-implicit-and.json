@@ -1,0 +1,20 @@
+{
+  "kind": "value",
+  "state": {
+    "isAdmin": true,
+    "feature": true
+  },
+  "input": {
+    "$cond": [
+      {
+        "$state": "/isAdmin"
+      },
+      {
+        "$state": "/feature"
+      }
+    ],
+    "$then": "yes",
+    "$else": "no"
+  },
+  "expected": "yes"
+}

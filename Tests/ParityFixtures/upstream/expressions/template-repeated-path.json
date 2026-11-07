@@ -1,0 +1,10 @@
+{
+  "kind": "value",
+  "state": {
+    "x": "A"
+  },
+  "input": {
+    "$template": "${/x} and ${/x}"
+  },
+  "expected": "A and A"
+}

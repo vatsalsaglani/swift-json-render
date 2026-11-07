@@ -1,0 +1,16 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Button",
+      "props": {
+        "on": {
+          "press": {
+            "action": "doSomething"
+          }
+        }
+      },
+      "children": []
+    }
+  }
+}

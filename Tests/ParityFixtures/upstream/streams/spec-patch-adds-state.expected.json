@@ -1,0 +1,23 @@
+{
+  "initial": {
+    "root": "main",
+    "elements": {}
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/state",
+      "value": {
+        "count": 0
+      }
+    }
+  ],
+  "result": {
+    "root": "main",
+    "elements": {},
+    "state": {
+      "count": 0
+    }
+  },
+  "applier": "applySpecPatch"
+}

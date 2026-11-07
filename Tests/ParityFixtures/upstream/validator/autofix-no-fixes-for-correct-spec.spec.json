@@ -1,0 +1,17 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical"
+      },
+      "children": [],
+      "watch": {
+        "/x": {
+          "action": "y"
+        }
+      }
+    }
+  }
+}

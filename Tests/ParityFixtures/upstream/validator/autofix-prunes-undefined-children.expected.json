@@ -1,0 +1,33 @@
+{
+  "autoFix": true,
+  "options": {},
+  "fixes": [
+    "Removed reference to undefined element \"ghost\" from children of \"root\"."
+  ],
+  "fixDetails": [
+    {
+      "message": "Removed reference to undefined element \"ghost\" from children of \"root\".",
+      "lossy": true
+    }
+  ],
+  "fixed": {
+    "root": "root",
+    "elements": {
+      "root": {
+        "type": "Card",
+        "props": {},
+        "children": [
+          "text"
+        ]
+      },
+      "text": {
+        "type": "Text",
+        "props": {
+          "text": "hi"
+        },
+        "children": []
+      }
+    }
+  },
+  "validAfterFix": true
+}

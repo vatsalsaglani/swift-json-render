@@ -1,0 +1,20 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Card",
+      "props": {},
+      "children": [
+        "text",
+        "ghost"
+      ]
+    },
+    "text": {
+      "type": "Text",
+      "props": {
+        "text": "hi"
+      },
+      "children": []
+    }
+  }
+}

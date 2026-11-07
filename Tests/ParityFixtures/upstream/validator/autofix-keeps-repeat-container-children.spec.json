@@ -1,0 +1,22 @@
+{
+  "root": "list",
+  "state": {
+    "items": [
+      {
+        "id": "1"
+      }
+    ]
+  },
+  "elements": {
+    "list": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "ghost"
+      ],
+      "repeat": {
+        "statePath": "/items"
+      }
+    }
+  }
+}

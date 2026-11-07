@@ -1,0 +1,19 @@
+{
+  "kind": "value",
+  "state": {
+    "color": "red",
+    "size": 12
+  },
+  "input": {
+    "fill": {
+      "$state": "/color"
+    },
+    "fontSize": {
+      "$state": "/size"
+    }
+  },
+  "expected": {
+    "fill": "red",
+    "fontSize": 12
+  }
+}

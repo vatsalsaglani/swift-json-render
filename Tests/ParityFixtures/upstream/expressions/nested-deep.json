@@ -1,0 +1,22 @@
+{
+  "kind": "value",
+  "state": {
+    "theme": {
+      "primary": "#007AFF"
+    }
+  },
+  "input": {
+    "style": {
+      "color": {
+        "$state": "/theme/primary"
+      },
+      "margin": 10
+    }
+  },
+  "expected": {
+    "style": {
+      "color": "#007AFF",
+      "margin": 10
+    }
+  }
+}

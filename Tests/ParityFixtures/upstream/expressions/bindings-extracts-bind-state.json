@@ -1,0 +1,14 @@
+{
+  "kind": "bindings",
+  "state": {},
+  "input": {
+    "value": {
+      "$bindState": "/form/email"
+    },
+    "label": "Email",
+    "placeholder": "Enter email"
+  },
+  "expectedBindings": {
+    "value": "/form/email"
+  }
+}

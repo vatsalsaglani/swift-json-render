@@ -1,0 +1,22 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Text",
+      "props": {
+        "text": "hi"
+      },
+      "children": [],
+      "visible": [
+        {
+          "$state": "/a",
+          "eq": 1
+        },
+        {
+          "$item": "b",
+          "neq": 2
+        }
+      ]
+    }
+  }
+}

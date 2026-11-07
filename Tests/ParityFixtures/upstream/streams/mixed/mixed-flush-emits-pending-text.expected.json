@@ -1,0 +1,12 @@
+{
+  "chunks": [
+    "Some trailing text"
+  ],
+  "flush": true,
+  "events": [
+    {
+      "kind": "text",
+      "value": "Some trailing text"
+    }
+  ]
+}

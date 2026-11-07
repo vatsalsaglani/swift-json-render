@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "a": 1,
+    "b": "hello"
+  },
+  "ops": [
+    {
+      "op": "flatten",
+      "expect": {
+        "/a": 1,
+        "/b": "hello"
+      }
+    }
+  ],
+  "expected": {
+    "a": 1,
+    "b": "hello"
+  }
+}
