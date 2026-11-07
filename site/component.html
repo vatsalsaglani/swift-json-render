@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Component · swift-json-render</title>
+<meta name="description" content="One component of swift-json-render: live preview, variants, props, example spec and SwiftUI mapping.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>try{var t=localStorage.getItem("jr-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+  <a class="brand" href="index.html"><i aria-hidden="true">{}</i>swift-json-render</a>
+  <nav class="nav" aria-label="Main">
+    <a href="index.html#components" aria-current="page">Components</a>
+    <a href="stream.html">Streaming</a>
+    <a href="theme.html">Theme</a>
+  </nav>
+  <button type="button" class="icon-btn" id="theme-toggle">Theme: Auto</button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<div class="detail">
+  <aside class="side" aria-label="All components" id="side"></aside>
+  <div style="min-width:0">
+    <details class="side-m" id="side-m"><summary>All components</summary><div class="side-inner" id="side-inner"></div></details>
+    <div id="page"><noscript><p class="empty">This page needs JavaScript to draw the preview. The registry is in <a href="data/components.json">data/components.json</a>.</p></noscript></div>
+  </div>
+</div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <div>swift-json-render is planned. This site shows the design from the plan (VPLAN revision 4, 2026-11-07). The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
+  <div>Keys: <kbd>/</kbd> search · <kbd>j</kbd> <kbd>k</kbd> next and previous component</div>
+</div></footer>
+<script src="data/components.js"></script>
+<script src="js/vnode.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/render.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/component.js"></script>
+</body>
+</html>

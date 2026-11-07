@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Theme · swift-json-render</title>
+<meta name="description" content="Switch the native, high contrast, Rafu Indigo and Rafu Khadi presets live. Six layers of customisation, each with code.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>try{var t=localStorage.getItem("jr-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+  <a class="brand" href="index.html"><i aria-hidden="true">{}</i>swift-json-render</a>
+  <nav class="nav" aria-label="Main">
+    <a href="index.html#components">Components</a>
+    <a href="stream.html">Streaming</a>
+    <a href="theme.html" aria-current="page">Theme</a>
+  </nav>
+  <button type="button" class="icon-btn" id="theme-toggle">Theme: Auto</button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<section class="section" style="padding-top:40px" aria-labelledby="t-h">
+  <p class="eyebrow">Theme</p>
+  <h1 id="t-h" style="font-size:clamp(30px,5vw,44px)">One spec, any look</h1>
+  <p class="lede">A theme is a value in the SwiftUI environment. It changes colour, type, space, radius and motion. It never changes what a spec means.</p>
+
+  <div style="margin-top:22px;display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+    <div class="seg-big" role="group" aria-label="Theme preset" id="presets"></div>
+    <span class="small" id="preset-note" role="status"></span>
+  </div>
+
+  <div class="tgrid">
+    <div><div class="mock" id="main-mock"><div id="main-body"></div></div></div>
+    <div>
+      <div class="panel">
+        <h3>Colour roles of this preset</h3>
+        <div class="swatches" id="swatches"></div>
+        <h3 style="margin-top:18px">Contrast check at theme load</h3>
+        <p class="small" style="margin:0">validated() asks for 4.5:1 on text and 3:1 on the accent.</p>
+        <div class="contrast" id="contrast"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-size:20px;margin-top:48px">Default tokens</h2>
+  <p class="section-lede">The native preset, from the plan. Colour rows change with the preset above.</p>
+  <div class="tblwrap" tabindex="0" role="region" aria-label="Tokens table"><table class="props" id="tokens"><thead><tr><th scope="col">Token</th><th scope="col">Default</th><th scope="col">Note</th></tr></thead><tbody></tbody></table></div>
+  <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:550">The JSONRenderTheme value (planned API)</summary>
+<pre data-code data-lang="swift" data-label="JSONRenderTheme">public struct JSONRenderTheme: Sendable, Equatable {
+    public var color: ColorRoles        // surface, surfaceRaised, text, textSecondary, textMuted, hairline, accent, onAccent, good, warning, critical, info, focus
+    public var type: TypeScale          // caption, footnote, body, bodyEmphasis, title, display; weights; mono
+    public var space: SpaceScale        // s1...s6
+    public var radius: RadiusScale      // control, field, card
+    public var elevation: Elevation     // card shadow for the elevated variant only
+    public var motion: Motion           // reveal, pulse; honours accessibilityReduceMotion
+    public static let native: JSONRenderTheme
+    public static let highContrast: JSONRenderTheme
+    public func validated() throws(ThemeContrastError) -> JSONRenderTheme   // 4.5:1 text, 3:1 accent
+}</pre></details>
+
+  <h2 style="font-size:24px;margin-top:64px">Six layers, least to most effort</h2>
+  <p class="section-lede">A host picks the lowest layer that does the job. Each layer has one API.</p>
+  <div class="callout" role="note"><p><b>Rule.</b> Customisation never changes semantics. Layers a to f receive resolved props, bindings, children and <code>emit</code>. None can change state paths, action names, validation, visibility or the order of children. The parity suite runs once per preset, and once with every type overridden by a stub, and asserts the same state transitions and actions.</p></div>
+  <div class="layer"><div class="ln">a</div><div>
+    <h3>Theme tokens</h3>
+    <p>Colour roles, type scale, spacing, radius, elevation and motion, as one <code>JSONRenderTheme</code> value. Presets: <code>.native</code>, <code>.rafuIndigo</code>, <code>.rafuKhadi</code>, <code>.highContrast</code>. Per-subtree overrides compose.</p>
+    <div class="lcols"><div><pre data-code data-lang="swift" data-label="theme tokens">JSONRenderView(spec: spec, catalog: .standard)
+    .jsonRenderTheme(.rafuIndigo)                       // whole view
+    .jsonRenderTheme(\.radius.card, 6)                  // one token
+    .jsonRenderTheme(.highContrast, forTypes: ["Alert"]) // one subtree by type</pre></div>
+    <div class="live"><div class="rangerow"><label for="radius">radius.card</label><input type="range" id="radius" min="0" max="24" value="10" step="1"><output id="radius-out">10 pt</output></div><div class="mock" id="la-mock"><div id="la-body"></div></div></div></div>
+  </div></div>
+
+  <div class="layer"><div class="ln">b</div><div>
+    <h3>Variants and sizes in the catalog</h3>
+    <p>Looks the model may pick, declared as enum props. The theme decides what a variant looks like; the model only names it.</p>
+    <div class="lcols"><div><pre data-code data-lang="swift" data-label="variants">Button: .component(
+    props: [
+        "label": .string(),
+        "variant": .enum(["primary", "secondary", "destructive", "plain"], default: "secondary",
+                         description: "Use primary for the one main action."),
+        "size": .enum(["sm", "md", "lg"], default: "md"),
+    ],
+    events: ["press"])
+Card: variant plain | outlined | elevated      // default outlined</pre></div>
+    <div class="live"><div class="mock" id="lb-mock"><div id="lb-body"></div></div></div></div>
+  </div></div>
+
+  <div class="layer"><div class="ln">c</div><div>
+    <h3>Per-type style hooks</h3>
+    <p>A SwiftUI style protocol per component, the same shape as <code>ButtonStyle</code>. The host restyles without touching behaviour. The configuration carries resolved props and state flags, never the state store.</p>
+    <div class="lcols"><div><pre data-code data-lang="swift" data-label="style hooks">public protocol JRCardStyle {
+    associatedtype Body: View
+    func makeBody(configuration: JRCardStyleConfiguration) -> Body
+}
+public struct JRCardStyleConfiguration {
+    public let title: Text?; public let subtitle: Text?
+    public let variant: JRCardVariant; public let content: JRCardStyleConfiguration.Content
+    public let isStreaming: Bool
+}
+JSONRenderView(...).jrCardStyle(RafuCardStyle())   // also jrButtonStyle, jrTableStyle, jrStatStyle ...</pre></div>
+    <div class="live"><div class="rangerow"><label><input type="checkbox" id="style-toggle"> Apply <code>RafuCardStyle()</code> and pill buttons</label></div><div class="mock" id="lc-mock"><div id="lc-body"></div></div></div></div>
+  </div></div>
+
+  <div class="layer"><div class="ln">d</div><div>
+    <h3>Slots</h3>
+    <p>json-render's <code>slots</code> field with a fixed vocabulary: <code>header</code>, <code>footer</code>, <code>leading</code>, <code>trailing</code>, <code>empty</code>, <code>loading</code>, <code>error</code>. A slot is a list of element ids.</p>
+    <div class="lcols"><div><pre data-code data-lang="json" data-label="slots">{ "type": "Card", "props": { "title": "Failures" },
+  "children": ["table"],
+  "slots": { "footer": ["rerun", "open"], "empty": ["none-text"] } }</pre></div>
+    <div class="live"><div class="mock" id="ld-mock"><div id="ld-body"></div></div></div></div>
+  </div></div>
+
+  <div class="layer"><div class="ln">e</div><div>
+    <h3>Full view replacement per type</h3>
+    <p>Replace the view for one type and keep its props schema, bindings, children and actions. Both tables below share one state. Dismiss a row in either and both change.</p>
+    <div class="lcols"><div><pre data-code data-lang="swift" data-label="override">var catalog = Catalog.standard
+catalog.override("Table") { ctx in
+    RafuTable(rows: ctx.children, columns: ctx.props["columns"], emit: ctx.emit)
+}</pre></div>
+    <div class="live"><p class="small" style="margin:0 0 6px">Standard Table</p><div class="mock" id="le1-mock"><div id="le1-body"></div></div><p class="small" style="margin:10px 0 6px">Overridden Table</p><div class="mock" id="le2-mock"><div id="le2-body"></div></div></div></div>
+  </div></div>
+
+  <div class="layer"><div class="ln">f</div><div>
+    <h3>Custom components and actions</h3>
+    <p>Add new types and actions with one macro or one closure. The macro writes the prop schema, the description for the prompt, and the JSON Schema entry. Hosts can also register functions for <code>$computed</code> and directives.</p>
+    <pre data-code data-lang="swift" data-label="custom components">@JRComponent("TerminalStatus", description: "Live status of one Ensemble terminal", events: ["open"])
+struct TerminalStatusView: View {
+    @JRProp(description: "Terminal node id") var node: String
+    @JRProp var title: String = ""
+    @JRProp(bindable: true) var pinned: Bool = false
+    var body: some View { /* ... */ }
+}
+catalog.register(TerminalStatusView.self)
+catalog.action("open_file", params: ["path": .string()]) { params, host in
+    try await host.openFile(params["path"])        // host-gated
+}</pre>
+  </div></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <div>swift-json-render is planned. This site shows the design from the plan (VPLAN revision 4, 2026-11-07). The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
+  <div>Keys: <kbd>/</kbd> search · <kbd>j</kbd> <kbd>k</kbd> next and previous component</div>
+</div></footer>
+<script src="data/components.js"></script>
+<script src="js/vnode.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/render.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>
