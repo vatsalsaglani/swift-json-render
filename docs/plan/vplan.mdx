@@ -1,0 +1,238 @@
+---
+title: JSON Render for Swift
+subtitle: A native, spec-faithful json-render runtime for Rafu, released as swift-json-render
+date: 2026-11-07
+revision: 4
+status: proposal with all of the user's decisions of 2026-11-07 recorded; no question open
+artifact: https://claude.ai/artifact/6Yya7bafgqsQWncWaV2yro
+---
+
+import { Phase, Callout, Checklist, Questions, FileTree, Matrix, Compare, Mermaid, Stat, Mock } from "vplan";
+
+# JSON Render for Swift
+
+<Callout kind="decision" title="Decision summary">
+Build `swift-json-render` (github.com/vatsalsaglani/swift-json-render, Apache-2.0): a native SwiftUI implementation of the json-render spec (core 0.22.0) with streaming and nesting first-class, a theme and component-injection layer, 15 chart components, an optional composer on the OpenAI Decisions API, an optional consent-gated remote image loader, two shipped skills, and a Rafu catalog on top. Borrow the `@Component` macro and `JSONValue` / `JSONPointer` ideas from rxtech-lab/json-render-swift with credit; no dependency on it. No web view, no JavaScript, no code evaluation.
+</Callout>
+
+## Revision history
+
+- Revision 1 (2026-11-07): research, parity matrix, streaming and nesting design, 36 components + 15 Rafu additions, theme layers, architecture, Rafu integration, phases 0 to 5, mocks.
+- Revision 2 (2026-11-07, coordinator): section 7.3 chart family `JSONRenderCharts` with 10 components and mocks; architecture tree line; Phase 3 lines; open question 8.
+- Revision 3 (2026-11-07): the user's answers recorded as decisions; 15 charts in 1.0 (Waterfall, Funnel, BoxPlot, Candlestick, Treemap with a squarified layout) with mocks and rules; remote images after one consent per Ensemble (10.6); persisted card state with a version key and Reset View (10.1); composer on the OpenAI Decisions API as an optional target, verified by a live probe (9.5, Phase 6); MDX registry migration in Phase 4; two package skills plus a thin Rafu skill (10.4); `toggleState` / `incrementState` kept as extensions; phases, budgets, security, risks, unverified facts and sources updated.
+- Revision 4 (2026-11-07): the last three answers recorded. Remote images: global switch Off / Ask / Always allow in Settings plus a domain trust list of host patterns beside the per-Ensemble consent (10.6, 9.4, budgets, Phase 4). Composer runs only when the backend asks (`compose_view`), no validation-failure fallback (9.5). Persisted state after `view_update` is always reset (10.1). 15.2 has no open question.
+
+## 1. Thesis and the user's words
+
+> "Can we think of adding this somewhere? https://github.com/vercel-labs/json-render — If a user says show me something then we can use some custom from here and load it on canvas; only thing we might have to use web view which would take more memory. Anything custom in Swift with a parity to this and then we can open source that package as well."
+
+> "What all components are supported in JSON Render and I think it's a skill and set of components we'd need to add the same with Rafu. Let's list those down and see what other Swift libraries have and should we build on top of them instead of reinventing the wheel given we can pass our custom theme components as well."
+
+> "Streaming, nesting — all of these things should be there."
+
+> "Let's focus on making these look spectacularly simple and highly customisable."
+
+Thesis: a model that answers "show me failing tests by suite" should put a native card on the Ensemble board, not an HTML page in a web view. json-render defines a small, flat, streamable JSON grammar for exactly this. We implement that grammar in Swift, keep the spec identical so upstream prompts, skills, fixtures and MCP ideas carry over, and render it with SwiftUI so a card costs kilobytes.
+
+<Stat items={[["36","standard components"],["15","Rafu additions"],["15","chart components, all in 1.0"],["31","upstream skills"],["2","skills shipped with the package"],["139","json-render-swift tests pass (spike)"],["7","phases"]]} />
+
+## 2. Headline principle: spectacularly simple, highly customisable
+
+### 2.1 Simple by default
+
+| Instead of | Do |
+|---|---|
+| Eight to twelve props per component | Three to five; only the content prop required; styling from the theme |
+| Colour as decoration | Colour only for meaning: the accent on one primary action; status hues with an icon and a word |
+| Mixed radii, shadows inside cards, borders everywhere | One radius scale (4 / 7 / 12 pt); no shadow in a card; a hairline only where a surface starts |
+| Five font sizes in one card | One scale 11 / 12 / 13 / 15 / 20 / 28 pt, system font, tabular digits in data |
+| Spinners, shimmer, layout jumps | Static redacted placeholders that hold the final layout; a slow fade, none under Reduce Motion |
+| Cramped padding | 12 pt card padding, 10 pt stack gap, 20 pt between sections |
+| Clever component names | json-render's own names, so upstream prompts and skills transfer |
+| Every number a chart | Stat for one number, Table for rows, a chart for a series, Funnel for stages, Treemap for many parts |
+
+Default-look gallery (Card, Stat row, Table, Tabs, form, Alert, Chart) in both themes: HTML page, section 2.1.
+
+### 2.2 Customisable in layers (least to most effort)
+
+| Layer | Changes | API |
+|---|---|---|
+| a. Theme tokens | colour roles, type scale, spacing, radius, elevation, motion | `JSONRenderTheme` environment; presets `.native`, `.rafuIndigo`, `.rafuKhadi`, `.highContrast`; `.jsonRenderTheme(_:)`, `.jsonRenderTheme(\.radius.card, 6)`, per-type subtree override |
+| b. Variants and sizes | model-selectable looks declared in the catalog | Button `primary / secondary / destructive / plain`, `sm / md / lg`; Card `plain / outlined / elevated` |
+| c. Style hooks | a SwiftUI style protocol per component | `JRCardStyle`, `JRTableStyle`, `JRStatStyle`, `BarChartStyle` … `.jrCardStyle(RafuCardStyle())` |
+| d. Slots | named child regions | `slots: header / footer / leading / trailing / empty / loading / error` (+ `title / caption / tooltip / center` on charts) |
+| e. View replacement | one type, same props and actions | `catalog.override("Table") { ctx in MyTable(ctx) }` |
+| f. Custom components and actions | new types | `@JRComponent("Stat") struct … { @JRProp var label: String }`, `catalog.action("open_file") { params, host in … }` |
+
+Rule: customisation never changes semantics. The parity suite runs once per preset and once with every type overridden by a stub and asserts identical state transitions and emitted actions.
+
+### 2.3 Measurable
+
+Default tokens (native preset): surface `windowBackgroundColor`, raised `controlBackgroundColor`, text three levels, hairline 1 pt (2 pt under Increase Contrast), accent `controlAccentColor` only on the primary Button / active Tab / Switch on / Progress / focus ring, status = system colours with icon + word, type 11…28 pt, space 4 / 8 / 12 / 16 / 20 / 32, radius 7 / 8 / 12, elevation none (elevated variant: one shadow r8 y2), motion 180 ms fade, zero under Reduce Motion. Accessibility: 4.5:1 text and 3:1 accent contrast checked at theme load; visible focus; VoiceOver labels from props; Reduce Motion; Increase Contrast; text size via `controlSize`; never colour alone.
+
+## 3. What json-render is (verified from source, 2026-11-07)
+
+vercel-labs/json-render, Apache-2.0, core 0.22.0, commit 1819412 (2026-11-04). Spec `{ root, elements, state? }`; element `{ type, props, children?, slots?, visible?, on?, repeat?, watch? }`. Expressions `$state $bindState $item $bindItem $index $cond/$then/$else $computed $template` plus custom directives. Visibility: boolean, single (`eq neq gt gte lt lte`, `not`), implicit AND, `$and`, `$or`. Actions: `{ action, params?, confirm?, onSuccess?, onError?, preventDefault? }`; built-ins `setState`, `pushState` (`$id`, `clearStatePath`), `removeState`, `validateForm`. Validation: 13 checks, `validateOn`, `enabled`. Watch: change-only. SpecStream: JSONL of RFC 6902 patches (`add replace remove move copy test`), tolerant `replace`, `\`\`\`spec` fence. Jev: `experimental_composeSpec` (0.21.0+), app-supplied candidates, batched select + arrange, never executes actions. Catalog: `defineCatalog`, `catalog.prompt()`, `catalog.jsonSchema({strict})`, `validateSpec`. 31 skills; install `npx skills add vercel-labs/json-render --skill core`. MCP package serves an HTML iframe (not our path). Shadcn catalog: 36 components.
+
+## 4. Parity matrix
+
+43 rows in the HTML page. Summary: json-render-swift (commit 735ade8) covers root/elements, children, visible (all operators), `repeat`, 7 of 9 expressions, setState family; it lacks `slots`, `watch`, `$computed`, directives, confirm/onSuccess/onError, validation, `validateForm`, SpecStream, spec validator, generated prompt, whole-spec JSON Schema, theme layer, nested repeat paths; its `setState` reads `path` where upstream sends `statePath`. Jev row now: planned, Phase 6, optional target on the Decisions API.
+
+## 5. Streaming design
+
+`SpecStreamDecoder` (modes `jsonl`, `object` with a tolerant parser for one JSON document in fragments, `mixed` with the spec fence) → `SpecStore` actor (RFC 6902 on immutable `Spec` snapshots, `RenderPlan` diff by id, dangling set) → `FrameCoalescer` (≤ 1 publish per frame, drops intermediates) → `JSONRenderStreamView` (views keyed by element id; themeable skeletons for missing children; out-of-order arrival tolerated; 180 ms fade, none under Reduce Motion; cancellation keeps the last snapshot; malformed lines journaled; final `validateSpec` and prune). Budgets: spec ≤ 256 KiB, 2,000 elements, 64 KiB stream buffer per partial line.
+
+<Mermaid>
+sequenceDiagram
+  participant M as Model
+  participant D as SpecStreamDecoder
+  participant S as SpecStore (actor)
+  participant C as FrameCoalescer
+  participant V as JSONRenderStreamView
+  M->>D: chunk (root patch + partial line)
+  D->>S: add /root
+  S-->>C: snapshot v1
+  C->>V: frame 1: card skeleton
+  M->>D: chunk (rest + card + tabs + orphan row)
+  D->>S: add /elements/card, /elements/tabs, /elements/row-1
+  S-->>C: v2..v4 within one frame
+  C->>V: frame 2: Card, Tabs, table skeleton
+  M->>D: malformed line
+  D-->>D: journal badLine, continue
+  M->>D: add /elements/table (children [row-1])
+  D->>S: patch
+  S-->>C: v5, row-1 reachable
+  C->>V: frame 3: table filled, fade
+  M->>D: end
+  D->>S: flush → validate, prune, freeze
+  S-->>V: final, isStreaming=false
+</Mermaid>
+
+## 6. Nesting design
+
+Depth cap 64, element cap 2,000, 500 rows per repeat; DFS cycle detection per snapshot; children and slots by id; `RepeatScope(item, index, basePath, key)` with nested repeats via `statePath: { "$item": "rows" }`; `$bindItem` → `basePath/field`; action params resolve `$item` to absolute paths at the emitting element's scope; `Spec.compose(child, into:, slot:, prefix:)` for sub-specs; native mapping: Grid → `LazyVGrid`, Card → surface with slots, Tabs → tab bar + subtree, Table → SwiftUI `Table` with cells rendering children under the row scope, Accordion → `DisclosureGroup`, Dialog → host popup surface, Drawer → inspector or sheet.
+
+## 7. Components
+
+### 7.1 Standard catalog (36)
+Card, Stack, Grid, Separator, Tabs, Accordion, Collapsible, Pagination, Dialog, Drawer, Tooltip (`.help`), Popover, DropdownMenu, Heading, Text, Image (local / data by default; https after consent), Avatar, Badge, Alert, Carousel, Table, Progress, Skeleton (`.redacted`), Spinner, Button, Link, Input, Textarea, Select, Checkbox, Radio, Switch, Slider, Toggle, ToggleGroup, ButtonGroup. Mappings and props: HTML page, 7.1.
+
+### 7.2 Rafu additions (15)
+Stat, Chart (Swift Charts), KeyValue, Timeline, Markdown (MarkdownUI boundary), Mermaid (Rafu native renderer), Code (Tree-sitter), Callout, Checklist, FileLink, CardLink, TerminalStatus, AgentStatus, DiffSummary, IconLibraryIcon. Unified with the ADR 0034 MDX registry in Phase 4 (decision).
+
+### 7.3 Chart family `JSONRenderCharts` (15, all in 1.0)
+
+| Component | Renders with | Variants |
+|---|---|---|
+| BarChart | `BarMark` | vertical, horizontal, grouped, stacked, normalized, ranked |
+| LineChart | `LineMark` (+ `PointMark`) | single, multi, stepped |
+| AreaChart | `AreaMark` | area, stacked, normalized |
+| PieChart | `SectorMark` | pie, donut, donut with centre |
+| Gauge | SwiftUI `Gauge` + arc style | arc, ring, linear with bands and target |
+| Sparkline | `LineMark` / `AreaMark`, no axes | line, filled |
+| ScatterChart | `PointMark` | scatter, bubble, linear fit |
+| Heatmap | `RectangleMark` | grid, calendar |
+| Histogram | `BarMark` + bins | count, percent |
+| ComboChart | `BarMark` + `LineMark`, one y-axis | bars + line |
+| Waterfall | `RectangleMark` steps + `RuleMark` connectors | vertical, horizontal, subtotals |
+| Funnel | centred horizontal bars, percent between steps | centred, left-aligned, with percent |
+| BoxPlot | `RectangleMark` + `RuleMark` + `PointMark` | vertical, horizontal, outliers |
+| Candlestick | `RectangleMark` body + `RuleMark` wick | candles, OHLC |
+| Treemap | own squarified `TreemapLayout` (pure function) on `Canvas` | flat, grouped (depth 2) |
+
+Default-look rules for the five added: Waterfall totals grey, increases accent, decreases warning hue, each with a sign, ≤ 12 steps; Funnel one hue, widest first, percent between rows, ≤ 8 stages; BoxPlot box at 30 % accent, 2 pt median, hairline whiskers, ≤ 20 groups; Candlestick good/critical with a hollow body on a close-down, ≤ 180 periods; Treemap categorical by group, 2 pt gap, labels where they fit, ≤ 200 cells, depth ≤ 2. Shared props, streaming behaviour (monotonic y-domain, one redraw per frame), accessibility (`accessibilityChartDescriptor`, "Show as Table") and budgets: HTML page, 7.3. Mocks: stacked bars, ranked bars, donut, gauges, stacked area, lines with a reference line, heatmap, sparklines, waterfall, funnel, treemap.
+
+## 8. Theme and component injection
+
+`JSONRenderTheme { color, type, space, radius, elevation, motion, charts }`, `validated()` for contrast, environment key, per-subtree override; Rafu maps `RafuThemePalette` + `RafuMetrics` to it. Component injection is the catalog: `register`, `override`, `action`, `function`, `directive`.
+
+## 9. Package architecture
+
+<FileTree>
+swift-json-render/
+  Package.swift                 swift-tools 6.2; macOS 14, iOS 17; strict concurrency
+  Sources/
+    JSONRenderCore/             Foundation only, Linux-capable: Spec, expressions, visibility, state, actions, validation, stream, catalog, validator
+    JSONRenderSwiftUI/          JSONRenderView, JSONRenderStreamView, FrameCoalescer, theme, style protocols, slots, skeletons
+    JSONRenderStandardCatalog/  the 36 components
+    JSONRenderCharts/           optional: 15 charts, TreemapLayout, chart tokens, $computed aggregations
+    JSONRenderCompose/          optional: composer on the OpenAI Decisions API (the only target with network code)
+    JSONRenderRemoteImages/     optional: consent-gated https image loader, caps, LRU cache
+    JSONRenderClient/           @JRComponent / @JRProp declarations
+    JSONRenderMacros/           macro implementation (swift-syntax)
+  Tests/ParityFixtures/         upstream specs, SpecStream transcripts, compose fixtures
+  Tests/JSONRenderCoreTests/ …ChartsTests/ …ComposeTests/ …SwiftUITests/ …MacroTests/
+  Examples/Gallery/             every component, every preset, streaming replay
+  Scripts/import-fixtures.sh
+  skills/json-render-swift-use/     SKILL.md + references (spec, actions, streaming, components, charts, choosing, install, upgrade, examples)
+  skills/json-render-swift-update/  SKILL.md + references (add-component, add-chart, catalog-and-schema, theme-tokens, parity, tests, release)
+  docs/                         DocC
+  LICENSE (Apache-2.0)  NOTICE  CONTRIBUTING.md  CHANGELOG.md
+</FileTree>
+
+API sketch, concurrency model (actors, no `@unchecked Sendable`, `AsyncStream` snapshots), budgets (spec 256 KiB, 2,000 elements, ≤ 1 publish/frame, card ≤ 2 MB, persisted state ≤ 64 KiB, image cache 8 MB per Ensemble, composer ≤ 3 requests / 400 questions / 10 s) and security (no code eval; `$computed` only registered functions; host-gated actions; images local/data by default and https only after consent with no cookies or credentials, 2 MB, 8 s, sniffed types, private ranges refused; persisted state never holds secrets; composer never sends props or bindings): HTML page, 9.1 to 9.4.
+
+### 9.5 Optional composer on the OpenAI Decisions API
+
+Verified 2026-11-07: `POST /v1/decisions` exists and is generally available, model `gpt-6-luna` only; request `{ model, input, questions[] }` with question types `predicate`, `choice` (`choices[{value, description}]`), `score` (`levels[{label, description}]`); response `answers[]` with `probability` / `choice` + `probabilities` + `confidence` / `score` + `probabilities` + `confidence`, per-question `refusal`, `usage` with zero output tokens. Sources: the OpenAI guide (developers.openai.com/api/docs/guides/decisions), Microsoft Learn (Azure endpoint `/openai/v1/decisions`, 2026-11-06), and a live probe that read the spike key from the Keychain at run time (never printed or written) and got HTTP 200 in 3.7 s with three typed answers (429 input tokens). Doc-only: 400 questions per request, 128 images / 32 MB, $0.10 per 1M input tokens. Not found: streaming. Unverified: GPT-Live `delegation.type: "decisions"` result delivery (Phase 0 saw nothing in 25 s); the composer calls REST directly.
+
+Design: `CompositionCandidate` (upstream shape), `DecisionEvaluator` protocol (the only network boundary), `OpenAIDecisionsEvaluator`, `Composer.compose(prompt:context:initialSpec:)` → `AsyncThrowingStream<ComposeEvent>`. Round 1 selection in one request (choice "root", one predicate per candidate, score "density" → element budget); round 2 layout in one request (choice "parent/slot" and score "position" per included element); edits sequential with predicates; thresholds 0.5 / 0.35 in `ComposeLimits`; refusals fall back to catalog order; ≤ 3 rounds; never prose or data; props and bindings never sent. Rafu runs it only when the backend calls `compose_view` (decision, revision 4); there is no validation-failure fallback from `show_view`. Key from `KeychainAISecretStore`.
+
+## 10. Rafu integration
+
+- 10.1 Card: `CanvasCardContent.generatedView(payload)`; persisted `GeneratedViewState { specVersion (SHA-256 of the spec without state), catalogVersion, savedAt, state }` applied only when both versions match, else reset with a header notice and an undoable stale copy for one session; after a `view_update` that changes the spec the state is always reset (decision, revision 4); 500 ms debounce, atomic write inside the Ensemble file; 64 KiB cap, 4 KiB per value; never persisted: `_`-prefixed keys, `secret` props (password Input), host `transientPaths`, values over the cap; "Reset View" in the header menu, context menu, ⌥⌘R, voice and `view_update { reset: true }`, one undo step. Board cap 50 cards.
+- 10.2 Voice `show_view`: strict catalog JSON Schema as parameters; argument-delta streaming into `SpecStreamDecoder.object`; Off refuses, Ask runs at once with an undo notice (decision), Allow runs.
+- 10.3 MCP `view_render` / `view_update` (incl. `reset`), risk `.edit`, validated before the app, approval summary without text, provenance, undo.
+- 10.4 Skills: `json-render-swift-use` (authoring and streaming specs: spec, actions incl. the `toggleState` / `incrementState` extensions, streaming, components, charts, choosing, install, upgrade, examples) and `json-render-swift-update` (changing the package: add-component, add-chart, catalog-and-schema, theme-tokens, parity, tests, release, keep the semantics-invariance suite green). Install `npx skills add vatsalsaglani/swift-json-render --skill <name>` → `.claude/skills/<name>/`. Rafu keeps a thin `rafu-view` skill (about 80 lines: the 15 Rafu components, the tools, Off / Ask / Allow, image consent, persisted state, MDX mapping). Other reading of "use and update": install-in-an-app and upgrade-an-app, covered by the use skill's `install.md` and `upgrade.md`.
+- 10.5 Provenance as before.
+- 10.6 Remote images (revision 4): a global switch in Settings ▸ Ensemble, Off (nothing loads) / Ask (default: trusted hosts load, other hosts need the per-Ensemble consent or the confirm card) / Always allow (any https host, same limits); a domain trust list of host patterns, either an exact host (`images.example.com`) or one leading wildcard (`*.githubusercontent.com`), matched on the parsed URL host after IDNA/punycode normalisation and lowercasing, https only, IP literals, `localhost` and private ranges rejected, never matched on the URL string; free regular expressions are rejected because of ReDoS and unescaped-dot mistakes (`example.com` also matching `exampleXcom`); the validator accepts only hostname labels, at least two labels, at most one leading `*`; the confirm card offers "Allow once", "Always allow images from <host>" and "Always allow *.<registrable parent>" computed from a bundled Public Suffix List (never a bare suffix such as `*.com` or `*.co.uk`); the list lives in `~/Library/Application Support/Rafu/image-trust.json` (per user, 0600, ≤ 200 entries, not in any Ensemble file, not visible to agents); Settings shows the list with add (live validation) and remove; removing a pattern, revoking an Ensemble or switching Off drops the cached images loaded under that grant across open Ensembles; the per-Ensemble consent record `CanvasDocument.permissions.remoteImages { allowed, grantedAt, grantedBy }` stays in the Ensemble file, written only from the confirm card (agents cannot set it); revoke in Ensemble settings and the Agent control popover, undoable; fetch policy https only, GET, no cookies / credentials / Referer, fixed User-Agent, ephemeral session, 8 s, 2 redirects, 2 MB, 20 per card, 4 concurrent, sniffed png/jpeg/webp/gif, SVG refused, private ranges refused; cache decoded at card size (≤ 1,024 px), 8 MB LRU per Ensemble, memory only; privacy sentence in the popup ("The image host will see a request from this Mac."); before consent a placeholder with the host name, the alt text and one button. Package form: `JSONRenderRemoteImages` with `ImageConsent`, `HostPattern` (validator and matcher, pure, Linux-tested), `PublicSuffixProvider` and `RemoteImagePolicy`.
+- MDX (decision): `MDXComponentRegistry` and `MDXBlockBuilder` emit `UIElement`s for the Rafu catalog in Phase 4; ADR 0034 amended.
+
+## 11. Build vs borrow
+
+Spike (2026-11-07): json-render-swift builds on Swift 6.2 (64 s cold), 139 XCTest cases pass; eight upstream `no-ai` specs (82 elements) all decode, none would render with upstream component names, `watch` is dropped, `$computed` is a literal, `validateForm` is a no-op, `setState` ignores `statePath`. Decision: build; borrow the macro and value-type ideas with credit (MIT notice kept).
+
+## 12. Open-source plan
+
+`swift-json-render` at `github.com/vatsalsaglani/swift-json-render`; products `JSONRender`, `JSONRenderCharts`, `JSONRenderCompose`, `JSONRenderRemoteImages`; Apache-2.0 with NOTICE; CI macOS 15 + Ubuntu (core, no compose); DocC on Pages; versions track upstream minor (`0.22.x`); parity suite from pinned upstream fixtures; two skills in `skills/`; Gallery example app; dependencies: swift-syntax only.
+
+## 13. Phases
+
+<Phase n="0" title="Spike and parity fixtures" status="done" owner="jr-0">Done in this plan; fixtures to be checked in with the upstream commit and licence header.</Phase>
+<Phase n="1" title="Core: spec, nesting, expressions, state, actions, validation, catalog, macros" status="next" owner="jr-1">Exit: all P1 parity rows green on macOS and Linux; prompt diffed against upstream; strict schema accepted by structured outputs and GPT-Live tool registration; no `@unchecked Sendable`.</Phase>
+<Phase n="2" title="Streaming" owner="jr-2">Exit: transcripts replay to `compileSpecStream` results; chunk-boundary fuzz; malformed / out-of-order / root-last tests; ≤ 1 publish per frame at 1,000 patches/s; cancel keeps the last snapshot.</Phase>
+<Phase n="3" title="Standard catalog, theme, style hooks, slots, 15 charts, two skills" owner="jr-3 (+ jr-3c for charts)">Owned: `Sources/JSONRenderSwiftUI/**`, `Sources/JSONRenderStandardCatalog/**`, `Sources/JSONRenderCharts/**`, `skills/**`, Gallery. Exit: 36 + 15 render in both themes; contrast and VoiceOver passes; semantics-invariance suite; `TreemapLayout` property test (exact tiling, no overlap, order, aspect ratio ≤ slice-and-dice); both skills pass skill-creator checks and a manual agent run.</Phase>
+<Phase n="4" title="Rafu: card with persisted state, remote image consent, MCP, voice, MDX migration, thin skill" owner="jr-4 (Rafu worktree)">Owned: `Sources/RafuApp/Canvas/GeneratedView/**`, `Sources/RafuApp/Canvas/RemoteImages/**`, `CanvasDocument.swift` (one case + permissions), `CanvasAgentTools.swift` (two tools), `VoiceToolSchema.swift`, `VoiceToolExecutor.swift`, `Sources/RafuApp/Markdown/MDX*`, `skills/rafu-view/`, `Package.swift`, docs. Exit: voice card in Ask mode with an undo notice; MCP approval without text; state survives relaunch, stale snapshot not applied after `view_update`, Reset View undoable; password and `_draft` absent from the saved file; no request before consent, no cookie header after, revoke returns the placeholder, 3 MB and SVG refused; wireframes render through the catalog unchanged; 20 cards under 40 MB; both test modes green; reference notes.</Phase>
+<Phase n="5" title="Open-source release" owner="jr-5">Exit: the user asks for publication; CI green from a clean clone; quick start under 20 lines; both skills install from the public repository.</Phase>
+<Phase n="6" title="Composer on the OpenAI Decisions API (optional target)" owner="jr-6">After P1 and P3, beside P4 and P5. Owned: `Sources/JSONRenderCompose/**`, its tests and fixtures, Rafu `GeneratedView/Compose*`, one branch in `VoiceToolExecutor.swift`. Exit: upstream Jev examples compose with a recorded evaluator; one request per round; refusals and timeouts never leave a half tree; no network symbol in the other targets (link-map test); the key never appears in logs, timeline, notices or the Ensemble file; manual voice check.</Phase>
+
+## 13A. Implementation fan-out plan
+
+Follows Rafu's CLAUDE.md and AGENTS.md: a Fable `advisor` writes each brief and does the read-only review; implementors routed by size (Opus medium for cross-cutting, Sonnet high for bounded work with more than four changes, `effort: lower` for fixtures and docs); a `documentor` after verification; the coordinator merges, runs both test modes on `main`, owns the shared indexes; one worktree per agent, `rm -rf .build` last, one SwiftPM invocation per checkout.
+
+- Two repositories: `vatsalsaglani/swift-json-render` (the user creates it; the coordinator makes the bootstrap commit; worktrees `jr-0-fixtures`, `jr-1-core`, then `jr-2-stream`, `jr-3-catalog`, `jr-3c-charts`, `jr-3s-skills`, `jr-5-release`, `jr-6-compose`) and Rafu (worktrees `jr-4a-card`, `jr-4b-images`, `jr-4c-tools`, `jr-4d-mdx` after the package tags `0.22.0-alpha.1` and the coordinator lands a contract commit).
+- Shared contracts before fan-out, single owners: `Package.swift` (coordinator); the public API surface, the theme token shape, the append-only catalog registry and the stream types (jr-1); parity fixtures (jr-0); README / CHANGELOG / NOTICE / docs index (coordinator, then jr-5); Rafu's `Package.swift`, `CanvasDocument` fields, `CanvasAgentTool` cases, voice tool names (coordinator).
+- Waves: 0 jr-0 (Sonnet, lower) → 1 jr-1 (Opus, medium, serial) → 2 jr-2 ∥ jr-3 ∥ jr-3c ∥ jr-3s (Opus, Opus, Opus, Sonnet high), merged in that order, tag alpha.1 → 3 Rafu jr-4a ∥ jr-4b ∥ jr-4c ∥ jr-4d (Opus, Sonnet, Opus, Sonnet) → 4 jr-5 ∥ jr-6 (Sonnet, Opus). An advisor review after each wave, at most two rounds, then the coordinator decides. About 25 agent runs, never more than six live at once.
+- Brief template: goal, owned paths, must-not-touch, contracts used, tests, gates in order (format → lint → build → parallel tests → commit; Linux job and Gallery for the package; serial tests and `build_and_run.sh --verify` for Rafu), evidence, stop-and-report conditions, finish with handoff and `rm -rf .build`.
+- Hot spots: catalog registry append-only with one file per component and separate entry lists for jr-3 and jr-3c; theme struct frozen in wave 1; Gallery shell owned by jr-3; upstream fixtures read-only; Rafu's big switch statements untouched by implementors (tool bodies in `+Views.swift` files); jr-4a merges before jr-4c against a `GeneratedViewHost` protocol.
+- Starts now: the advisor brief, jr-0 and jr-1 in a local clone. Waits for the user: confirm Apache-2.0, create the GitHub repository, run the Rafu manual checks, ask to publish and tag.
+
+Diagram and full wave table: HTML page, 13A.
+
+## 14. Mock screens
+
+HTML page, sections 2.1, 2.2, 7.3 and 14: default-look gallery in both themes; one spec three ways (native, Indigo, a third brand); eleven chart mocks; a card streaming in (skeleton → filled) on the board; the same spec in Indigo and Khadi; Card → Tabs → Table with row Buttons; the voice flow and the MCP approval popup.
+
+## 15. Risks, decisions, open questions, sources
+
+Risks: upstream drift; tolerant JSON is a heuristic; `Table` cells with children; voice argument deltas; scope creep into an app runtime; remote images leak presence (guarded by per-Ensemble consent, host name in the placeholder, provenance, revoke, private ranges refused); stale persisted state (guarded by version keys); Decisions API latency in the composer (direct path stays the default); Treemap and Candlestick are hand-drawn (pure layout function, per-cell accessibility, Show as Table).
+
+Decisions (2026-11-07): package name and account; remote images after one consent per Ensemble, plus (revision 4) a global Off / Ask / Always allow switch and a domain trust list of host patterns; composition in scope on the Decisions API as an optional target, run only when the backend asks (no validation fallback); MDX migration in Phase 4; `show_view` in Ask mode runs at once; persisted card state with version key and Reset View, always reset after a spec-changing `view_update`; `toggleState` / `incrementState` kept; all 15 charts in 1.0; two package skills plus a thin Rafu skill.
+
+<Questions>
+- None open. Every question from revisions 1 to 3 is answered. New questions are added only when implementation finds one.
+</Questions>
+
+Unverified: GPT-Live argument deltas; GPT-Live `decisions` delegation delivery; Decisions API limits and pricing (doc only); per-card and per-image memory (budgets); strict schema size for a 66-component catalog; json-render-swift star count.
+
+Sources: HTML page, section 15.4 (json-render source files and docs, json-render-swift, RFC 6901 / 6902, the OpenAI Decisions guide, Microsoft Learn, the probe response file, the GPT-Live Phase 0 report and protocol note, Rafu ADRs 0033 / 0034 / 0035 and reference notes, the squarified treemap paper).
