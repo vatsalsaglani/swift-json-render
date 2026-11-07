@@ -1,5 +1,6 @@
 internal import Foundation
 public import JSONRenderCore
+internal import os
 
 extension ChartData {
     /// Decodes resolved props into drawable data. Pure and `Sendable`: it parses dates,
@@ -443,7 +444,15 @@ struct ChartDataBuilder {
             x: xField, y: yField, series: reader.string("series"), size: sizeField)
         let numeric = entries.filter { ChartValues.number($0.rawX) != nil }
         if numeric.count < entries.count {
-            warnings.append(.skippedRows(entries.count - numeric.count))
+            // One count: add to the rows `entries` already skipped.
+            var skipped = entries.count - numeric.count
+            if let index = warnings.firstIndex(where: {
+                if case .skippedRows = $0 { true } else { false }
+            }), case .skippedRows(let earlier) = warnings[index] {
+                skipped += earlier
+                warnings.remove(at: index)
+            }
+            warnings.append(.skippedRows(skipped))
         }
         entries = numeric
         data.series = seriesOrder(entries)
@@ -647,13 +656,28 @@ enum ChartDates {
     private static let fractional = Date.ISO8601FormatStyle(includingFractionalSeconds: true)
     private static let dateOnly = Date.ISO8601FormatStyle().year().month().day()
 
+    /// Parsed row strings (a miss is stored as `nil`), so a streamed date axis parses
+    /// each row once, not on every frame. Bounded: cleared at `cacheLimit` entries.
+    private static let cache = OSAllocatedUnfairLock(initialState: [String: Date?]())
+    static let cacheLimit = 20_000
+
     /// A date for `2026-11-07` or a full ISO-8601 timestamp; `nil` for anything else.
     static func parse(_ text: String) -> Date? {
         guard text.count >= 10, text.count <= 40, text.contains("-"),
             text.first?.isNumber == true
         else { return nil }
-        if text.count == 10 { return try? dateOnly.parse(text) }
-        return (try? full.parse(text)) ?? (try? fractional.parse(text))
+        if let hit = cache.withLock({ $0[text] }) { return hit }
+        let date: Date?
+        if text.count == 10 {
+            date = try? dateOnly.parse(text)
+        } else {
+            date = (try? full.parse(text)) ?? (try? fractional.parse(text))
+        }
+        cache.withLock { entries in
+            if entries.count >= cacheLimit { entries.removeAll(keepingCapacity: true) }
+            entries[text] = date
+        }
+        return date
     }
 
     /// "Nov 7" in UTC (calendar heatmap columns).

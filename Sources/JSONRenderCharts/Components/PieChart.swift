@@ -57,8 +57,6 @@ public struct PieChart: View, JRComponentType {
 struct PieChartPlot: View {
     let input: ChartPlotInput
 
-    @State private var angle: Double?
-
     private var colors: [Color] {
         input.data.points.enumerated().map { index, point in
             point.isOther ? input.colors.other : input.colors.series(index)
@@ -99,23 +97,10 @@ struct PieChartPlot: View {
         .jrMarkOverride(input)
         .chartForegroundStyleScale(domain: data.points.map(\.xLabel), range: colors)
         .chartLegend(.hidden)
-        .chartAngleSelection(value: $angle)
-        .onChange(of: angle) { _, value in
-            input.selection.wrappedValue = value.flatMap(sliceLabel(at:))
-        }
+        .jrPointerSelection(input, axis: .angle)
         .overlay {
             if donut { PieCenter(input: input) }
         }
-    }
-
-    /// The slice that holds the cumulative `value` on the angle scale.
-    private func sliceLabel(at value: Double) -> String? {
-        var running = 0.0
-        for point in input.data.points {
-            running += point.y
-            if value <= running { return point.xLabel }
-        }
-        return input.data.points.last?.xLabel
     }
 }
 

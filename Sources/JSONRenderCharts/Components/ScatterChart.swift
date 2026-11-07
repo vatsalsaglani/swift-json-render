@@ -93,7 +93,7 @@ struct ScatterChartPlot: View {
                 }
             }
         }
-        .jrXSelection(input)
+        .jrPointerSelection(input, axis: .x)
     }
 
     /// The point area: the token diameter, or 16…400 pt² scaled by `size`.

@@ -1,4 +1,5 @@
 public import Charts
+internal import Foundation
 internal import JSONRenderSwiftUI
 public import SwiftUI
 
@@ -108,41 +109,43 @@ extension View {
                 position: input.legend == .trailing ? .trailing : .bottom, alignment: .leading)
     }
 
-    /// Selection along x: a category, a date (snapped to the nearest point) or a number.
-    @ViewBuilder
+    /// Pointer selection on the x axis (see `jrPointerSelection(_:axis:)`). Kept for
+    /// callers of the milestone-1 name.
     public func jrXSelection(_ input: ChartPlotInput) -> some View {
-        let data = input.data
-        let selection = input.selection
-        switch data.xAxis {
-        case .category:
-            self.chartXSelection(value: selection)
-        case .time:
-            self.chartXSelection(
-                value: Binding<Date?>(
-                    get: {
-                        guard let label = selection.wrappedValue,
-                            let point = data.points.first(where: { $0.xLabel == label }),
-                            case .date(let date) = point.x
-                        else { return nil }
-                        return date
-                    },
-                    set: { date in
-                        selection.wrappedValue = date.flatMap {
-                            ChartSelection.nearestLabel(to: $0.timeIntervalSince1970, in: data)
+        jrPointerSelection(input, axis: .x)
+    }
+
+    /// Pointer selection: hover moves the local highlight (never state); a click commits
+    /// the label under the pointer through `input.commit` (a second click deselects).
+    ///
+    /// Built on `chartOverlay` with `onContinuousHover` and a tap, not on
+    /// `chartXSelection`: on macOS the system selection follows hover and returns to nil
+    /// when the pointer leaves, so writing it to state would make a drill-down flicker.
+    public func jrPointerSelection(_ input: ChartPlotInput, axis: ChartPointerAxis = .x)
+        -> some View
+    {
+        chartOverlay { proxy in
+            GeometryReader { geometry in
+                Rectangle()
+                    .fill(.clear)
+                    .contentShape(Rectangle())
+                    .onContinuousHover { phase in
+                        switch phase {
+                        case .active(let location):
+                            input.selection.wrappedValue = ChartPointer.label(
+                                at: location, proxy: proxy, geometry: geometry, input: input,
+                                axis: axis)
+                        case .ended:
+                            input.selection.wrappedValue = nil
                         }
-                    }))
-        case .number:
-            self.chartXSelection(
-                value: Binding<Double?>(
-                    get: {
-                        guard let label = selection.wrappedValue else { return nil }
-                        return data.points.first(where: { $0.xLabel == label })?.x.numeric
-                    },
-                    set: { number in
-                        selection.wrappedValue = number.flatMap {
-                            ChartSelection.nearestLabel(to: $0, in: data)
-                        }
-                    }))
+                    }
+                    .onTapGesture { location in
+                        input.commit(
+                            ChartPointer.label(
+                                at: location, proxy: proxy, geometry: geometry, input: input,
+                                axis: axis))
+                    }
+            }
         }
     }
 
@@ -188,5 +191,59 @@ public struct ChartTooltip: View {
             RoundedRectangle(cornerRadius: input.theme.radius.control)
                 .fill(input.theme.color.surfaceRaised)
                 .strokeBorder(input.theme.color.hairline))
+    }
+}
+
+/// Which plot dimension a pointer selects along.
+public enum ChartPointerAxis: Sendable, Hashable {
+    /// The x axis (vertical bars, lines, areas, scatter, histogram, heatmap columns).
+    case x
+    /// The y axis (horizontal bars).
+    case y
+    /// The angle (pie and donut slices).
+    case angle
+}
+
+/// Maps a pointer location to the label of the point under it.
+@MainActor enum ChartPointer {
+    static func label(
+        at location: CGPoint, proxy: ChartProxy, geometry: GeometryProxy, input: ChartPlotInput,
+        axis: ChartPointerAxis
+    ) -> String? {
+        guard let anchor = proxy.plotFrame else { return nil }
+        let frame = geometry[anchor]
+        guard frame.contains(location) else { return nil }
+        let data = input.data
+        switch axis {
+        case .angle:
+            return sliceLabel(at: location, in: frame, data: data)
+        case .y:
+            return proxy.value(atY: location.y - frame.minY, as: String.self)
+        case .x:
+            let x = location.x - frame.minX
+            switch data.xAxis {
+            case .category:
+                return proxy.value(atX: x, as: String.self)
+            case .time:
+                return proxy.value(atX: x, as: Date.self).flatMap {
+                    ChartSelection.nearestLabel(to: $0.timeIntervalSince1970, in: data)
+                }
+            case .number:
+                return proxy.value(atX: x, as: Double.self).flatMap {
+                    ChartSelection.nearestLabel(to: $0, in: data)
+                }
+            }
+        }
+    }
+
+    /// The pie slice under `location`: slices start at 12 o'clock and run clockwise.
+    static func sliceLabel(at location: CGPoint, in frame: CGRect, data: ChartData) -> String? {
+        let dx = location.x - frame.midX
+        let dy = location.y - frame.midY
+        let radius = min(frame.width, frame.height) / 2
+        guard (dx * dx + dy * dy).squareRoot() <= radius else { return nil }
+        var angle = atan2(dy, dx) + .pi / 2
+        if angle < 0 { angle += 2 * .pi }
+        return ChartSelection.slice(atFraction: angle / (2 * .pi), in: data)
     }
 }

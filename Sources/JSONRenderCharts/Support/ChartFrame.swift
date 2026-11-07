@@ -10,8 +10,12 @@ public struct ChartPlotInput {
     public let yDomain: ClosedRange<Double>
     public let colors: ChartColors
     public let theme: JSONRenderTheme
-    /// The selected x value or slice label.
+    /// The highlighted x value or slice label (hover, else the committed selection).
+    /// Setting it changes only the local highlight; it never writes to state.
     public let selection: Binding<String?>
+    /// Commits a click on `label` (nil: empty space). Only clicks and keys write to state;
+    /// a second click on the committed label deselects it.
+    public let commit: @MainActor (String?) -> Void
     public let variant: ChartVariant
     public let legend: ChartLegendMode
     /// The plot height in points.
@@ -95,7 +99,7 @@ public struct ChartContainer<Plot: View>: View {
 
     @State private var cache = ChartDataCache()
     @State private var domain = MonotonicDomain()
-    @State private var selected: String?
+    @State private var selection = ChartSelectionState()
     @State private var showsTable = false
 
     /// - Parameters:
@@ -152,8 +156,9 @@ public struct ChartContainer<Plot: View>: View {
         .onKeyPress(.leftArrow) { moveSelection(-1, data: data) }
         .onKeyPress(.rightArrow) { moveSelection(1, data: data) }
         .onKeyPress(.escape) {
-            guard selected != nil else { return .ignored }
-            selected = nil
+            let write = selection.clear()
+            guard case .some = write else { return .ignored }
+            perform(write, data: data)
             return .handled
         }
         .onKeyPress(characters: ["t"], phases: .down) { press in
@@ -162,12 +167,7 @@ public struct ChartContainer<Plot: View>: View {
             return .handled
         }
         .onChange(of: selectionProp, initial: true) { _, value in
-            if selected != value { selected = value }
-        }
-        .onChange(of: selected) { _, value in
-            guard value != selectionProp else { return }
-            ChartSelection.write(
-                value, data: data, bindings: context.bindings, writer: writeBinding)
+            if selection.committed != value { selection.sync(fromState: value) }
         }
         .onChange(of: data.dataRange, initial: true) { _, range in
             guard streaming, let range else { return }
@@ -188,9 +188,20 @@ public struct ChartContainer<Plot: View>: View {
 
     private func moveSelection(_ step: Int, data: ChartData) -> KeyPress.Result {
         guard context.bindings["selection"] != nil else { return .ignored }
-        selected = ChartSelection.move(
-            from: selected, by: step, in: ChartSelection.labels(in: data))
+        perform(selection.move(by: step, in: ChartSelection.labels(in: data)), data: data)
         return .handled
+    }
+
+    /// Writes a committed selection change; `.none` writes nothing. The loop guard skips a
+    /// value the state already holds.
+    private func perform(_ write: String??, data: ChartData) {
+        guard case .some(let value) = write, value != selectionProp else { return }
+        ChartSelection.write(value, data: data, bindings: context.bindings, writer: writeBinding)
+    }
+
+    /// The highlight binding: reads the shown label, sets only the hover.
+    private var highlight: Binding<String?> {
+        Binding(get: { selection.shown }, set: { selection.hover($0) })
     }
 
     @ViewBuilder
@@ -222,7 +233,8 @@ public struct ChartContainer<Plot: View>: View {
     ) -> some View {
         let input = ChartPlotInput(
             kind: kind, data: data, yDomain: domain, colors: ChartColors(theme: theme),
-            theme: theme, selection: $selected, variant: variant,
+            theme: theme, selection: highlight,
+            commit: { label in perform(selection.click(label), data: data) }, variant: variant,
             legend: reader.choice("legend", default: .auto), height: height,
             isStreaming: isStreaming, markOverride: styles.marks[kind]?.make(data),
             tooltip: context.slots["tooltip"], center: context.slots["center"],
@@ -231,7 +243,7 @@ public struct ChartContainer<Plot: View>: View {
         if let style = styles.styles[kind] {
             style.make(
                 ChartStyleConfiguration(
-                    kind: kind, data: data, yDomain: domain, selection: $selected,
+                    kind: kind, data: data, yDomain: domain, selection: highlight,
                     tokens: theme.charts, marks: AnyView(plot), isStreaming: isStreaming))
         } else {
             plot

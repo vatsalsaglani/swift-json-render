@@ -64,6 +64,13 @@ struct ChartKindDataTests {
         #expect(abs((data.options.fit?.intercept ?? 0) - 1) < 1e-9)
         #expect(data.options.sizeRange == 2...8)
         #expect(data.xAxis == .number)
+        // Rows skipped for two reasons give one count.
+        let mixed: JSONValue = [["x": 1, "y": 3], ["x": "n/a", "y": 1], ["y": 2]]
+        let (_, mixedWarnings) = ChartData.make(props: ["data": mixed], kind: .scatter)
+        #expect(
+            mixedWarnings.filter { if case .skippedRows = $0 { true } else { false } } == [
+                .skippedRows(2)
+            ])
     }
 
     @Test("Heatmap grid: columns and rows in first-appearance order; value range")
