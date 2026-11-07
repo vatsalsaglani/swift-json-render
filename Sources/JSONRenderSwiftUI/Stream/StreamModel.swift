@@ -67,17 +67,19 @@ public struct StreamFrameStats: Sendable, Hashable {
         let needsReset = phase != .idle
         phase = .streaming  // before any suspension, so a second call returns at once
         report = nil
-        if needsReset {
-            await specStore.reset(initial)
-        }
-        let snapshots = await specStore.snapshots()
-        let coalescer = FrameCoalescer<SpecSnapshot>(clock: clock)
+        // Install the cancel signal before the first suspension, so a `cancel()` during the
+        // two actor hops below is not lost.
         let (signal, cancelContinuation) = AsyncStream.makeStream(of: Void.self)
         cancelSignal = cancelContinuation
         defer {
             cancelContinuation.finish()
             cancelSignal = nil
         }
+        if needsReset {
+            await specStore.reset(initial)
+        }
+        let snapshots = await specStore.snapshots()
+        let coalescer = FrameCoalescer<SpecSnapshot>(clock: clock)
 
         let outcome: PumpOutcome = await withTaskGroup(of: PumpOutcome?.self) { group in
             group.addTask {
