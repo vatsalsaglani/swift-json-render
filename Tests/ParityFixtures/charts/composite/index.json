@@ -1,0 +1,35 @@
+{
+  "comment": "jr-3d composite chart specs: each must validate against Catalog.charts with no chart-rule error and render.",
+  "fixtures": [
+    {
+      "file": "waterfall-1.json",
+      "component": "Waterfall",
+      "title": "Resident memory by change",
+      "source": "site/data/components.json (the VPLAN \u00a77.3 mock)"
+    },
+    {
+      "file": "funnel-1.json",
+      "component": "Funnel",
+      "title": "Test pipeline",
+      "source": "site/data/components.json (the VPLAN \u00a77.3 mock)"
+    },
+    {
+      "file": "boxPlot-1.json",
+      "component": "BoxPlot",
+      "title": "Suite durations",
+      "source": "site/data/components.json (the VPLAN \u00a77.3 mock)"
+    },
+    {
+      "file": "candlestick-1.json",
+      "component": "Candlestick",
+      "title": "Spend per day",
+      "source": "site/data/components.json (the VPLAN \u00a77.3 mock)"
+    },
+    {
+      "file": "treemap-1.json",
+      "component": "Treemap",
+      "title": "Source lines by module",
+      "source": "site/data/components.json (the VPLAN \u00a77.3 mock)"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "w"
+      ],
+      "props": {
+        "title": "Resident memory, by change"
+      },
+      "type": "Card"
+    },
+    "w": {
+      "props": {
+        "data": {
+          "$state": "/steps"
+        },
+        "label": "label",
+        "subtotals": [
+          "Start",
+          "Now"
+        ],
+        "unit": "MB",
+        "value": "value"
+      },
+      "type": "Waterfall"
+    }
+  },
+  "root": "card",
+  "state": {
+    "steps": [
+      {
+        "label": "Start",
+        "value": 112
+      },
+      {
+        "label": "Terminals",
+        "value": 32
+      },
+      {
+        "label": "Editor",
+        "value": 19
+      },
+      {
+        "label": "Pool cap",
+        "value": -24
+      },
+      {
+        "label": "Voice",
+        "value": 12
+      },
+      {
+        "label": "Now",
+        "value": 0
+      }
+    ]
+  }
+}

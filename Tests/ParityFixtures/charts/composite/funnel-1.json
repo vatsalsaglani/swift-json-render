@@ -1,0 +1,46 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "f"
+      ],
+      "props": {
+        "title": "Test pipeline, run 4213"
+      },
+      "type": "Card"
+    },
+    "f": {
+      "props": {
+        "data": {
+          "$state": "/stages"
+        },
+        "format": "compact",
+        "label": "stage",
+        "show": "both",
+        "value": "n"
+      },
+      "type": "Funnel"
+    }
+  },
+  "root": "card",
+  "state": {
+    "stages": [
+      {
+        "n": 1296,
+        "stage": "Collected"
+      },
+      {
+        "n": 1284,
+        "stage": "Ran"
+      },
+      {
+        "n": 1277,
+        "stage": "Passed"
+      },
+      {
+        "n": 79,
+        "stage": "Slow (> 1 s)"
+      }
+    ]
+  }
+}

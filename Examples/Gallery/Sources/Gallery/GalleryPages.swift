@@ -18,7 +18,9 @@ enum GalleryPages {
         // Charts (jr-3c, jr-3d)
         BarChartPage.self, LineChartPage.self, AreaChartPage.self, PieChartPage.self,
         GaugePage.self, SparklinePage.self, ScatterChartPage.self, HeatmapPage.self,
-        HistogramPage.self, ComboChartPage.self, StreamingSeriesPage.self, ShowAsTablePage.self,
+        HistogramPage.self, ComboChartPage.self, WaterfallPage.self, FunnelPage.self,
+        BoxPlotPage.self, CandlestickPage.self, TreemapPage.self, StreamingSeriesPage.self,
+        ShowAsTablePage.self,
         // Streaming (jr-2)
         StreamingReplayPage.self,
         // Theme (jr-3)
