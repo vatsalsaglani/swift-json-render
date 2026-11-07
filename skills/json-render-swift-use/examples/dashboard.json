@@ -1,0 +1,85 @@
+{
+  "root": "card",
+  "state": {
+    "stats": { "passed": 1277, "failed": 7, "slow": 79 },
+    "runs": [
+      { "run": "4208", "result": "Passed", "n": 1210 },
+      { "run": "4208", "result": "Failed", "n": 7 },
+      { "run": "4209", "result": "Passed", "n": 1268 },
+      { "run": "4209", "result": "Failed", "n": 4 }
+    ],
+    "budget": { "spent": 3.6, "cap": 5 },
+    "picked": ""
+  },
+  "elements": {
+    "card": {
+      "type": "Card",
+      "props": { "title": "Tests by result", "maxWidth": "lg" },
+      "children": ["stat-row", "bars", "spend"]
+    },
+    "stat-row": {
+      "type": "Grid",
+      "props": { "columns": 3, "gap": "md" },
+      "children": ["stat-passed", "stat-failed", "stat-slow"]
+    },
+    "stat-passed": {
+      "type": "Card",
+      "props": { "title": "Passed" },
+      "children": ["stat-passed-value"]
+    },
+    "stat-passed-value": {
+      "type": "Heading",
+      "props": { "text": { "$template": "${/stats/passed}" }, "level": "h2" },
+      "children": []
+    },
+    "stat-failed": {
+      "type": "Card",
+      "props": { "title": "Failed" },
+      "children": ["stat-failed-value"]
+    },
+    "stat-failed-value": {
+      "type": "Heading",
+      "props": { "text": { "$template": "${/stats/failed}" }, "level": "h2" },
+      "children": []
+    },
+    "stat-slow": {
+      "type": "Card",
+      "props": { "title": "Slow (> 1 s)" },
+      "children": ["stat-slow-value"]
+    },
+    "stat-slow-value": {
+      "type": "Heading",
+      "props": { "text": { "$template": "${/stats/slow}" }, "level": "h2" },
+      "children": []
+    },
+    "bars": {
+      "type": "BarChart",
+      "props": {
+        "data": { "$state": "/runs" },
+        "x": "run",
+        "y": "n",
+        "series": "result",
+        "layout": "stacked",
+        "format": "compact",
+        "selection": { "$bindState": "/picked" }
+      },
+      "children": []
+    },
+    "spend": {
+      "type": "Gauge",
+      "props": {
+        "value": { "$state": "/budget/spent" },
+        "max": { "$state": "/budget/cap" },
+        "style": "arc",
+        "format": "currency:USD",
+        "label": "Voice budget",
+        "bands": [
+          { "to": 3.5, "intent": "good" },
+          { "to": 4.5, "intent": "warn" },
+          { "to": 5, "intent": "risk" }
+        ]
+      },
+      "children": []
+    }
+  }
+}

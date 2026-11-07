@@ -1,0 +1,71 @@
+{
+  "root": "card",
+  "state": {
+    "tab": "summary",
+    "runs": [
+      { "id": "4208", "name": "Unit tests", "status": "Passed" },
+      { "id": "4209", "name": "UI tests", "status": "Failed" }
+    ]
+  },
+  "elements": {
+    "card": {
+      "type": "Card",
+      "props": { "title": "Test runs", "description": "Latest pipeline results", "maxWidth": "lg" },
+      "children": ["tabs"]
+    },
+    "tabs": {
+      "type": "Tabs",
+      "props": {
+        "tabs": [
+          { "label": "Summary", "value": "summary" },
+          { "label": "Runs", "value": "runs" }
+        ],
+        "defaultValue": "summary",
+        "value": { "$bindState": "/tab" }
+      },
+      "children": ["summary-table", "run-list"]
+    },
+    "summary-table": {
+      "type": "Table",
+      "props": {
+        "columns": ["Result", "Count"],
+        "rows": [["Passed", "1,277"], ["Failed", "7"]],
+        "caption": "Run 4213"
+      },
+      "visible": { "$state": "/tab", "eq": "summary" },
+      "children": []
+    },
+    "run-list": {
+      "type": "Stack",
+      "props": { "direction": "vertical", "gap": "sm" },
+      "visible": { "$state": "/tab", "eq": "runs" },
+      "repeat": { "statePath": "/runs", "key": "id" },
+      "children": ["run-row"]
+    },
+    "run-row": {
+      "type": "Stack",
+      "props": { "direction": "horizontal", "gap": "md", "align": "center" },
+      "children": ["run-name", "run-dismiss"]
+    },
+    "run-name": {
+      "type": "Text",
+      "props": { "text": { "$template": "${name}: ${status}" } },
+      "children": []
+    },
+    "run-dismiss": {
+      "type": "Button",
+      "props": { "label": "Dismiss", "variant": "secondary" },
+      "on": {
+        "press": {
+          "action": "removeState",
+          "params": { "statePath": "/runs", "index": { "$index": true } },
+          "confirm": {
+            "title": "Dismiss this run?",
+            "message": "The run leaves this list. The pipeline is not changed."
+          }
+        }
+      },
+      "children": []
+    }
+  }
+}

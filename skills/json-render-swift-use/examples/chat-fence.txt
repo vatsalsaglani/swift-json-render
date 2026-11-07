@@ -1,0 +1,18 @@
+Here is a small task list. The Add button appends a task and clears the field.
+
+```spec
+{"op":"add","path":"/root","value":"card"}
+{"op":"add","path":"/elements/card","value":{"type":"Card","props":{"title":"Open tasks","description":"Tick a task to finish it","maxWidth":"md"},"children":["list","add-row"]}}
+{"op":"add","path":"/elements/list","value":{"type":"Stack","props":{"direction":"vertical","gap":"sm"},"repeat":{"statePath":"/tasks","key":"id"},"children":["task"]}}
+{"op":"add","path":"/state/tasks","value":[]}
+{"op":"add","path":"/elements/task","value":{"type":"Checkbox","props":{"label":{"$item":"title"},"name":"done","checked":{"$bindItem":"done"}},"children":[]}}
+{"op":"add","path":"/state/tasks/0","value":{"id":"1","title":"Write the spec","done":false}}
+{"op":"add","path":"/state/tasks/1","value":{"id":"2","title":"Stream it to the view","done":false}}
+{"op":"add","path":"/state/tasks/2","value":{"id":"3","title":"Check the journal","done":true}}
+{"op":"add","path":"/elements/add-row","value":{"type":"Stack","props":{"direction":"horizontal","gap":"sm","align":"end"},"children":["new-task","add"]}}
+{"op":"add","path":"/state/newTask","value":""}
+{"op":"add","path":"/elements/new-task","value":{"type":"Input","props":{"label":"New task","name":"newTask","value":{"$bindState":"/newTask"}},"children":[]}}
+{"op":"add","path":"/elements/add","value":{"type":"Button","props":{"label":"Add","variant":"primary"},"on":{"press":{"action":"pushState","params":{"statePath":"/tasks","value":{"id":"$id","title":{"$state":"/newTask"},"done":false},"clearStatePath":"/newTask"}}},"children":[]}}
+```
+
+Tick a task to mark it done. The data is in the spec state, so the list renders at once.
