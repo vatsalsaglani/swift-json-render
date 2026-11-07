@@ -7,20 +7,8 @@ import Testing
 /// `flattenToPointers`, replayed op by op.
 @Suite("Path ops parity (upstream/state)")
 struct PathOpsParityTests {
-    /// Cases not run in jr-1a, with the reason. jr-1b removes these entries when it lands
-    /// `findFormValue` (`Validation/FormValues.swift`, brief step 10).
-    static let skipped: [String: String] = [
-        "form-value-direct-beats-dotted-and-state": "findFormValue is jr-1b (step 10)",
-        "form-value-direct-literal": "findFormValue is jr-1b (step 10)",
-        "form-value-dotted-beats-state-skips-undefined-direct": "findFormValue is jr-1b (step 10)",
-        "form-value-dotted-key-literal": "findFormValue is jr-1b (step 10)",
-        "form-value-first-dotted-key-wins-even-if-undefined": "findFormValue is jr-1b (step 10)",
-        "form-value-flat-state-keys": "findFormValue is jr-1b (step 10)",
-        "form-value-nonmatching-and-omitted": "findFormValue is jr-1b (step 10)",
-        "form-value-preserves-falsy-direct": "findFormValue is jr-1b (step 10)",
-        "form-value-raw-dotted-param-is-literal": "findFormValue is jr-1b (step 10)",
-        "form-value-slash-paths-not-bare-names": "findFormValue is jr-1b (step 10)",
-    ]
+    /// Cases not run, with the reason. Empty: jr-1b landed `findFormValue`.
+    static let skipped: [String: String] = [:]
 
     static func runnable() -> [FixtureCase] {
         ParityFixtures.cases("state").filter { skipped[$0.name] == nil }
@@ -84,6 +72,16 @@ struct PathOpsParityTests {
                 let rowIndex = Int(op["index"]?.numberValue ?? -1)
                 let resolved = RepeatScope.itemStatePath(base, index: rowIndex)
                 #expect(resolved == JSONPointer(lenient: expect?.stringValue ?? "?"), "op \(index)")
+            case "findFormValue":
+                var params: [String: JSONValue?]?
+                if case .object(let members)? = op["params"] {
+                    params = members.mapValues(ParityFixtures.resolvingMarkers)
+                }
+                let found = FormValues.find(
+                    op["field"]?.stringValue ?? "", params: params,
+                    state: op["state"].flatMap(ParityFixtures.resolvingMarkers))
+                #expect(found == expect, "op \(index)")
+                #expect((found == nil) == (expect == nil), "op \(index)")
             case "flatten":
                 #expect(JSONValue.object(state.flattenedToPointers()) == expect, "op \(index)")
             default:

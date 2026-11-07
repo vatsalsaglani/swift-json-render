@@ -1,7 +1,7 @@
 /// The subset of zod that the upstream prompt and schema formatters understand.
 ///
-/// jr-1a seed: the data shape and the builders only. jr-1b adds `formatted()`,
-/// `jsonSchema(strict:)`, `exampleValue()` and `validate(_:at:)`.
+/// `formatted()`, `jsonSchema(strict:)`, `exampleValue()` and `validate(_:at:)` are in
+/// `PropSchema+Tools.swift`.
 public struct PropSchema: Sendable, Hashable {
     public indirect enum Kind: Sendable, Hashable {
         case string

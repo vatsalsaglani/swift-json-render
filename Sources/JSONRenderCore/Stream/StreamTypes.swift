@@ -1,6 +1,4 @@
 // Stream types: declarations only. jr-2 implements decoding and patch application.
-// `SpecSnapshot` is not here yet: it holds a `RenderPlan`, which jr-1b adds; jr-1b adds
-// `SpecSnapshot` beside it.
 
 /// The RFC 6902 operations (upstream `PatchOp`).
 public enum PatchOperation: String, Sendable, Hashable, Codable, CaseIterable {
@@ -64,4 +62,41 @@ public enum SpecStreamEvent: Sendable, Hashable {
     case patch(SpecPatch)
     case text(String)
     case error(StreamError)
+}
+
+/// One committed state of a streaming spec: what a renderer draws. The stream layer builds
+/// `plan` once per commit (never in a view body).
+public struct SpecSnapshot: Sendable, Hashable {
+    /// Increases by one per commit.
+    public let version: UInt64
+    public let spec: Spec
+    public let plan: RenderPlan
+    /// Ids referenced but not defined yet (normally `plan.dangling`).
+    public let dangling: Set<String>
+    /// `true` for the last snapshot of a stream.
+    public let isFinal: Bool
+    /// The stream problems so far (ids, operations and paths; never values).
+    public let journal: [StreamError]
+
+    public init(
+        version: UInt64, spec: Spec, plan: RenderPlan, dangling: Set<String>? = nil,
+        isFinal: Bool = false, journal: [StreamError] = []
+    ) {
+        self.version = version
+        self.spec = spec
+        self.plan = plan
+        self.dangling = dangling ?? plan.dangling
+        self.isFinal = isFinal
+        self.journal = journal
+    }
+
+    /// A snapshot of `spec` with a freshly built plan.
+    public init(
+        version: UInt64, spec: Spec, limits: SpecLimits = .default, isFinal: Bool = false,
+        journal: [StreamError] = []
+    ) {
+        self.init(
+            version: version, spec: spec, plan: RenderPlan(spec: spec, limits: limits),
+            isFinal: isFinal, journal: journal)
+    }
 }
