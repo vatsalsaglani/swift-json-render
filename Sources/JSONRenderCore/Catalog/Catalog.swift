@@ -82,9 +82,14 @@ public struct Catalog: Sendable {
         components.append(definition)
     }
 
-    /// Appends `type.definition` (data only; the SwiftUI overload also adds the renderer).
-    public mutating func register(_ type: any JRComponentType.Type) throws(CatalogError) {
-        try register(type.definition)
+    /// Appends `C.definition` (data only; the SwiftUI overload also adds the renderer).
+    ///
+    /// Generic on purpose: a non-generic `any JRComponentType.Type` overload would win
+    /// overload resolution over `JSONRenderSwiftUI`'s `register<C: View & JRComponentType>`,
+    /// and `catalog.register(MyView.self)` would silently drop the renderer. With both generic,
+    /// the more constrained SwiftUI overload is chosen whenever `C` is a `View`.
+    public mutating func register<C: JRComponentType>(_ type: C.Type) throws(CatalogError) {
+        try register(C.definition)
     }
 
     /// Replaces the definition of an existing component, keeping its position.

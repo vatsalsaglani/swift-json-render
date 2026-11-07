@@ -1,0 +1,105 @@
+[
+  {
+    "name": "out-of-order",
+    "input": "out-of-order.jsonl",
+    "expect": {
+      "rootID": "main",
+      "order": [
+        "main",
+        "t1",
+        "t2"
+      ],
+      "danglingAfter": {
+        "0": [],
+        "2": [
+          "main"
+        ],
+        "3": []
+      },
+      "journal": 0
+    }
+  },
+  {
+    "name": "root-last",
+    "input": "root-last.jsonl",
+    "expect": {
+      "rootID": "main",
+      "order": [
+        "main",
+        "t1"
+      ],
+      "danglingAfter": {
+        "0": [],
+        "1": [],
+        "2": []
+      },
+      "journal": 0
+    }
+  },
+  {
+    "name": "parent-last",
+    "input": "parent-last.jsonl",
+    "expect": {
+      "rootID": "main",
+      "order": [
+        "main",
+        "box",
+        "leaf"
+      ],
+      "danglingAfter": {
+        "0": [
+          "main"
+        ],
+        "1": [
+          "box"
+        ],
+        "2": [
+          "box"
+        ],
+        "3": []
+      },
+      "journal": 0
+    }
+  },
+  {
+    "name": "malformed-line",
+    "input": "malformed-line.jsonl",
+    "expect": {
+      "rootID": "main",
+      "order": [
+        "main"
+      ],
+      "journal": 3,
+      "badLines": [
+        1,
+        2,
+        4
+      ]
+    }
+  },
+  {
+    "name": "chart-append",
+    "input": "chart-append.jsonl",
+    "expect": {
+      "rootID": "c1",
+      "order": [
+        "c1"
+      ],
+      "journal": 0,
+      "dataCount": 50
+    }
+  },
+  {
+    "name": "object-mode-fragments",
+    "input": "object-mode-fragments.json",
+    "expect": {
+      "rootID": "main",
+      "order": [
+        "main",
+        "t1",
+        "t2"
+      ],
+      "journal": 0
+    }
+  }
+]

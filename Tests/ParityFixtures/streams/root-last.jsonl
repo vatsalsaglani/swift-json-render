@@ -1,0 +1,3 @@
+{"op":"add","path":"/elements/main","value":{"type":"Card","props":{"title":"Main"},"children":["t1"]}}
+{"op":"add","path":"/elements/t1","value":{"type":"Text","props":{"content":"One"},"children":[]}}
+{"op":"add","path":"/root","value":"main"}

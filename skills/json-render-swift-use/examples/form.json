@@ -1,0 +1,86 @@
+{
+  "root": "card",
+  "state": {
+    "form": { "name": "", "email": "" },
+    "saved": false,
+    "saveError": ""
+  },
+  "elements": {
+    "card": {
+      "type": "Card",
+      "props": { "title": "Profile", "description": "Tell us who you are", "maxWidth": "md" },
+      "children": ["form-stack"]
+    },
+    "form-stack": {
+      "type": "Stack",
+      "props": { "direction": "vertical", "gap": "md" },
+      "children": ["name", "email", "check", "save", "saved-note", "error-note"]
+    },
+    "name": {
+      "type": "Input",
+      "props": {
+        "label": "Name",
+        "name": "name",
+        "placeholder": "Jane Doe",
+        "value": { "$bindState": "/form/name" },
+        "checks": [
+          { "type": "required", "message": "Name is required" },
+          { "type": "minLength", "message": "At least 2 characters", "args": { "min": 2 } }
+        ],
+        "validateOn": "blur"
+      },
+      "children": []
+    },
+    "email": {
+      "type": "Input",
+      "props": {
+        "label": "Email",
+        "name": "email",
+        "type": "email",
+        "placeholder": "you@example.com",
+        "value": { "$bindState": "/form/email" },
+        "checks": [
+          { "type": "required", "message": "Email is required" },
+          { "type": "email", "message": "Invalid email" }
+        ],
+        "validateOn": "blur"
+      },
+      "children": []
+    },
+    "check": {
+      "type": "Button",
+      "props": { "label": "Check form", "variant": "secondary" },
+      "on": { "press": { "action": "validateForm", "params": { "statePath": "/formValidation" } } },
+      "children": []
+    },
+    "save": {
+      "type": "Button",
+      "props": { "label": "Save", "variant": "primary" },
+      "visible": { "$state": "/formValidation/valid" },
+      "on": {
+        "press": {
+          "action": "saveProfile",
+          "params": {
+            "name": { "$state": "/form/name" },
+            "email": { "$state": "/form/email" }
+          },
+          "onSuccess": { "set": { "/saved": true, "/saveError": "" } },
+          "onError": { "set": { "/saveError": "$error.message" } }
+        }
+      },
+      "children": []
+    },
+    "saved-note": {
+      "type": "Alert",
+      "props": { "title": "Saved", "message": "Your profile is up to date.", "type": "success" },
+      "visible": { "$state": "/saved" },
+      "children": []
+    },
+    "error-note": {
+      "type": "Alert",
+      "props": { "title": "Could not save", "message": { "$state": "/saveError" }, "type": "error" },
+      "visible": { "$state": "/saveError" },
+      "children": []
+    }
+  }
+}
