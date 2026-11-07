@@ -1,5 +1,11 @@
 // Owner: jr-3 (wave 2); seeded by jr-1b. jr-3c may tune values, not move them out of this target.
+// jr-3c hands the coordinator a one-file replacement of the `defaults(role:)` body at merge.
 internal import SwiftUI
+
+/// Which preset asks for chart tokens.
+public enum ChartTokenRole: Sendable, Hashable {
+    case native, highContrast
+}
 
 extension ChartTokens {
     /// The default chart tokens every preset includes.
@@ -23,6 +29,20 @@ extension ChartTokens {
         pointSize: 36,
         gaugeTrackWidth: 10,
         sliceGap: 1.5)
+
+    /// The chart tokens a preset carries. A placeholder until jr-3c's values land: the
+    /// standard palette, with an opaque gridline for `.highContrast`.
+    public static func defaults(role: ChartTokenRole) -> ChartTokens {
+        switch role {
+        case .native:
+            return standard
+        case .highContrast:
+            var tokens = standard
+            tokens.gridline = Color.secondary
+            tokens.lineWidth = 2.5
+            return tokens
+        }
+    }
 
     private static func hex(_ value: UInt32) -> Color {
         Color(
