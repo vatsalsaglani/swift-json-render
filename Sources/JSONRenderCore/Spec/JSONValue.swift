@@ -166,24 +166,55 @@ extension JSONValue: ExpressibleByNilLiteral {
 // MARK: - Codable
 
 extension JSONValue: Codable {
+    /// The deepest container nesting that decoding accepts (equal to
+    /// `SpecLimits.defaultMaxDepth`). Decoding and the recursive operations on `JSONValue`
+    /// use the stack; a cooperative-pool thread has a small stack (512 KiB), and a few
+    /// hundred levels crash it. A deeper document throws `DecodingError.dataCorrupted`.
+    public static let maxDecodeDepth = SpecLimits.defaultMaxDepth
+
     public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
         if container.decodeNil() {
             self = .null
-        } else if let value = try? container.decode(Bool.self) {
-            self = .bool(value)
-        } else if let value = try? container.decode(Double.self) {
-            self = .number(value)
-        } else if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([JSONValue].self) {
-            self = .array(value)
-        } else if let value = try? container.decode([String: JSONValue].self) {
-            self = .object(value)
-        } else {
-            throw DecodingError.dataCorruptedError(
-                in: container, debugDescription: "The value is not JSON.")
+            return
         }
+        if let value = try? container.decode(Bool.self) {
+            self = .bool(value)
+            return
+        }
+        if let value = try? container.decode(Double.self) {
+            self = .number(value)
+            return
+        }
+        if let value = try? container.decode(String.self) {
+            self = .string(value)
+            return
+        }
+        // Only containers remain. A container at coding-path depth `maxDecodeDepth` would be
+        // nesting level `maxDecodeDepth + 1`.
+        guard decoder.codingPath.count < JSONValue.maxDecodeDepth else {
+            throw DecodingError.dataCorrupted(
+                .init(
+                    codingPath: decoder.codingPath,
+                    debugDescription:
+                        "The JSON nests deeper than \(JSONValue.maxDecodeDepth) levels."))
+        }
+        // A type mismatch means "not this container kind"; any other error (for example
+        // the depth limit further down) propagates.
+        do {
+            self = .array(try container.decode([JSONValue].self))
+            return
+        } catch let error as DecodingError {
+            guard case .typeMismatch = error else { throw error }
+        }
+        do {
+            self = .object(try container.decode([String: JSONValue].self))
+            return
+        } catch let error as DecodingError {
+            guard case .typeMismatch = error else { throw error }
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container, debugDescription: "The value is not JSON.")
     }
 
     public func encode(to encoder: any Encoder) throws {

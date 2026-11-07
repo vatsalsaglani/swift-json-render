@@ -64,7 +64,8 @@ public enum SpecDecodeError: Error, Sendable, Hashable {
 extension Spec {
     /// Decodes a spec document.
     ///
-    /// Checks the size cap first, then parses JSON, then builds the spec. Unknown element
+    /// Checks the size cap first, then the nesting depth (at most `JSONValue.maxDecodeDepth`
+    /// levels, scanned without recursion), then parses JSON, then builds the spec. Unknown element
     /// keys and other normalisations are returned as warnings. Element-count, depth and
     /// repeat caps are spec-validator checks, not decoder checks.
     public static func decode(_ data: Data, limits: SpecLimits = .default) throws(SpecDecodeError)
@@ -72,6 +73,11 @@ extension Spec {
     {
         guard data.count <= limits.maxBytes else {
             throw .tooLarge(bytes: data.count, limit: limits.maxBytes)
+        }
+        if let depth = Spec.nestingExceeds(JSONValue.maxDecodeDepth, in: data) {
+            throw .invalidJSON(
+                "The JSON nests at least \(depth) levels; the limit is \(JSONValue.maxDecodeDepth)."
+            )
         }
         let json: JSONValue
         do {
@@ -131,6 +137,39 @@ extension Spec {
         ]
         if let state { members["state"] = state }
         return .object(members)
+    }
+
+    /// An iterative scan of the raw bytes: returns the first nesting depth above `limit`, or
+    /// `nil`. It runs before the system JSON parser, so a very deep document is refused
+    /// without recursion. Brackets inside strings are ignored.
+    static func nestingExceeds(_ limit: Int, in data: Data) -> Int? {
+        var depth = 0
+        var inString = false
+        var escaped = false
+        for byte in data {
+            if inString {
+                if escaped {
+                    escaped = false
+                } else if byte == UInt8(ascii: "\\") {
+                    escaped = true
+                } else if byte == UInt8(ascii: "\"") {
+                    inString = false
+                }
+                continue
+            }
+            switch byte {
+            case UInt8(ascii: "\""):
+                inString = true
+            case UInt8(ascii: "["), UInt8(ascii: "{"):
+                depth += 1
+                if depth > limit { return depth }
+            case UInt8(ascii: "]"), UInt8(ascii: "}"):
+                depth -= 1
+            default:
+                break
+            }
+        }
+        return nil
     }
 
     private static func describe(_ error: DecodingError) -> String {

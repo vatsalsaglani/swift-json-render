@@ -132,7 +132,7 @@ public actor StateStore {
     }
 
     /// The number of live subscribers (for tests and diagnostics).
-    public var subscriberCount: Int { subscribers.count }
+    var subscriberCount: Int { subscribers.count }
 
     private func removeSubscriber(_ id: Int) {
         subscribers[id] = nil

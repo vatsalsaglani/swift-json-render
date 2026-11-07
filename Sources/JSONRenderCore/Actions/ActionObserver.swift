@@ -37,7 +37,8 @@ public struct ActionSettleInfo: Sendable, Hashable {
     public let id: String
     public let name: String
     public let elementID: String?
-    /// `true` unless the dispatch threw or was cancelled (upstream rejects on cancel).
+    /// `true` only for `.completed`. Cancelled and failed dispatches reject upstream;
+    /// `.noHandler` and `.unavailable` make upstream warn.
     public let ok: Bool
     public let outcome: Outcome
     public let at: Date
