@@ -91,6 +91,7 @@ public struct ChartContainer<Plot: View>: View {
     @Environment(\.jrWriteBinding) private var writeBinding
     @Environment(\.jrChartStyles) private var styles
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.jrChartShowsTable) private var hostShowsTable
 
     @State private var cache = ChartDataCache()
     @State private var domain = MonotonicDomain()
@@ -147,7 +148,7 @@ public struct ChartContainer<Plot: View>: View {
         .contextMenu {
             Button(showsTable ? "Show as Chart" : "Show as Table") { showsTable.toggle() }
         }
-        .focusable()
+        .focusable(kind != .sparkline)
         .onKeyPress(.leftArrow) { moveSelection(-1, data: data) }
         .onKeyPress(.rightArrow) { moveSelection(1, data: data) }
         .onKeyPress(.escape) {
@@ -208,7 +209,7 @@ public struct ChartContainer<Plot: View>: View {
                 ChartMessage(text: reader.string("emptyText") ?? "No data", theme: theme)
                     .frame(minHeight: fixedHeight ? height : nil)
             }
-        } else if showsTable {
+        } else if showsTable || hostShowsTable {
             ChartTableView(data: data, height: height)
         } else {
             styledPlot(data: data, domain: domain, variant: variant, height: height)
@@ -236,6 +237,12 @@ public struct ChartContainer<Plot: View>: View {
             plot
         }
     }
+}
+
+extension EnvironmentValues {
+    /// `true` shows every chart below as a table ("Show as Table" from a host button). The
+    /// context menu and ⌘T still toggle each chart on its own.
+    @Entry public var jrChartShowsTable: Bool = false
 }
 
 /// Memoises `ChartData.make` per props value. Selection and chrome props are not part of

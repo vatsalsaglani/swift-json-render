@@ -459,10 +459,15 @@ struct ChartDataBuilder {
         if sizeField != nil { options.sizeRange = Self.extent(data.points.compactMap(\.size)) }
         data.xAxis = .number
         data.options = options
-        data.dataRange = Self.extent(ys)
         data.xDomain =
             reader.range("xDomain")
             ?? Self.extent(xs).map { NiceScale.domain($0, includeZero: false) }
+        // The trend line spans the x domain; keep its ends inside the y domain.
+        var yValues = ys
+        if let fit = options.fit, let domain = data.xDomain {
+            yValues += [fit.y(at: domain.lowerBound), fit.y(at: domain.upperBound)]
+        }
+        data.dataRange = Self.extent(yValues)
     }
 
     // MARK: - Heatmap
@@ -501,6 +506,9 @@ struct ChartDataBuilder {
             }
             columns = weekStarts.sorted().map(ChartDates.shortLabel)
             rowNames = weekdayNames.filter { name in points.contains { $0.row == name } }
+            // Distinct axis names: x and y often name the same date field.
+            data.xField = "week"
+            data.yField = "weekday"
         } else {
             columns = categoryOrder(entries, dates: dates)
             var seen = Set<String>()
@@ -513,6 +521,7 @@ struct ChartDataBuilder {
                     row: entry.row)
             }
         }
+        if data.xField == data.yField { data.yField += " (row)" }
         let cells = columns.count * max(rowNames.count, 1)
         if cells > ChartBudgets.maxHeatmapCells { warnings.append(.tooManyCells(cells)) }
         options.valueRange = Self.extent(points.map(\.y))
@@ -534,15 +543,19 @@ struct ChartDataBuilder {
         let skipped = (reader.array("values") ?? []).count - values.count
         if skipped > 0 { warnings.append(.skippedRows(skipped)) }
         if values.count > ChartBudgets.maxPoints { warnings.append(.tooManyPoints(values.count)) }
-        data.xField = "value"
+        options.xFormat = data.format
+        options.xUnit = data.unit
+        data.format = options.histogramMode == .percent ? .percent : .number
+        data.unit = nil
+        data.xField = options.xUnit.map { "value (\($0))" } ?? "value"
         data.yField = options.histogramMode == .percent ? "percent" : "count"
         data.options = options
         data.xAxis = .number
         guard let low = values.min(), let high = values.max() else { return }
         let requested = reader.number("bins").map { Int($0.rounded()) }
         let binCount = min(
-            max(requested ?? Histogram.freedmanDiaconisBins(values), 1), ChartBudgets.maxBins)
-        let bins = Histogram.bins(values, low: low, high: high, count: binCount)
+            max(requested ?? HistogramBins.freedmanDiaconisBins(values), 1), ChartBudgets.maxBins)
+        let bins = HistogramBins.bins(values, low: low, high: high, count: binCount)
         let total = Double(values.count)
         data.points = bins.enumerated().map { index, bin in
             let y =
@@ -550,14 +563,11 @@ struct ChartDataBuilder {
                 ? Double(bin.count) / total * 100 : Double(bin.count)
             return ChartPoint(
                 id: index, x: .number(bin.lower),
-                xLabel: data.format.axisString(bin.lower) + "–" + data.format.axisString(bin.upper),
+                xLabel: options.xFormat.axisString(bin.lower) + "–"
+                    + options.xFormat.axisString(bin.upper),
                 xEnd: bin.upper, y: y)
         }
-        if options.histogramMode == .percent {
-            data.axisFormat = .percent
-        } else {
-            data.axisFormat = .number
-        }
+        data.axisFormat = data.format
         data.dataRange = Self.extent(data.points.map(\.y))
         data.xDomain = bins.first.map(\.lower).flatMap { lower in
             bins.last.map { lower...$0.upper }
@@ -648,8 +658,7 @@ enum ChartDates {
 
     /// "Nov 7" in UTC (calendar heatmap columns).
     static func shortLabel(_ date: Date) -> String {
-        var style = Date.FormatStyle(date: .abbreviated, time: .omitted)
-            .month(.abbreviated).day()
+        var style = Date.FormatStyle().month(.abbreviated).day()
         style.timeZone = TimeZone(identifier: "UTC") ?? .current
         style.locale = Locale(identifier: "en_US_POSIX")
         return date.formatted(style)
@@ -657,7 +666,7 @@ enum ChartDates {
 }
 
 /// Histogram binning.
-public enum Histogram {
+public enum HistogramBins {
     public struct Bin: Sendable, Hashable {
         public var lower: Double
         public var upper: Double

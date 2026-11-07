@@ -21,9 +21,10 @@ public enum ChartSummary {
                 "\(name), \(data.rows.count) rows by \(data.categories.count) columns, highest \(value(top.y)) at \(place)"
         case .histogram:
             guard let top = data.points.max(by: { $0.y < $1.y }) else { return name }
+            let xFormat = data.options.xFormat
             let range =
-                data.format.string(top.x.numeric ?? 0, unit: nil, locale: locale) + " to "
-                + data.format.string(top.xEnd ?? 0, unit: data.unit, locale: locale)
+                xFormat.string(top.x.numeric ?? 0, unit: nil, locale: locale) + " to "
+                + xFormat.string(top.xEnd ?? 0, unit: data.options.xUnit, locale: locale)
             return "\(name), \(data.points.count) bins, most values from \(range)"
         case .sparkline:
             let values = data.points.map(\.y)

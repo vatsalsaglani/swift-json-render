@@ -1,0 +1,48 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "g"
+      ],
+      "props": {
+        "title": "Voice budget, November"
+      },
+      "type": "Card"
+    },
+    "g": {
+      "props": {
+        "bands": [
+          {
+            "intent": "good",
+            "to": 3.5
+          },
+          {
+            "intent": "warn",
+            "to": 4.5
+          },
+          {
+            "intent": "risk",
+            "to": 5
+          }
+        ],
+        "format": "currency:USD",
+        "label": "Voice budget",
+        "max": {
+          "$state": "/budget/cap"
+        },
+        "style": "arc",
+        "value": {
+          "$state": "/budget/spent"
+        }
+      },
+      "type": "Gauge"
+    }
+  },
+  "root": "card",
+  "state": {
+    "budget": {
+      "cap": 5,
+      "spent": 3.6
+    }
+  }
+}

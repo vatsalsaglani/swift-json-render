@@ -1,0 +1,54 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "pie"
+      ],
+      "props": {
+        "title": "Where the memory goes"
+      },
+      "type": "Card"
+    },
+    "pie": {
+      "props": {
+        "center": {
+          "$template": "${/total} MB"
+        },
+        "data": {
+          "$state": "/mem"
+        },
+        "donut": true,
+        "label": "part",
+        "unit": "MB",
+        "value": "mb"
+      },
+      "type": "PieChart"
+    }
+  },
+  "root": "card",
+  "state": {
+    "mem": [
+      {
+        "mb": 61,
+        "part": "Terminals"
+      },
+      {
+        "mb": 36,
+        "part": "Editor"
+      },
+      {
+        "mb": 19,
+        "part": "Board"
+      },
+      {
+        "mb": 12,
+        "part": "Voice"
+      },
+      {
+        "mb": 10,
+        "part": "Other"
+      }
+    ],
+    "total": 138
+  }
+}

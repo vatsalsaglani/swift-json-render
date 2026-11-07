@@ -1,0 +1,269 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "h"
+      ],
+      "props": {
+        "title": "Agent activity by hour"
+      },
+      "type": "Card"
+    },
+    "h": {
+      "props": {
+        "data": {
+          "$state": "/activity"
+        },
+        "value": "n",
+        "x": "hour",
+        "y": "day"
+      },
+      "type": "Heatmap"
+    }
+  },
+  "root": "card",
+  "state": {
+    "activity": [
+      {
+        "day": "Mon",
+        "hour": "08",
+        "n": 20
+      },
+      {
+        "day": "Mon",
+        "hour": "09",
+        "n": 74
+      },
+      {
+        "day": "Mon",
+        "hour": "10",
+        "n": 43
+      },
+      {
+        "day": "Mon",
+        "hour": "11",
+        "n": 52
+      },
+      {
+        "day": "Mon",
+        "hour": "12",
+        "n": 66
+      },
+      {
+        "day": "Mon",
+        "hour": "13",
+        "n": 70
+      },
+      {
+        "day": "Mon",
+        "hour": "14",
+        "n": 40
+      },
+      {
+        "day": "Mon",
+        "hour": "15",
+        "n": 97
+      },
+      {
+        "day": "Mon",
+        "hour": "16",
+        "n": 76
+      },
+      {
+        "day": "Mon",
+        "hour": "17",
+        "n": 18
+      },
+      {
+        "day": "Mon",
+        "hour": "18",
+        "n": 16
+      },
+      {
+        "day": "Mon",
+        "hour": "19",
+        "n": 26
+      },
+      {
+        "day": "Tue",
+        "hour": "08",
+        "n": 23
+      },
+      {
+        "day": "Tue",
+        "hour": "09",
+        "n": 40
+      },
+      {
+        "day": "Tue",
+        "hour": "10",
+        "n": 70
+      },
+      {
+        "day": "Tue",
+        "hour": "11",
+        "n": 51
+      },
+      {
+        "day": "Tue",
+        "hour": "12",
+        "n": 82
+      },
+      {
+        "day": "Tue",
+        "hour": "13",
+        "n": 46
+      },
+      {
+        "day": "Tue",
+        "hour": "14",
+        "n": 74
+      },
+      {
+        "day": "Tue",
+        "hour": "15",
+        "n": 69
+      },
+      {
+        "day": "Tue",
+        "hour": "16",
+        "n": 47
+      },
+      {
+        "day": "Tue",
+        "hour": "17",
+        "n": 11
+      },
+      {
+        "day": "Tue",
+        "hour": "18",
+        "n": 29
+      },
+      {
+        "day": "Tue",
+        "hour": "19",
+        "n": 29
+      },
+      {
+        "day": "Wed",
+        "hour": "08",
+        "n": 12
+      },
+      {
+        "day": "Wed",
+        "hour": "09",
+        "n": 66
+      },
+      {
+        "day": "Wed",
+        "hour": "10",
+        "n": 102
+      },
+      {
+        "day": "Wed",
+        "hour": "11",
+        "n": 48
+      },
+      {
+        "day": "Wed",
+        "hour": "12",
+        "n": 64
+      },
+      {
+        "day": "Wed",
+        "hour": "13",
+        "n": 74
+      },
+      {
+        "day": "Wed",
+        "hour": "14",
+        "n": 82
+      },
+      {
+        "day": "Wed",
+        "hour": "15",
+        "n": 55
+      },
+      {
+        "day": "Wed",
+        "hour": "16",
+        "n": 47
+      },
+      {
+        "day": "Wed",
+        "hour": "17",
+        "n": 30
+      },
+      {
+        "day": "Wed",
+        "hour": "18",
+        "n": 19
+      },
+      {
+        "day": "Wed",
+        "hour": "19",
+        "n": 15
+      },
+      {
+        "day": "Thu",
+        "hour": "08",
+        "n": 21
+      },
+      {
+        "day": "Thu",
+        "hour": "09",
+        "n": 58
+      },
+      {
+        "day": "Thu",
+        "hour": "10",
+        "n": 46
+      },
+      {
+        "day": "Thu",
+        "hour": "11",
+        "n": 89
+      },
+      {
+        "day": "Thu",
+        "hour": "12",
+        "n": 60
+      },
+      {
+        "day": "Thu",
+        "hour": "13",
+        "n": 60
+      },
+      {
+        "day": "Thu",
+        "hour": "14",
+        "n": 41
+      },
+      {
+        "day": "Thu",
+        "hour": "15",
+        "n": 100
+      },
+      {
+        "day": "Thu",
+        "hour": "16",
+        "n": 52
+      },
+      {
+        "day": "Thu",
+        "hour": "17",
+        "n": 28
+      },
+      {
+        "day": "Thu",
+        "hour": "18",
+        "n": 19
+      },
+      {
+        "day": "Thu",
+        "hour": "19",
+        "n": 15
+      }
+    ]
+  }
+}

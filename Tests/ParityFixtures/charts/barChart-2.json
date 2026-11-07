@@ -1,0 +1,60 @@
+{
+  "elements": {
+    "bars": {
+      "props": {
+        "data": {
+          "$state": "/suites"
+        },
+        "limit": 4,
+        "orientation": "horizontal",
+        "sort": "desc",
+        "unit": "s",
+        "x": "suite",
+        "y": "secs"
+      },
+      "type": "BarChart"
+    },
+    "card": {
+      "children": [
+        "bars"
+      ],
+      "props": {
+        "title": "Slowest suites"
+      },
+      "type": "Card"
+    }
+  },
+  "root": "card",
+  "state": {
+    "suites": [
+      {
+        "secs": 11.2,
+        "suite": "CanvasBoardState"
+      },
+      {
+        "secs": 8.6,
+        "suite": "VoiceSession"
+      },
+      {
+        "secs": 6.7,
+        "suite": "LanguageServer"
+      },
+      {
+        "secs": 3.8,
+        "suite": "MDXBlockScanner"
+      },
+      {
+        "secs": 1.4,
+        "suite": "Terminal"
+      },
+      {
+        "secs": 0.8,
+        "suite": "Search"
+      },
+      {
+        "secs": 0.5,
+        "suite": "Settings"
+      }
+    ]
+  }
+}

@@ -16,7 +16,7 @@ struct ChartDefinitionTests {
     func registered() throws {
         let catalog = try Catalog.charts
         let names = ChartEntries.marks.map(\.name)
-        #expect(names == Array(Self.markNames.prefix(names.count)))
+        #expect(names == Self.markNames)
         #expect(Array(catalog.componentNames.prefix(names.count)) == names)
         for name in names {
             #expect(catalog.viewFactory(for: name) != nil, "\(name) has no renderer")

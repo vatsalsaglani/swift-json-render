@@ -1,0 +1,65 @@
+{
+  "elements": {
+    "c": {
+      "props": {
+        "bars": "secs",
+        "data": {
+          "$state": "/days"
+        },
+        "line": "avg",
+        "unit": "s",
+        "x": "day"
+      },
+      "type": "ComboChart"
+    },
+    "card": {
+      "children": [
+        "c"
+      ],
+      "props": {
+        "title": "Wall time and average"
+      },
+      "type": "Card"
+    }
+  },
+  "root": "card",
+  "state": {
+    "days": [
+      {
+        "avg": 40,
+        "day": "Mon",
+        "secs": 41
+      },
+      {
+        "avg": 40,
+        "day": "Tue",
+        "secs": 38
+      },
+      {
+        "avg": 41,
+        "day": "Wed",
+        "secs": 44
+      },
+      {
+        "avg": 40,
+        "day": "Thu",
+        "secs": 37
+      },
+      {
+        "avg": 43,
+        "day": "Fri",
+        "secs": 52
+      },
+      {
+        "avg": 42,
+        "day": "Sat",
+        "secs": 34
+      },
+      {
+        "avg": 41,
+        "day": "Sun",
+        "secs": 36
+      }
+    ]
+  }
+}

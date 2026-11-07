@@ -234,6 +234,9 @@ public struct ChartOptions: Sendable, Hashable {
     /// The value range of heatmap cells.
     public var valueRange: ClosedRange<Double>?
     public var histogramMode: HistogramMode = .count
+    /// The format and unit of the x values (histogram bins); y then shows counts.
+    public var xFormat: ChartValueFormat = .number
+    public var xUnit: String?
     /// The field drawn as a line (combo).
     public var lineField: String?
     /// The size range of bubbles (scatter).
