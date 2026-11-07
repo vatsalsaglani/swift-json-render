@@ -123,13 +123,14 @@ struct FlexLayout: Layout {
         let width = proposal.width
         for index in subviews.indices {
             let size = subviews[index].sizeThatFits(ProposedViewSize(width: width, height: nil))
+            guard size != .zero else { continue }
             line.indices.append(index)
             line.sizes.append(size)
             line.cross = max(line.cross, size.width)
         }
         line.main =
             line.sizes.map(\.height).reduce(0, +)
-            + spacing * CGFloat(max(subviews.count - 1, 0))
+            + spacing * CGFloat(max(line.indices.count - 1, 0))
         return line
     }
 
@@ -138,10 +139,12 @@ struct FlexLayout: Layout {
         let ideals = subviews.map {
             $0.sizeThatFits(ProposedViewSize(width: nil, height: proposal.height))
         }
+        // A zero-size child (for example a sheet host) takes no slot and no gap.
+        let shown = subviews.indices.filter { ideals[$0] != .zero }
         if wrap {
             var lines: [Line] = []
             var current = Line()
-            for index in subviews.indices {
+            for index in shown {
                 var size = ideals[index]
                 if size.width > available {
                     size = subviews[index].sizeThatFits(
@@ -162,13 +165,13 @@ struct FlexLayout: Layout {
             lines.append(current)
             return lines
         }
-        let gaps = spacing * CGFloat(max(subviews.count - 1, 0))
-        let total = ideals.map(\.width).reduce(0, +) + gaps
+        let gaps = spacing * CGFloat(max(shown.count - 1, 0))
+        let total = shown.map { ideals[$0].width }.reduce(0, +) + gaps
         var widths = ideals.map(\.width)
         if total > available, available.isFinite {
             var remaining = max(available - gaps, 0)
-            var left = subviews.count
-            for index in subviews.indices.sorted(by: { ideals[$0].width < ideals[$1].width }) {
+            var left = shown.count
+            for index in shown.sorted(by: { ideals[$0].width < ideals[$1].width }) {
                 let share = remaining / CGFloat(left)
                 widths[index] = min(ideals[index].width, share)
                 remaining -= widths[index]
@@ -176,7 +179,7 @@ struct FlexLayout: Layout {
             }
         }
         var line = Line()
-        for index in subviews.indices {
+        for index in shown {
             let size =
                 widths[index] == ideals[index].width
                 ? ideals[index]
@@ -185,7 +188,7 @@ struct FlexLayout: Layout {
             line.sizes.append(CGSize(width: widths[index], height: size.height))
             line.cross = max(line.cross, size.height)
         }
-        line.main = widths.reduce(0, +) + gaps
+        line.main = shown.map { widths[$0] }.reduce(0, +) + gaps
         return [line]
     }
 }

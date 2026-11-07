@@ -7,7 +7,12 @@ enum GalleryPages {
         // Components (jr-3)
         CardPage.self,
         StackPage.self,
+        GridPage.self,
         TextPage.self,
+        TabsPage.self,
+        DisclosurePage.self,
+        OverlaysPage.self,
+        StatusPage.self,
         FixtureSpecsPage.self,
         // Inputs (jr-3b)
         // Charts (jr-3c, jr-3d)

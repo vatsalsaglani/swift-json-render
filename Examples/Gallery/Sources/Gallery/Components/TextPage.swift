@@ -1,17 +1,27 @@
-// Owner: jr-3. Text examples.
+// Owner: jr-3. Heading and Text examples.
 import SwiftUI
 
 struct TextPage: GalleryPage {
-    static let title = "Text"
+    static let title = "Heading and Text"
     static let group = GalleryGroup.components
 
     var body: some View {
         GalleryPageLayout(
             title: Self.title,
-            note: "One type scale: 11 / 12 / 13 / 15 pt. Three text colours only."
+            note: "One type scale: 11 / 12 / 13 / 15 / 20 / 28 pt. Three text colours only."
         ) {
             SpecExample(
-                "Variants",
+                "Headings h1 to h4",
+                json: #"""
+                    {"root":"s","elements":{
+                      "s":{"type":"Stack","props":{"gap":"sm"},"children":["h1","h2","h3","h4"]},
+                      "h1":{"type":"Heading","props":{"text":"System status","level":"h1"}},
+                      "h2":{"type":"Heading","props":{"text":"Services (h2, the default)"}},
+                      "h3":{"type":"Heading","props":{"text":"API gateway","level":"h3"}},
+                      "h4":{"type":"Heading","props":{"text":"Latency","level":"h4"}}}}
+                    """#)
+            SpecExample(
+                "Text variants",
                 json: #"""
                     {"root":"s","elements":{
                       "s":{"type":"Stack","props":{"gap":"md"},"children":["lead","body","muted","caption","code"]},
