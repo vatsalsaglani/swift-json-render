@@ -62,14 +62,28 @@ if includeAppleTargets {
         .target(name: "JSONRenderSwiftUI", dependencies: ["JSONRenderCore"], swiftSettings: strict),
         .target(
             name: "JSONRenderStandardCatalog",
-            dependencies: ["JSONRenderCore", "JSONRenderSwiftUI"],
+            dependencies: ["JSONRenderCore", "JSONRenderSwiftUI", "JSONRenderClient"],
             swiftSettings: strict),
         .target(
-            name: "JSONRenderCharts", dependencies: ["JSONRenderCore", "JSONRenderSwiftUI"],
+            name: "JSONRenderCharts",
+            dependencies: ["JSONRenderCore", "JSONRenderSwiftUI", "JSONRenderClient"],
             swiftSettings: strict),
         // Optional: the only image-network code. Hosts opt in.
         .target(
             name: "JSONRenderRemoteImages", dependencies: ["JSONRenderCore", "JSONRenderSwiftUI"],
+            swiftSettings: strict),
+        .testTarget(
+            name: "JSONRenderSwiftUITests",
+            dependencies: [
+                "JSONRenderCore", "JSONRenderSwiftUI", "JSONRenderStandardCatalog",
+                "JSONRenderClient",
+            ],
+            swiftSettings: strict),
+        .testTarget(
+            name: "JSONRenderChartsTests",
+            dependencies: [
+                "JSONRenderCore", "JSONRenderSwiftUI", "JSONRenderCharts", "JSONRenderClient",
+            ],
             swiftSettings: strict),
     ]
 }
