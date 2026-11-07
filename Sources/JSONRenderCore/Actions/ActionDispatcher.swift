@@ -8,7 +8,8 @@ internal import Foundation
 /// 3. A built-in: ask the host to confirm when `confirm` is present, run it, settle.
 ///    **Documented deviation:** upstream runs built-ins before its confirm check, so a
 ///    `confirm` on `setState` is ignored there. Here every action honours `confirm`.
-/// 4. Otherwise look up the catalog handler; none → settle `.noHandler` and return.
+/// 4. Otherwise look up the catalog handler; none → settle `.noHandler` (`ok: false`; upstream
+///    warns) and return.
 /// 5. `confirm` → the host. Declined → settle `.cancelled` and return without throwing
 ///    (upstream rejects with "Action cancelled").
 /// 6. Run the handler, then `onSuccess` (`navigate` | `set` | `action`). An error, also
@@ -37,10 +38,15 @@ public struct ActionDispatcher: Sendable {
     }
 
     /// Resolves `binding` in `context` and runs it. `elementID` is for observers only.
+    ///
+    /// Returns how the dispatch ended. A caller that runs a sequence of bindings must stop
+    /// at `.cancelled`: upstream rejects on a declined confirm, so the later bindings of the
+    /// same event or watch round do not run.
+    @discardableResult
     public func dispatch(
         _ binding: ActionBinding, elementID: String?, context: PropResolutionContext
     )
-        async throws
+        async throws -> ActionSettleInfo.Outcome
     {
         let (resolved, _) = binding.resolved(in: context)
         let id = UUID().uuidString
@@ -56,7 +62,8 @@ public struct ActionDispatcher: Sendable {
         }
         do {
             let outcome = try await perform(resolved, elementID: elementID, context: context)
-            settle(ok: outcome != .cancelled, outcome)
+            settle(ok: outcome == .completed, outcome)
+            return outcome
         } catch {
             settle(ok: false, .failed)
             throw error

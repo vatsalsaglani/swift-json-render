@@ -47,7 +47,7 @@ public enum BuiltInAction: String, Sendable, CaseIterable {
     }
 
     /// `deepResolve` with a custom id source (for tests).
-    public static func deepResolve(
+    static func deepResolve(
         _ value: JSONValue?, state: JSONValue, makeID: () -> String
     ) -> JSONValue? {
         guard let value else { return nil }

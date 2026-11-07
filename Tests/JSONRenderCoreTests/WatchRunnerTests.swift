@@ -11,7 +11,10 @@ struct WatchRunnerTests {
         let events: AsyncStream<String>
         let sink: AsyncStream<String>.Continuation
 
-        init(state: JSONValue, gate: AsyncStream<Void>? = nil) {
+        init(
+            state: JSONValue, gate: AsyncStream<Void>? = nil,
+            host: any ActionHost = NoopActionHost()
+        ) {
             let (events, sink) = AsyncStream.makeStream(of: String.self)
             var catalog = Catalog()
             catalog.action("log") { params, _ in
@@ -29,7 +32,7 @@ struct WatchRunnerTests {
             store = StateStore(initial: state)
             runner = WatchRunner(
                 store: store,
-                dispatcher: ActionDispatcher(catalog: catalog, store: store, host: NoopActionHost())
+                dispatcher: ActionDispatcher(catalog: catalog, store: store, host: host)
             )
             self.events = events
             self.sink = sink
@@ -110,6 +113,28 @@ struct WatchRunnerTests {
         await task.value
         harness.sink.finish()
         #expect(await events.next() == nil)
+    }
+
+    @Test("A declined confirmation stops the round, as an upstream rejection does")
+    func declinedConfirmStopsRound() async {
+        let host = RecordingHost(answer: false)
+        let harness = Harness(state: ["a": 1, "b": 1], host: host)
+        var confirmed = Self.log("first")
+        confirmed.confirm = ActionConfirm(title: "Sure?", message: "Run it")
+        let task = await harness.start([
+            "/a": [confirmed, Self.log("second")],
+            "/b": [Self.log("b")],
+        ])
+        var events = harness.events.makeAsyncIterator()
+        await harness.store.update([("/a", 2), ("/b", 2)])
+        await harness.store.set("/b", 3)
+        // Round one stops at the declined binding: neither "second" nor round one's "b" runs.
+        #expect(await events.next() == "b")
+        task.cancel()
+        await task.value
+        harness.sink.finish()
+        #expect(await events.next() == nil)
+        #expect(await host.confirmations.count == 1)
     }
 
     @Test("Cancellation stops after the running binding")

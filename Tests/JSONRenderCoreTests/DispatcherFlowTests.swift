@@ -29,7 +29,10 @@ struct DispatcherFlowTests {
                 catalog: catalog, store: store, host: host, observer: observer)
         }
 
-        func dispatch(_ binding: ActionBinding, elementID: String? = "el") async throws {
+        @discardableResult
+        func dispatch(_ binding: ActionBinding, elementID: String? = "el") async throws
+            -> ActionSettleInfo.Outcome
+        {
             try await dispatcher.dispatch(
                 binding, elementID: elementID,
                 context: PropResolutionContext(state: await store.snapshot.state))
@@ -53,7 +56,9 @@ struct DispatcherFlowTests {
                 return nil
             }
         }
-        try await setup.dispatch(ActionBinding(action: "delete", confirm: Self.confirm))
+        let outcome = try await setup.dispatch(
+            ActionBinding(action: "delete", confirm: Self.confirm))
+        #expect(outcome == .cancelled)
         #expect(await setup.log.calls.isEmpty)
         let confirmations = await setup.host.confirmations
         #expect(confirmations.count == 1)
@@ -87,7 +92,9 @@ struct DispatcherFlowTests {
     @Test("A missing handler does nothing and asks for no confirmation")
     func missingHandler() async throws {
         let setup = Setup { _, _ in }
-        try await setup.dispatch(ActionBinding(action: "unknown", confirm: Self.confirm))
+        let outcome = try await setup.dispatch(
+            ActionBinding(action: "unknown", confirm: Self.confirm))
+        #expect(outcome == .noHandler)
         #expect(await setup.host.confirmations.isEmpty)
         let events = await setup.observed()
         guard case .settled(let settle)? = events.last else {
@@ -95,7 +102,7 @@ struct DispatcherFlowTests {
             return
         }
         #expect(settle.outcome == .noHandler)
-        #expect(settle.ok)
+        #expect(!settle.ok)  // upstream warns
     }
 
     @Test("onSuccess navigate, set and action")
@@ -110,7 +117,10 @@ struct DispatcherFlowTests {
                 return nil
             }
         }
-        try await setup.dispatch(ActionBinding(action: "save", onSuccess: .navigate("/done")))
+        let completed = try await setup.dispatch(
+            ActionBinding(action: "save", onSuccess: .navigate("/done")))
+        #expect(completed == .completed)
+        #expect(try await setup.dispatch(ActionBinding(action: "validateForm")) == .unavailable)
         #expect(await setup.host.navigations == ["/done"])
         try await setup.dispatch(
             ActionBinding(action: "save", onSuccess: .set(["/saved": true, "/count": 2])))

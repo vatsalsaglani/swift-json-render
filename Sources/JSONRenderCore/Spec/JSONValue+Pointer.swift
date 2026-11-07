@@ -8,6 +8,8 @@
 ///   a refused final step stay, as upstream (which mutates in place).
 /// - The root pointer and any pointer with `__proto__` are refused by every write and
 ///   resolve to `nil` on read.
+/// - Writes and removals refuse a pointer with more than `JSONValue.maxDecodeDepth` tokens
+///   (they recurse once per token). Reads are iterative and accept any length.
 extension JSONValue {
     /// Upstream `getByPath`.
     public func value(at pointer: JSONPointer) -> JSONValue? {
@@ -33,21 +35,21 @@ extension JSONValue {
     /// Upstream `setByPath`: replaces an array element in place.
     @discardableResult
     public mutating func set(_ value: JSONValue, at pointer: JSONPointer) -> Bool {
-        guard !pointer.isRoot, !pointer.containsForbiddenToken else { return false }
+        guard JSONValue.isWritable(pointer) else { return false }
         return JSONValue.write(&self, pointer.tokens[...], value, insert: false)
     }
 
     /// Upstream `addByPath` (RFC 6902 `add`): inserts into arrays.
     @discardableResult
     public mutating func add(_ value: JSONValue, at pointer: JSONPointer) -> Bool {
-        guard !pointer.isRoot, !pointer.containsForbiddenToken else { return false }
+        guard JSONValue.isWritable(pointer) else { return false }
         return JSONValue.write(&self, pointer.tokens[...], value, insert: true)
     }
 
     /// Upstream `removeByPath`: a no-op (returning `false`) when the path is absent.
     @discardableResult
     public mutating func remove(at pointer: JSONPointer) -> Bool {
-        guard !pointer.isRoot, !pointer.containsForbiddenToken else { return false }
+        guard JSONValue.isWritable(pointer) else { return false }
         return JSONValue.removeValue(&self, pointer.tokens[...])
     }
 
@@ -57,6 +59,12 @@ extension JSONValue {
     }
 
     // MARK: - Implementation
+
+    /// Not the root, no `__proto__`, and not deeper than `maxDecodeDepth` tokens.
+    static func isWritable(_ pointer: JSONPointer) -> Bool {
+        !pointer.isRoot && !pointer.containsForbiddenToken
+            && pointer.tokens.count <= maxDecodeDepth
+    }
 
     private static func emptyContainer(before nextToken: String) -> JSONValue {
         PathIndex.isNumeric(nextToken) || nextToken == "-" ? .array([]) : .object([:])

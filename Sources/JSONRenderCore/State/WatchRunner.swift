@@ -7,7 +7,8 @@
 /// - Paths are visited in sorted order; each path's bindings run one after another. Each
 ///   binding resolves its params against the store's snapshot at the moment it fires, so
 ///   it sees the writes of the bindings before it.
-/// - A binding that throws stops the current round (upstream logs and stops the loop).
+/// - A binding that throws, or whose confirmation the user declines, stops the current
+///   round (upstream: the rejection ends the loop).
 /// - `run` returns when its task is cancelled. Cancellation is checked before each binding,
 ///   so a binding that is running finishes first.
 public struct WatchRunner: Sendable {
@@ -53,8 +54,9 @@ public struct WatchRunner: Sendable {
                     if Task.isCancelled { return }
                     let live = await store.snapshot
                     do {
-                        try await dispatcher.dispatch(
+                        let outcome = try await dispatcher.dispatch(
                             binding, elementID: elementID, context: context(live))
+                        if outcome == .cancelled { break round }
                     } catch {
                         break round
                     }
