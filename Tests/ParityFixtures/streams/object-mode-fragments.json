@@ -1,0 +1,43 @@
+{
+  "fragments": [
+    "{\"root\":\"",
+    "main\",\"elements\":{\"main\":{\"type",
+    "\":\"Card\",\"props\":{\"title\":\"Hell",
+    "o\"},\"children\":[\"t1\",\"t2\"]},\"t1",
+    "\":{\"type\":\"Text\",\"props\":{\"content\":\"F",
+    "irst\"},\"children\":[]},\"t2\":{\"t",
+    "ype\":\"Button\",\"props\":{\"label\":\"Go\"},\"children\":[]}},\"state\":{\"count\":2}}"
+  ],
+  "expected": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "Hello"
+        },
+        "children": [
+          "t1",
+          "t2"
+        ]
+      },
+      "t1": {
+        "type": "Text",
+        "props": {
+          "content": "First"
+        },
+        "children": []
+      },
+      "t2": {
+        "type": "Button",
+        "props": {
+          "label": "Go"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "count": 2
+    }
+  }
+}
