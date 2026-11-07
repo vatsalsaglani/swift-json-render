@@ -42,6 +42,10 @@ public struct ValidationResult: Sendable, Hashable {
 
 /// Runs validation configurations (upstream `runValidationCheck` and `runValidation`).
 public enum Validator {
+    /// The error text for a `pattern` check that `PatternGuard` refused. The spec's own
+    /// message would claim the value is wrong, which was never checked.
+    public static let patternRefusedMessage = "This pattern cannot be checked"
+
     /// Runs one check. Arguments resolve as prop expressions against `state` (no repeat
     /// scope). A built-in name wins over a custom function with the same name, as upstream.
     public static func runCheck(
@@ -84,7 +88,9 @@ public enum Validator {
         for check in config.checks ?? [] {
             let result = runCheck(check, value: value, state: state, custom: custom)
             checks.append(result)
-            if !result.valid { errors.append(result.message) }
+            if !result.valid {
+                errors.append(result.patternRefused ? patternRefusedMessage : result.message)
+            }
         }
         return ValidationResult(valid: errors.isEmpty, errors: errors, checks: checks)
     }

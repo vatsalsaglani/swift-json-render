@@ -60,4 +60,15 @@ struct PatternGuardTests {
         let result = Validator.runCheck(.pattern("^[a-z]+$"), value: "abc", state: [:])
         #expect(result.valid && !result.patternRefused)
     }
+
+    @Test("A refused pattern reports the neutral text, not the spec message")
+    func refusedPatternErrorText() {
+        let config = ValidationConfig(
+            checks: [
+                ValidationCheck(type: "pattern", args: ["pattern": "(a+)+"], message: "Bad name")
+            ])
+        let result = Validator.run(config, value: "aaaa", state: [:])
+        #expect(!result.valid)
+        #expect(result.errors == [Validator.patternRefusedMessage])
+    }
 }
