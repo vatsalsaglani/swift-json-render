@@ -128,7 +128,8 @@ public enum PatternGuard {
         return (length, repeats)
     }
 
-    /// `{n}`, `{n,}` or `{n,m}` at `index`: its length and its maximum (`nil` = unbounded).
+    /// `{n}`, `{n,}`, `{n,m}` or `{,m}` at `index`: its length and its maximum (`nil` = unbounded).
+    /// Swift `Regex` reads `{,m}` as `0...m` (JavaScript reads it as literal text), so the guard must too.
     private static func braces(_ chars: [Unicode.Scalar], at index: Int) -> (Int, Int?)? {
         var cursor = index + 1
         func digits() -> Int? {
@@ -140,12 +141,16 @@ public enum PatternGuard {
             }
             return cursor > start ? value : nil
         }
-        guard let minimum = digits() else { return nil }
-        var maximum: Int? = minimum
+        let leading = digits()
+        var maximum: Int? = leading
+        var hasComma = false
         if cursor < chars.count, chars[cursor] == "," {
+            hasComma = true
             cursor += 1
             maximum = digits()
         }
+        // A bare `{}` or `{,}` is literal text, not a quantifier.
+        guard leading != nil || (hasComma && maximum != nil) else { return nil }
         guard cursor < chars.count, chars[cursor] == "}" else { return nil }
         return (cursor + 1 - index, maximum)
     }

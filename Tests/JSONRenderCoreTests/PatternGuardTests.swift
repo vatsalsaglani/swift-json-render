@@ -9,7 +9,7 @@ struct PatternGuardTests {
         "Nested quantifiers are refused",
         arguments: [
             #"(a+)+"#, #"(\w+\s?)*"#, #"(a*)*"#, #"(x?)+"#, #"^(a+)+$"#, #"((a+)b){2,}"#,
-            #"(?:a+)+"#,
+            #"(?:a+)+"#, #"(a+){,999}"#, #"(a+){,2}"#,
         ])
     func refused(_ pattern: String) {
         #expect(PatternGuard.hasNestedQuantifier(pattern))
@@ -19,7 +19,8 @@ struct PatternGuardTests {
         "Escapes, classes and normal patterns are allowed",
         arguments: [
             #"\(a+\)+"#, #"[(a+)]+"#, #"^[a-z]+$"#, #"^\d{3}-\d{4}$"#,
-            #"^[^\s@]+@[^\s@]+\.[^\s@]+$"#, #"^\d+(\.\d+)?$"#, #"[\]a+]+"#, #"(ab)+"#,
+            #"^[^\s@]+@[^\s@]+\.[^\s@]+$"#, #"^\d+(\.\d+)?$"#, #"[\]a+]+"#, #"(ab)+"#, #"(a+){,1}"#,
+            #"(a+){,}"#, #"(a+){}"#,
         ])
     func allowed(_ pattern: String) {
         #expect(!PatternGuard.hasNestedQuantifier(pattern))
