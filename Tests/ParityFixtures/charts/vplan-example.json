@@ -1,0 +1,77 @@
+{
+  "elements": {
+    "bars": {
+      "props": {
+        "data": {
+          "$state": "/runs"
+        },
+        "format": "compact",
+        "layout": "stacked",
+        "selection": {
+          "$bindState": "/picked"
+        },
+        "series": "result",
+        "x": "run",
+        "y": "n"
+      },
+      "type": "BarChart"
+    },
+    "card": {
+      "children": [
+        "bars",
+        "spend"
+      ],
+      "props": {
+        "title": "Tests by result"
+      },
+      "type": "Card"
+    },
+    "spend": {
+      "props": {
+        "bands": [
+          {
+            "intent": "good",
+            "to": 3.5
+          },
+          {
+            "intent": "warn",
+            "to": 4.5
+          },
+          {
+            "intent": "risk",
+            "to": 5
+          }
+        ],
+        "format": "currency:USD",
+        "label": "Voice budget",
+        "max": {
+          "$state": "/budget/cap"
+        },
+        "style": "arc",
+        "value": {
+          "$state": "/budget/spent"
+        }
+      },
+      "type": "Gauge"
+    }
+  },
+  "root": "card",
+  "state": {
+    "budget": {
+      "cap": 5,
+      "spent": 3.6
+    },
+    "runs": [
+      {
+        "n": 1210,
+        "result": "Passed",
+        "run": "4208"
+      },
+      {
+        "n": 7,
+        "result": "Failed",
+        "run": "4208"
+      }
+    ]
+  }
+}

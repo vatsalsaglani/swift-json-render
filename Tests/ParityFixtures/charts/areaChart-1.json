@@ -1,0 +1,136 @@
+{
+  "elements": {
+    "area": {
+      "props": {
+        "data": {
+          "$state": "/tokens"
+        },
+        "layout": "stacked",
+        "series": "agent",
+        "unit": "k",
+        "x": "day",
+        "y": "k"
+      },
+      "type": "AreaChart"
+    },
+    "card": {
+      "children": [
+        "area"
+      ],
+      "props": {
+        "title": "Tokens per agent, this week"
+      },
+      "type": "Card"
+    }
+  },
+  "root": "card",
+  "state": {
+    "tokens": [
+      {
+        "agent": "Claude",
+        "day": "Mon",
+        "k": 30
+      },
+      {
+        "agent": "Codex",
+        "day": "Mon",
+        "k": 12
+      },
+      {
+        "agent": "Voice",
+        "day": "Mon",
+        "k": 6
+      },
+      {
+        "agent": "Claude",
+        "day": "Tue",
+        "k": 38
+      },
+      {
+        "agent": "Codex",
+        "day": "Tue",
+        "k": 16
+      },
+      {
+        "agent": "Voice",
+        "day": "Tue",
+        "k": 8
+      },
+      {
+        "agent": "Claude",
+        "day": "Wed",
+        "k": 36
+      },
+      {
+        "agent": "Codex",
+        "day": "Wed",
+        "k": 15
+      },
+      {
+        "agent": "Voice",
+        "day": "Wed",
+        "k": 10
+      },
+      {
+        "agent": "Claude",
+        "day": "Thu",
+        "k": 52
+      },
+      {
+        "agent": "Codex",
+        "day": "Thu",
+        "k": 22
+      },
+      {
+        "agent": "Voice",
+        "day": "Thu",
+        "k": 9
+      },
+      {
+        "agent": "Claude",
+        "day": "Fri",
+        "k": 58
+      },
+      {
+        "agent": "Codex",
+        "day": "Fri",
+        "k": 26
+      },
+      {
+        "agent": "Voice",
+        "day": "Fri",
+        "k": 14
+      },
+      {
+        "agent": "Claude",
+        "day": "Sat",
+        "k": 40
+      },
+      {
+        "agent": "Codex",
+        "day": "Sat",
+        "k": 14
+      },
+      {
+        "agent": "Voice",
+        "day": "Sat",
+        "k": 7
+      },
+      {
+        "agent": "Claude",
+        "day": "Sun",
+        "k": 34
+      },
+      {
+        "agent": "Codex",
+        "day": "Sun",
+        "k": 12
+      },
+      {
+        "agent": "Voice",
+        "day": "Sun",
+        "k": 5
+      }
+    ]
+  }
+}

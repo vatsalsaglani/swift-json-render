@@ -1,0 +1,77 @@
+{
+  "comment": "jr-3c chart specs: each must validate against Catalog.charts with no chart-rule error. jr-3d adds composite/.",
+  "fixtures": [
+    {
+      "file": "barChart-1.json",
+      "component": "BarChart",
+      "title": "Tests by result",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "barChart-2.json",
+      "component": "BarChart",
+      "title": "Slowest suites, ranked",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "lineChart-1.json",
+      "component": "LineChart",
+      "title": "Wall time with a budget",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "areaChart-1.json",
+      "component": "AreaChart",
+      "title": "Tokens per agent",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "pieChart-1.json",
+      "component": "PieChart",
+      "title": "Where the memory goes",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "gauge-1.json",
+      "component": "Gauge",
+      "title": "Voice budget",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "sparkline-1.json",
+      "component": "Sparkline",
+      "title": "Inside a Stat",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "scatterChart-1.json",
+      "component": "ScatterChart",
+      "title": "Tests against time",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "heatmap-1.json",
+      "component": "Heatmap",
+      "title": "Agent activity by hour",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "histogram-1.json",
+      "component": "Histogram",
+      "title": "Test durations",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "comboChart-1.json",
+      "component": "ComboChart",
+      "title": "Wall time and moving average",
+      "source": "site/data/components.json (the VPLAN §7.3 mock)"
+    },
+    {
+      "file": "vplan-example.json",
+      "component": "BarChart, Gauge",
+      "title": "VPLAN §7.3 example spec",
+      "source": "VPLAN §7.3"
+    }
+  ]
+}

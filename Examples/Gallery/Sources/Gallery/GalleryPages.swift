@@ -16,7 +16,11 @@ enum GalleryPages {
         FixtureSpecsPage.self,
         // Inputs (jr-3b)
         // Charts (jr-3c, jr-3d)
+        BarChartPage.self, LineChartPage.self, AreaChartPage.self, PieChartPage.self,
+        GaugePage.self, SparklinePage.self, ScatterChartPage.self, HeatmapPage.self,
+        HistogramPage.self, ComboChartPage.self, StreamingSeriesPage.self, ShowAsTablePage.self,
         // Streaming (jr-2)
+        StreamingReplayPage.self,
         // Theme (jr-3)
         ThemePresetsPage.self,
         // Accessibility (jr-3)

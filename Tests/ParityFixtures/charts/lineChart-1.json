@@ -1,0 +1,157 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "line"
+      ],
+      "props": {
+        "title": "Wall time, last 12 runs"
+      },
+      "type": "Card"
+    },
+    "line": {
+      "props": {
+        "data": {
+          "$state": "/wall"
+        },
+        "referenceLines": [
+          {
+            "intent": "risk",
+            "label": "Budget 60 s",
+            "value": 60
+          }
+        ],
+        "series": "kind",
+        "unit": "s",
+        "x": "run",
+        "y": "secs"
+      },
+      "type": "LineChart"
+    }
+  },
+  "root": "card",
+  "state": {
+    "wall": [
+      {
+        "kind": "Parallel",
+        "run": "4202",
+        "secs": 41
+      },
+      {
+        "kind": "Serial",
+        "run": "4202",
+        "secs": 55
+      },
+      {
+        "kind": "Parallel",
+        "run": "4203",
+        "secs": 38
+      },
+      {
+        "kind": "Serial",
+        "run": "4203",
+        "secs": 51
+      },
+      {
+        "kind": "Parallel",
+        "run": "4204",
+        "secs": 44
+      },
+      {
+        "kind": "Serial",
+        "run": "4204",
+        "secs": 59
+      },
+      {
+        "kind": "Parallel",
+        "run": "4205",
+        "secs": 37
+      },
+      {
+        "kind": "Serial",
+        "run": "4205",
+        "secs": 50
+      },
+      {
+        "kind": "Parallel",
+        "run": "4206",
+        "secs": 40
+      },
+      {
+        "kind": "Serial",
+        "run": "4206",
+        "secs": 54
+      },
+      {
+        "kind": "Parallel",
+        "run": "4207",
+        "secs": 34
+      },
+      {
+        "kind": "Serial",
+        "run": "4207",
+        "secs": 46
+      },
+      {
+        "kind": "Parallel",
+        "run": "4208",
+        "secs": 39
+      },
+      {
+        "kind": "Serial",
+        "run": "4208",
+        "secs": 53
+      },
+      {
+        "kind": "Parallel",
+        "run": "4209",
+        "secs": 35
+      },
+      {
+        "kind": "Serial",
+        "run": "4209",
+        "secs": 47
+      },
+      {
+        "kind": "Parallel",
+        "run": "4210",
+        "secs": 38
+      },
+      {
+        "kind": "Serial",
+        "run": "4210",
+        "secs": 51
+      },
+      {
+        "kind": "Parallel",
+        "run": "4211",
+        "secs": 42
+      },
+      {
+        "kind": "Serial",
+        "run": "4211",
+        "secs": 57
+      },
+      {
+        "kind": "Parallel",
+        "run": "4212",
+        "secs": 41
+      },
+      {
+        "kind": "Serial",
+        "run": "4212",
+        "secs": 55
+      },
+      {
+        "kind": "Parallel",
+        "run": "4213",
+        "secs": 36
+      },
+      {
+        "kind": "Serial",
+        "run": "4213",
+        "secs": 49
+      }
+    ]
+  }
+}

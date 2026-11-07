@@ -1,0 +1,39 @@
+{
+  "elements": {
+    "spark": {
+      "props": {
+        "emphasis": "last",
+        "values": {
+          "$state": "/series"
+        }
+      },
+      "type": "Sparkline"
+    },
+    "stat": {
+      "children": [
+        "spark"
+      ],
+      "props": {
+        "delta": "−6 s",
+        "intent": "good",
+        "label": "Wall time",
+        "value": "41 s"
+      },
+      "type": "Stat"
+    }
+  },
+  "root": "stat",
+  "state": {
+    "series": [
+      8,
+      10,
+      6,
+      14,
+      12,
+      16,
+      18,
+      20,
+      22
+    ]
+  }
+}

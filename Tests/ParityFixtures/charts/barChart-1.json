@@ -1,0 +1,138 @@
+{
+  "elements": {
+    "bars": {
+      "props": {
+        "data": {
+          "$state": "/runs"
+        },
+        "format": "compact",
+        "layout": "stacked",
+        "selection": {
+          "$bindState": "/picked"
+        },
+        "series": "result",
+        "x": "run",
+        "y": "n"
+      },
+      "type": "BarChart"
+    },
+    "card": {
+      "children": [
+        "bars",
+        "picked"
+      ],
+      "props": {
+        "title": "Tests by result"
+      },
+      "type": "Card"
+    },
+    "picked": {
+      "props": {
+        "text": {
+          "$template": "Selected run: ${/picked}"
+        },
+        "variant": "muted"
+      },
+      "type": "Text",
+      "visible": {
+        "$state": "/picked"
+      }
+    }
+  },
+  "root": "card",
+  "state": {
+    "picked": null,
+    "runs": [
+      {
+        "n": 1210,
+        "result": "Passed",
+        "run": "4208"
+      },
+      {
+        "n": 7,
+        "result": "Failed",
+        "run": "4208"
+      },
+      {
+        "n": 42,
+        "result": "Skipped",
+        "run": "4208"
+      },
+      {
+        "n": 1215,
+        "result": "Passed",
+        "run": "4209"
+      },
+      {
+        "n": 5,
+        "result": "Failed",
+        "run": "4209"
+      },
+      {
+        "n": 40,
+        "result": "Skipped",
+        "run": "4209"
+      },
+      {
+        "n": 1198,
+        "result": "Passed",
+        "run": "4210"
+      },
+      {
+        "n": 12,
+        "result": "Failed",
+        "run": "4210"
+      },
+      {
+        "n": 41,
+        "result": "Skipped",
+        "run": "4210"
+      },
+      {
+        "n": 1220,
+        "result": "Passed",
+        "run": "4211"
+      },
+      {
+        "n": 8,
+        "result": "Failed",
+        "run": "4211"
+      },
+      {
+        "n": 45,
+        "result": "Skipped",
+        "run": "4211"
+      },
+      {
+        "n": 1236,
+        "result": "Passed",
+        "run": "4212"
+      },
+      {
+        "n": 4,
+        "result": "Failed",
+        "run": "4212"
+      },
+      {
+        "n": 44,
+        "result": "Skipped",
+        "run": "4212"
+      },
+      {
+        "n": 1250,
+        "result": "Passed",
+        "run": "4213"
+      },
+      {
+        "n": 3,
+        "result": "Failed",
+        "run": "4213"
+      },
+      {
+        "n": 43,
+        "result": "Skipped",
+        "run": "4213"
+      }
+    ]
+  }
+}

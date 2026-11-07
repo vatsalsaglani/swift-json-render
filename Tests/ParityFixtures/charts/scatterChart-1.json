@@ -1,0 +1,78 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "sc"
+      ],
+      "props": {
+        "title": "Suite size against wall time"
+      },
+      "type": "Card"
+    },
+    "sc": {
+      "props": {
+        "data": {
+          "$state": "/suites"
+        },
+        "trend": "linear",
+        "unit": "s",
+        "x": "tests",
+        "y": "secs"
+      },
+      "type": "ScatterChart"
+    }
+  },
+  "root": "card",
+  "state": {
+    "suites": [
+      {
+        "cases": 61,
+        "secs": 11.2,
+        "suite": "Canvas",
+        "tests": 61
+      },
+      {
+        "cases": 38,
+        "secs": 8.6,
+        "suite": "Voice",
+        "tests": 38
+      },
+      {
+        "cases": 54,
+        "secs": 6.7,
+        "suite": "LSP",
+        "tests": 54
+      },
+      {
+        "cases": 27,
+        "secs": 3.8,
+        "suite": "MDX",
+        "tests": 27
+      },
+      {
+        "cases": 18,
+        "secs": 1.4,
+        "suite": "Term",
+        "tests": 18
+      },
+      {
+        "cases": 33,
+        "secs": 2.2,
+        "suite": "Search",
+        "tests": 33
+      },
+      {
+        "cases": 72,
+        "secs": 9.9,
+        "suite": "Git",
+        "tests": 72
+      },
+      {
+        "cases": 12,
+        "secs": 0.6,
+        "suite": "Theme",
+        "tests": 12
+      }
+    ]
+  }
+}
