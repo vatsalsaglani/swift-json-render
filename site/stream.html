@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Streaming · swift-json-render</title>
+<meta name="description" content="Replay a SpecStream of JSON Patch lines into the renderer. Step through it, change the speed, and watch skeletons fill in.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>try{var t=localStorage.getItem("jr-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap">
+  <a class="brand" href="index.html"><i aria-hidden="true">{}</i>swift-json-render</a>
+  <nav class="nav" aria-label="Main">
+    <a href="index.html#components">Components</a>
+    <a href="stream.html" aria-current="page">Streaming</a>
+    <a href="theme.html">Theme</a>
+  </nav>
+  <button type="button" class="icon-btn" id="theme-toggle">Theme: Auto</button>
+</div></header>
+<main id="main">
+<div class="wrap">
+<section class="section" style="padding-top:40px" aria-labelledby="s-h">
+  <p class="eyebrow">Streaming</p>
+  <h1 id="s-h" style="font-size:clamp(30px,5vw,44px)">A spec that arrives in pieces</h1>
+  <p class="lede">A model streams one JSON Patch per line. The renderer applies each patch to an immutable snapshot and redraws. Children that have not arrived show a skeleton that holds the final layout.</p>
+
+  <div class="seg-big" role="group" aria-label="Choose a stream" id="scen" style="margin-top:22px"></div>
+  <p class="small" id="blurb" style="margin-top:10px;max-width:70ch"></p>
+
+  <div class="ctl" role="group" aria-label="Playback controls">
+    <button type="button" class="btn primary" id="play">Play</button>
+    <button type="button" class="btn" id="back" aria-label="Step back one line">Step back</button>
+    <button type="button" class="btn" id="fwd" aria-label="Step forward one line">Step</button>
+    <button type="button" class="btn" id="restart">Restart</button>
+    <label>Speed
+      <select id="speed" aria-label="Playback speed">
+        <option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="2">2x</option><option value="4">4x</option>
+      </select>
+    </label>
+    <div class="grow"><label for="scrub" style="white-space:nowrap">Line <output id="pos">0 / 0</output></label><input type="range" id="scrub" min="0" max="12" value="0" step="1"></div>
+  </div>
+  <p class="statusline" id="status" role="status" aria-live="polite"></p>
+
+  <div class="sgrid">
+    <div class="panel"><h3>The stream (JSONL)</h3><ol class="plines" id="lines" aria-label="Patch lines"></ol></div>
+    <div class="panel">
+      <h3>Rendered</h3>
+      <div class="mock" data-fade><div id="out"></div></div>
+      <div class="storeinfo" id="info"></div>
+      <p class="journal" id="journal" role="status"></p>
+    </div>
+  </div>
+
+  <h2 style="font-size:20px;margin-top:48px">How it works</h2>
+  <div class="three" style="margin-top:14px">
+    <div><h3>Decode</h3><p>The decoder keeps the trailing partial line in a buffer. Complete lines become patches. A line that does not parse is journaled and skipped.</p></div>
+    <div><h3>Apply</h3><p>Each patch (add, replace, remove, move, copy, test) changes an immutable snapshot. An element that has no path from the root waits until its parent arrives.</p></div>
+    <div><h3>Draw</h3><p>The renderer redraws at most once per frame. A 180 ms fade shows new content, and none under Reduce Motion. Cancelling keeps the last snapshot.</p></div>
+  </div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <div>swift-json-render is planned. This site shows the design from the plan (VPLAN revision 4, 2026-11-07). The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
+  <div>Keys: <kbd>/</kbd> search · <kbd>j</kbd> <kbd>k</kbd> next and previous component</div>
+</div></footer>
+<script src="data/components.js"></script>
+<script src="js/vnode.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/render.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/stream-data.js"></script>
+<script src="js/stream.js"></script>
+</body>
+</html>
