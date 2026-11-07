@@ -8,13 +8,18 @@ public struct AutoFixResult: Sendable, Hashable {
 }
 
 extension Catalog {
-    /// Upstream `autoFixSpec`. `report` is accepted for call-site symmetry and is not read:
-    /// the fixes come from the spec itself, as upstream.
-    public static func autoFix(
-        _ spec: Spec, report: ValidationReport? = nil, lossy: Bool = true
-    ) -> (Spec, fixes: [String]) {
+    /// Upstream `autoFixSpec`: the fixed spec and the fix messages.
+    public static func autoFix(_ spec: Spec, lossy: Bool = true) -> (Spec, fixes: [String]) {
         let result = autoFixReport(spec, lossy: lossy)
         return (result.spec, result.messages)
+    }
+
+    /// The brief's first shape. `report` is not read: the fixes come from the spec itself.
+    @available(*, deprecated, message: "Use autoFix(_:lossy:); the report is not read.")
+    public static func autoFix(_ spec: Spec, report: ValidationReport?, lossy: Bool = true)
+        -> (Spec, fixes: [String])
+    {
+        autoFix(spec, lossy: lossy)
     }
 
     /// Upstream `autoFixSpec` with the structured fix list.

@@ -7,12 +7,22 @@ public struct ValidationCheckResult: Sendable, Hashable {
     /// upstream ("don't fail on unknown functions"); the flag replaces upstream's console
     /// warning.
     public var unknownFunction: Bool
+    /// Set when the built-in `pattern` check was refused by `PatternGuard` (the check then
+    /// fails without running the regex).
+    public var patternRefusal: PatternGuard.Refusal?
 
-    public init(type: String, valid: Bool, message: String, unknownFunction: Bool = false) {
+    /// `true` when `PatternGuard` refused the `pattern` check.
+    public var patternRefused: Bool { patternRefusal != nil }
+
+    public init(
+        type: String, valid: Bool, message: String, unknownFunction: Bool = false,
+        patternRefusal: PatternGuard.Refusal? = nil
+    ) {
         self.type = type
         self.valid = valid
         self.message = message
         self.unknownFunction = unknownFunction
+        self.patternRefusal = patternRefusal
     }
 }
 
@@ -47,8 +57,15 @@ public enum Validator {
             return ValidationCheckResult(
                 type: check.type, valid: true, message: check.message, unknownFunction: true)
         }
+        var refusal: PatternGuard.Refusal?
+        if check.type == "pattern", case .string(let text)? = value,
+            case .string(let pattern)?? = args["pattern"]
+        {
+            refusal = PatternGuard.refusal(pattern: pattern, value: text)
+        }
         return ValidationCheckResult(
-            type: check.type, valid: function(value, args), message: check.message)
+            type: check.type, valid: refusal == nil && function(value, args),
+            message: check.message, patternRefusal: refusal)
     }
 
     /// Runs every check of `config`. When `enabled` is present and evaluates to false

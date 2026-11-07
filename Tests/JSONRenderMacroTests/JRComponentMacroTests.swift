@@ -170,6 +170,36 @@ struct JRComponentMacroTests {
                     column: 5),
             ])
     }
+
+    @Test("Diagnostic: @JRProp on a computed property")
+    func computed() {
+        expand(
+            """
+            @JRComponent("X")
+            struct X {
+                @JRProp var label: String { "x" }
+                @JRProp var count: Int = 0 {
+                    didSet {}
+                }
+            }
+            """,
+            """
+            struct X {
+                var label: String { "x" }
+                var count: Int = 0 {
+                    didSet {}
+                }
+            }
+
+            extension X: JRComponentType {
+            }
+            """,
+            diagnostics: [
+                DiagnosticSpec(
+                    message: "@JRProp 'label' is a computed property; use a stored 'var'", line: 3,
+                    column: 5)
+            ])
+    }
 }
 
 /// A real `@JRComponent` type (Core protocol only; no SwiftUI).

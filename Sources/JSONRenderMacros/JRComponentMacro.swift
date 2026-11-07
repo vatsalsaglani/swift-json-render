@@ -178,6 +178,9 @@ struct PropInfo {
         guard let type = binding.typeAnnotation?.type else {
             return .failure(.missingType(jsonName))
         }
+        if let accessors = binding.accessorBlock, isComputed(accessors) {
+            return .failure(.computedProperty(jsonName))
+        }
         let defaultValue = binding.initializer?.value.trimmedDescription
         if variable.bindingSpecifier.tokenKind == .keyword(.let), defaultValue != nil {
             return .failure(.letWithDefault(jsonName))
@@ -212,6 +215,19 @@ struct PropInfo {
                 identifier: identifier, jsonName: jsonName, schema: schema,
                 description: description, decoder: mapped.decoder,
                 fallback: defaultValue ?? (mapped.isOptional ? nil : mapped.zero), secret: secret))
+    }
+}
+
+/// `true` for a getter body or `get`/`set` accessors; `false` for `willSet`/`didSet` only.
+private func isComputed(_ block: AccessorBlockSyntax) -> Bool {
+    switch block.accessors {
+    case .getter:
+        return true
+    case .accessors(let list):
+        return list.contains { accessor in
+            let kind = accessor.accessorSpecifier.tokenKind
+            return kind != .keyword(.willSet) && kind != .keyword(.didSet)
+        }
     }
 }
 
@@ -299,6 +315,12 @@ struct JRDiagnostic: DiagnosticMessage {
 
     static func missingType(_ name: String) -> JRDiagnostic {
         JRDiagnostic(message: "@JRProp '\(name)' needs an explicit type", id: "missingType")
+    }
+
+    static func computedProperty(_ name: String) -> JRDiagnostic {
+        JRDiagnostic(
+            message: "@JRProp '\(name)' is a computed property; use a stored 'var'",
+            id: "computedProperty")
     }
 
     static func letWithDefault(_ name: String) -> JRDiagnostic {

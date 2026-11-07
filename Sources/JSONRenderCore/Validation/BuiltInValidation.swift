@@ -18,7 +18,8 @@ public struct ValidationFunctionDefinition: Sendable {
 ///
 /// Documented deviations:
 /// - `pattern` uses Swift `Regex`, not a JavaScript `RegExp`. Simple classes, anchors and
-///   quantifiers behave the same; lookbehind and named-group syntax can differ. A pattern
+///   quantifiers behave the same; lookbehind and named-group syntax can differ. Before it
+///   runs, `PatternGuard` refuses long inputs and nested quantifiers (ReDoS). A pattern
 ///   that does not compile fails the check, as upstream.
 /// - `url` checks the WHATWG shape by hand (a scheme, and a host for the special schemes);
 ///   it is not a full WHATWG URL parser. The upstream fixtures decide the edge cases.
@@ -133,8 +134,11 @@ public enum BuiltInValidation {
 
     /// `new RegExp(pattern).test(text)`: an unanchored search. A pattern that does not
     /// compile gives `false`.
+    /// A pattern or value refused by `PatternGuard` gives `false` without running the regex.
     static func matches(_ text: String, pattern: String) -> Bool {
-        guard let regex = try? Regex(pattern) else { return false }
+        guard PatternGuard.refusal(pattern: pattern, value: text) == nil,
+            let regex = try? Regex(pattern)
+        else { return false }
         return (try? regex.firstMatch(in: text)) != nil
     }
 
