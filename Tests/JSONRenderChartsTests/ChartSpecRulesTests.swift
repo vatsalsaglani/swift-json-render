@@ -60,9 +60,10 @@ struct ChartSpecRulesTests {
     @Test("Combo: no dual axis")
     func combo() {
         #expect(
-            messages("ComboChart", ["unit": "s", "lineUnit": "%"])
+            messages("ComboChart", ["unit": ["s", "%"]])
                 == ["ComboChart c: no dual axis; bars and line share one unit."])
         #expect(messages("ComboChart", ["unit": "s"]).isEmpty)
+        #expect(messages("ComboChart", ["unit": ["s", "s"]]).isEmpty)
     }
 
     @Test("Funnel: a larger stage needs sort none")

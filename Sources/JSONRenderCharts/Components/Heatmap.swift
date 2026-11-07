@@ -85,7 +85,7 @@ struct HeatmapPlot: View {
             .chartXAxis(input.hidesAxes ? .hidden : .automatic)
             .chartYAxis(input.hidesAxes ? .hidden : .automatic)
             .chartLegend(.hidden)
-            .chartXSelection(value: input.selection)
+            .jrPointerSelection(input, axis: .x)
             if input.legend != .hidden, let range = data.options.valueRange {
                 HeatmapLegend(input: input, range: range, color: color)
             }

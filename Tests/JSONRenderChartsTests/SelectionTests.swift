@@ -68,4 +68,77 @@ struct SelectionTests {
         let late = data.points[1].x.numeric ?? 0
         #expect(ChartSelection.nearestLabel(to: late - 3_600, in: data) == "2026-11-07")
     }
+
+    /// Drives the selection state the way the chart does and records the writes.
+    func perform(
+        _ write: String??, data: ChartData, recorder: Recorder
+    ) {
+        guard case .some(let value) = write else { return }
+        ChartSelection.write(
+            value, data: data, bindings: ["selection": JSONPointer(tokens: ["picked"])],
+            writer: writer(recorder))
+    }
+
+    @Test("Hover never writes to state; it only moves the highlight")
+    func hoverDoesNotWrite() {
+        var state = ChartSelectionState()
+        state.hover("4209")
+        #expect(state.shown == "4209")
+        state.hover(nil)
+        #expect(state.shown == nil)
+        #expect(state.committed == nil)
+    }
+
+    @Test("A click writes; a second click on the same mark writes null")
+    func clickWrites() {
+        let (data, _) = ChartData.make(
+            props: ["data": ChartDataTests.runs, "x": "run", "y": "n"], kind: .bar)
+        let recorder = Recorder()
+        var state = ChartSelectionState()
+        state.hover("4208")
+        perform(state.click("4209"), data: data, recorder: recorder)
+        #expect(recorder.writes.map(\.1) == ["4209"])
+        state.hover("4210")
+        #expect(state.shown == "4210")
+        state.hover(nil)
+        #expect(state.shown == "4209")
+        perform(state.click("4209"), data: data, recorder: recorder)
+        #expect(recorder.writes.map(\.1) == ["4209", .null])
+        #expect(state.committed == nil)
+        perform(state.click(nil), data: data, recorder: recorder)
+        #expect(recorder.writes.count == 2)
+    }
+
+    @Test("Arrow keys and Escape write; Escape with nothing selected does not")
+    func keysWrite() {
+        let (data, _) = ChartData.make(
+            props: ["data": ChartDataTests.runs, "x": "run", "y": "n"], kind: .bar)
+        let recorder = Recorder()
+        var state = ChartSelectionState()
+        perform(state.clear(), data: data, recorder: recorder)
+        #expect(recorder.writes.isEmpty)
+        perform(state.move(by: 1, in: data.categories), data: data, recorder: recorder)
+        perform(state.move(by: 1, in: data.categories), data: data, recorder: recorder)
+        #expect(recorder.writes.map(\.1) == ["4208", "4209"])
+        perform(state.clear(), data: data, recorder: recorder)
+        #expect(recorder.writes.last?.1 == .null)
+    }
+
+    @Test("A state change syncs without a write")
+    func syncFromState() {
+        var state = ChartSelectionState()
+        state.sync(fromState: "4210")
+        #expect(state.committed == "4210")
+        #expect(state.shown == "4210")
+    }
+
+    @Test("Pie slices by fraction of the turn")
+    func slices() {
+        let (data, _) = ChartData.make(
+            props: [
+                "data": [["l": "a", "v": 3], ["l": "b", "v": 1]], "label": "l", "value": "v",
+            ], kind: .pie)
+        #expect(ChartSelection.slice(atFraction: 0.1, in: data) == "a")
+        #expect(ChartSelection.slice(atFraction: 0.8, in: data) == "b")
+    }
 }

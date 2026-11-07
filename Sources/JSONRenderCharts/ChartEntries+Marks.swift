@@ -19,16 +19,16 @@ extension ChartEntries {
 
     /// Registers the mark charts, the four aggregation functions and the chart rule.
     static func registerMarks(into catalog: inout Catalog) throws(CatalogError) {
-        try catalog.registerChart(BarChart.self)
-        try catalog.registerChart(LineChart.self)
-        try catalog.registerChart(AreaChart.self)
-        try catalog.registerChart(PieChart.self)
-        try catalog.registerChart(JRGauge.self)
-        try catalog.registerChart(Sparkline.self)
-        try catalog.registerChart(ScatterChart.self)
-        try catalog.registerChart(Heatmap.self)
-        try catalog.registerChart(Histogram.self)
-        try catalog.registerChart(ComboChart.self)
+        try catalog.register(BarChart.self)
+        try catalog.register(LineChart.self)
+        try catalog.register(AreaChart.self)
+        try catalog.register(PieChart.self)
+        try catalog.register(JRGauge.self)
+        try catalog.register(Sparkline.self)
+        try catalog.register(ScatterChart.self)
+        try catalog.register(Heatmap.self)
+        try catalog.register(Histogram.self)
+        try catalog.register(ComboChart.self)
         ChartFunctions.register(into: &catalog)
         catalog.rule(ChartSpecRules.name, ChartSpecRules.check)
     }

@@ -77,6 +77,6 @@ struct HistogramPlot: View {
                 }
             }
         }
-        .jrXSelection(input)
+        .jrPointerSelection(input, axis: .x)
     }
 }

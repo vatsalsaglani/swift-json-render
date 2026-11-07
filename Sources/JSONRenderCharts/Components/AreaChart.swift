@@ -70,6 +70,6 @@ struct AreaChartPlot: View {
         .jrValueAxes(input)
         .jrSeriesLegend(input)
         .modifier(NumericXScale(input: input))
-        .jrXSelection(input)
+        .jrPointerSelection(input, axis: .x)
     }
 }

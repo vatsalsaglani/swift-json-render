@@ -153,12 +153,11 @@ public enum ChartSpecRules {
             }
         }
 
+        /// The schema has one `unit`. A list of two or more different units asks for a
+        /// second axis.
         mutating func checkCombo() {
-            let units = Set(
-                ["unit", "lineUnit", "barsUnit", "barUnit", "secondaryUnit", "y2Unit"].compactMap {
-                    props[$0]?.stringValue
-                })
-            if units.count > 1 || props["y2"] != nil || props["secondaryAxis"] != nil {
+            guard case .array(let items)? = props["unit"] else { return }
+            if Set(items.compactMap(\.stringValue)).count > 1 {
                 error("no dual axis; bars and line share one unit.")
             }
         }

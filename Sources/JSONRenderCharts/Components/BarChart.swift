@@ -103,7 +103,7 @@ struct BarChartPlot: View {
         .jrMarkOverride(input)
         .jrValueAxes(input, horizontal: horizontal)
         .jrSeriesLegend(input)
-        .modifier(BarSelection(input: input, horizontal: horizontal))
+        .jrPointerSelection(input, axis: horizontal ? .y : .x)
     }
 
     /// One bar. Stacked bars span `base...base + y`, inset by a 1 pt gap in data units so
@@ -137,19 +137,5 @@ struct BarChartPlot: View {
 
     private func label(_ point: ChartPoint) -> String {
         ChartAccessibilityDescriptor.label(point, data: input.data)
-    }
-}
-
-/// Selection along the category axis (y for horizontal bars).
-private struct BarSelection: ViewModifier {
-    let input: ChartPlotInput
-    let horizontal: Bool
-
-    func body(content: Content) -> some View {
-        if horizontal {
-            content.chartYSelection(value: input.selection)
-        } else {
-            content.chartXSelection(value: input.selection)
-        }
     }
 }

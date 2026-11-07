@@ -74,6 +74,6 @@ struct ComboChartPlot: View {
         .jrMarkOverride(input)
         .jrValueAxes(input)
         .jrSeriesLegend(input)
-        .chartXSelection(value: input.selection)
+        .jrPointerSelection(input, axis: .x)
     }
 }

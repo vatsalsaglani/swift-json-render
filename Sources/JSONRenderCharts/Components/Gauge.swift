@@ -125,7 +125,8 @@ struct BandedGaugeStyle: GaugeStyle {
                 ArcShape(start: start, sweep: sweep, from: 0, to: 1)
                     .stroke(
                         input.theme.color.hairline,
-                        style: StrokeStyle(lineWidth: width, lineCap: .round))
+                        style: StrokeStyle(
+                            lineWidth: width, lineCap: model.bands.isEmpty ? .round : .butt))
                 ForEach(Array(bandSpans.enumerated()), id: \.offset) { _, span in
                     ArcShape(start: start, sweep: sweep, from: span.from, to: span.to)
                         .stroke(

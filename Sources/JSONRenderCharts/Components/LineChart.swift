@@ -87,7 +87,7 @@ struct LineChartPlot: View {
         .jrValueAxes(input)
         .jrSeriesLegend(input)
         .modifier(NumericXScale(input: input))
-        .jrXSelection(input)
+        .jrPointerSelection(input, axis: .x)
     }
 
     private func seriesIndex(_ point: ChartPoint) -> Int {
