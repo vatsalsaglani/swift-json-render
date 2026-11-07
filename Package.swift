@@ -9,24 +9,56 @@ let strict: [SwiftSetting] = [
     .enableUpcomingFeature("InternalImportsByDefault"),
 ]
 
-let package = Package(
-    name: "swift-json-render",
-    platforms: [.macOS(.v14), .iOS(.v17)],
-    products: [
-        .library(name: "JSONRenderCore", targets: ["JSONRenderCore"]),
+// Linux builds and tests the platform-neutral targets only (Core, Compose, Client, Macros).
+// SwiftUI, Swift Charts and the image loader are Apple-only.
+#if os(Linux)
+    let includeAppleTargets = false
+#else
+    let includeAppleTargets = true
+#endif
+
+var products: [Product] = [
+    .library(name: "JSONRenderCore", targets: ["JSONRenderCore"]),
+    .library(name: "JSONRenderCompose", targets: ["JSONRenderCompose"]),
+    .library(name: "JSONRenderClient", targets: ["JSONRenderClient"]),
+]
+
+var targets: [Target] = [
+    // Foundation only. Linux-capable. No SwiftUI, no network.
+    .target(name: "JSONRenderCore", swiftSettings: strict),
+    // Optional: the only Decisions API code. Hosts opt in.
+    .target(name: "JSONRenderCompose", dependencies: ["JSONRenderCore"], swiftSettings: strict),
+    .macro(
+        name: "JSONRenderMacros",
+        dependencies: [
+            .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+            .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        ],
+        swiftSettings: strict),
+    .target(
+        name: "JSONRenderClient", dependencies: ["JSONRenderCore", "JSONRenderMacros"],
+        swiftSettings: strict),
+    .testTarget(
+        name: "JSONRenderCoreTests", dependencies: ["JSONRenderCore"],
+        swiftSettings: strict),
+    .testTarget(
+        name: "JSONRenderMacroTests",
+        dependencies: [
+            "JSONRenderMacros",
+            "JSONRenderClient",
+            .product(name: "SwiftSyntaxMacrosGenericTestSupport", package: "swift-syntax"),
+        ],
+        swiftSettings: strict),
+]
+
+if includeAppleTargets {
+    products += [
         .library(name: "JSONRenderSwiftUI", targets: ["JSONRenderSwiftUI"]),
         .library(name: "JSONRenderStandardCatalog", targets: ["JSONRenderStandardCatalog"]),
         .library(name: "JSONRenderCharts", targets: ["JSONRenderCharts"]),
         .library(name: "JSONRenderRemoteImages", targets: ["JSONRenderRemoteImages"]),
-        .library(name: "JSONRenderCompose", targets: ["JSONRenderCompose"]),
-        .library(name: "JSONRenderClient", targets: ["JSONRenderClient"]),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", "602.0.0"..<"605.0.0")
-    ],
-    targets: [
-        // Foundation only. Linux-capable. No SwiftUI, no network.
-        .target(name: "JSONRenderCore", swiftSettings: strict),
+    ]
+    targets += [
         .target(name: "JSONRenderSwiftUI", dependencies: ["JSONRenderCore"], swiftSettings: strict),
         .target(
             name: "JSONRenderStandardCatalog",
@@ -39,20 +71,15 @@ let package = Package(
         .target(
             name: "JSONRenderRemoteImages", dependencies: ["JSONRenderCore", "JSONRenderSwiftUI"],
             swiftSettings: strict),
-        // Optional: the only Decisions API code. Hosts opt in.
-        .target(name: "JSONRenderCompose", dependencies: ["JSONRenderCore"], swiftSettings: strict),
-        .macro(
-            name: "JSONRenderMacros",
-            dependencies: [
-                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-            ],
-            swiftSettings: strict),
-        .target(
-            name: "JSONRenderClient", dependencies: ["JSONRenderCore", "JSONRenderMacros"],
-            swiftSettings: strict),
-        .testTarget(
-            name: "JSONRenderCoreTests", dependencies: ["JSONRenderCore"],
-            swiftSettings: strict),
     ]
+}
+
+let package = Package(
+    name: "swift-json-render",
+    platforms: [.macOS(.v14), .iOS(.v17)],
+    products: products,
+    dependencies: [
+        .package(url: "https://github.com/swiftlang/swift-syntax.git", "602.0.0"..<"605.0.0")
+    ],
+    targets: targets
 )
