@@ -1,0 +1,22 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "resolveRepeatStatePath",
+      "value": {
+        "$item": "subitems"
+      },
+      "base": "/groups/0",
+      "expect": "/groups/0/subitems"
+    },
+    {
+      "op": "resolveRepeatStatePath",
+      "value": {
+        "$item": "/subitems"
+      },
+      "base": "/groups/0",
+      "expect": "/groups/0/subitems"
+    }
+  ],
+  "expected": {}
+}

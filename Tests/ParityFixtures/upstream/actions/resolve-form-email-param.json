@@ -1,0 +1,22 @@
+{
+  "kind": "resolve",
+  "state": {
+    "form": {
+      "email": "john.doe@example.com"
+    }
+  },
+  "binding": {
+    "action": "createCustomer",
+    "params": {
+      "email": {
+        "$state": "/form/email"
+      }
+    }
+  },
+  "expectedResolved": {
+    "action": "createCustomer",
+    "params": {
+      "email": "john.doe@example.com"
+    }
+  }
+}

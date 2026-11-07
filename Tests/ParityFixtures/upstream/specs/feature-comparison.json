@@ -1,0 +1,53 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "lg",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "heading",
+        "subtitle",
+        "accordion"
+      ]
+    },
+    "heading": {
+      "type": "Heading",
+      "props": {
+        "text": "Feature Comparison",
+        "level": "h1"
+      }
+    },
+    "subtitle": {
+      "type": "Text",
+      "props": {
+        "text": "Expand each section to see how plans compare.",
+        "variant": "muted"
+      }
+    },
+    "accordion": {
+      "type": "Accordion",
+      "props": {
+        "items": [
+          {
+            "title": "Projects & Team",
+            "content": "Free: 3 projects, 1 member | Pro: Unlimited projects, 10 members | Enterprise: Unlimited everything"
+          },
+          {
+            "title": "Storage & Bandwidth",
+            "content": "Free: 1 GB storage, 10 GB/mo bandwidth | Pro: 50 GB storage, 500 GB/mo | Enterprise: Unlimited"
+          },
+          {
+            "title": "Support & SLA",
+            "content": "Free: Forum, no SLA | Pro: Email + Chat, 99.9% SLA | Enterprise: Dedicated Slack, 99.99% SLA"
+          }
+        ],
+        "type": "single"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "initial": {
+    "items": [
+      10,
+      20,
+      30
+    ]
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/items/0",
+      "expect": 10
+    },
+    {
+      "op": "get",
+      "path": "/items/2",
+      "expect": 30
+    }
+  ],
+  "expected": {
+    "items": [
+      10,
+      20,
+      30
+    ]
+  }
+}

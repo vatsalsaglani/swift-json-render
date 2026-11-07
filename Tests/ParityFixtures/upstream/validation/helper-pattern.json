@@ -1,0 +1,15 @@
+{
+  "kind": "helper",
+  "fn": "pattern",
+  "args": [
+    "^[a-z]+$",
+    "Letters only"
+  ],
+  "expected": {
+    "type": "pattern",
+    "args": {
+      "pattern": "^[a-z]+$"
+    },
+    "message": "Letters only"
+  }
+}

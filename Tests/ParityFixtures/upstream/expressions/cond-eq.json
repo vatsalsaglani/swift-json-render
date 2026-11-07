@@ -1,0 +1,15 @@
+{
+  "kind": "value",
+  "state": {
+    "tab": "home"
+  },
+  "input": {
+    "$cond": {
+      "$state": "/tab",
+      "eq": "home"
+    },
+    "$then": "#007AFF",
+    "$else": "#8E8E93"
+  },
+  "expected": "#007AFF"
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "value",
+  "state": {},
+  "functions": [
+    "timestamp"
+  ],
+  "input": {
+    "$computed": "timestamp"
+  },
+  "expected": 1234567890
+}

@@ -1,0 +1,10 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "isAdmin": false
+  },
+  "condition": {
+    "$state": "/isAdmin"
+  },
+  "expected": false
+}

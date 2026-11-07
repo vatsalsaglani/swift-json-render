@@ -1,0 +1,37 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "save",
+    "params": {},
+    "onError": {
+      "action": "toast",
+      "params": {
+        "message": "Save failed"
+      }
+    }
+  },
+  "handler": "rejects",
+  "errorMessage": "Failed",
+  "hooks": [
+    "executeAction"
+  ],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "executeAction",
+      "args": [
+        {
+          "action": "toast",
+          "params": {
+            "message": "Save failed"
+          }
+        }
+      ]
+    }
+  ]
+}

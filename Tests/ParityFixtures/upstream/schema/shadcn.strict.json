@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "root": {
+      "type": "string"
+    },
+    "elements": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "root",
+    "elements"
+  ],
+  "additionalProperties": false
+}

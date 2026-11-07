@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "name": "Alice"
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "test",
+        "path": "/name",
+        "value": "Bob"
+      },
+      "throws": "Test operation failed: value at \"/name\" does not match"
+    }
+  ],
+  "expected": {
+    "name": "Alice"
+  }
+}

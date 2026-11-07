@@ -1,0 +1,15 @@
+{
+  "initial": {
+    "a~/b": "found"
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/a~0~1b",
+      "expect": "found"
+    }
+  ],
+  "expected": {
+    "a~/b": "found"
+  }
+}

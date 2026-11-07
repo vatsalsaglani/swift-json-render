@@ -1,0 +1,16 @@
+{
+  "kind": "param",
+  "state": {
+    "items": [
+      "a",
+      "b"
+    ]
+  },
+  "repeatItem": "a",
+  "repeatIndex": 0,
+  "repeatBasePath": "/items/0",
+  "input": {
+    "$item": ""
+  },
+  "expected": "/items/0"
+}

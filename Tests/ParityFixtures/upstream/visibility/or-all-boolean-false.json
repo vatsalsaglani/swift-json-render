@@ -1,0 +1,11 @@
+{
+  "kind": "evaluate",
+  "state": {},
+  "condition": {
+    "$or": [
+      false,
+      false
+    ]
+  },
+  "expected": false
+}

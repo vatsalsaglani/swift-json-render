@@ -1,0 +1,17 @@
+{
+  "root": "btn",
+  "elements": {
+    "btn": {
+      "type": "Button",
+      "props": {
+        "label": "Click me",
+        "variant": "primary"
+      },
+      "on": {
+        "press": {
+          "action": "confetti"
+        }
+      }
+    }
+  }
+}

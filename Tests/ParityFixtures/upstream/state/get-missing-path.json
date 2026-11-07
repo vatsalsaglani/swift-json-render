@@ -1,0 +1,28 @@
+{
+  "initial": {
+    "user": {
+      "name": "John"
+    }
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/user/missing",
+      "expect": {
+        "$undefined": true
+      }
+    },
+    {
+      "op": "get",
+      "path": "/nonexistent/path",
+      "expect": {
+        "$undefined": true
+      }
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "John"
+    }
+  }
+}

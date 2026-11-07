@@ -1,0 +1,17 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "3.14",
+  "config": {
+    "checks": [
+      {
+        "type": "numeric",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

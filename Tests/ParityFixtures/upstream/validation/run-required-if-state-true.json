@@ -1,0 +1,28 @@
+{
+  "kind": "run",
+  "state": {
+    "form": {
+      "enableEmail": true
+    }
+  },
+  "value": "",
+  "config": {
+    "checks": [
+      {
+        "type": "requiredIf",
+        "args": {
+          "field": {
+            "$state": "/form/enableEmail"
+          }
+        },
+        "message": "Email is required"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "Email is required"
+    ]
+  }
+}

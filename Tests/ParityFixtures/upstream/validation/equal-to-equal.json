@@ -1,0 +1,20 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "abc",
+  "config": {
+    "checks": [
+      {
+        "type": "equalTo",
+        "args": {
+          "other": "abc"
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

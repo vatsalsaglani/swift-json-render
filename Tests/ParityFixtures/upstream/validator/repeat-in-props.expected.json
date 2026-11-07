@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "repeat_in_props"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "repeat_in_props",
+      "severity": "error",
+      "elementKey": "root",
+      "message": "Element \"root\" has \"repeat\" inside \"props\". It should be a top-level field on the element (sibling of type/props/children)."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "repeat_in_props"
+  ]
+}

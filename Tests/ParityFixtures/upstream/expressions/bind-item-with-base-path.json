@@ -1,0 +1,22 @@
+{
+  "kind": "value",
+  "state": {
+    "todos": [
+      {
+        "completed": true
+      },
+      {
+        "completed": false
+      }
+    ]
+  },
+  "repeatItem": {
+    "completed": true
+  },
+  "repeatIndex": 0,
+  "repeatBasePath": "/todos/0",
+  "input": {
+    "$bindItem": "completed"
+  },
+  "expected": true
+}

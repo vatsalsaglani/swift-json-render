@@ -1,0 +1,16 @@
+{
+  "result": {
+    "a": 1,
+    "b": 2
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/b",
+      "value": 2
+    }
+  ],
+  "initial": {
+    "a": 1
+  }
+}

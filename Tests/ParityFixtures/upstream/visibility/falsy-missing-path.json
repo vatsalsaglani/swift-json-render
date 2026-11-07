@@ -1,0 +1,10 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "other": true
+  },
+  "condition": {
+    "$state": "/nonexistent"
+  },
+  "expected": false
+}

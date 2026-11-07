@@ -1,0 +1,13 @@
+{
+  "valid": true,
+  "codes": [],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [],
+  "partial": true,
+  "asserted": [],
+  "counts": {
+    "repeat_state_mismatch": 0
+  }
+}

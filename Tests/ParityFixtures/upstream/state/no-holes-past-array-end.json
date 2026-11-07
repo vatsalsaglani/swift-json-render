@@ -1,0 +1,46 @@
+{
+  "initial": {
+    "a": [
+      0,
+      {},
+      []
+    ]
+  },
+  "ops": [
+    {
+      "op": "set",
+      "path": "/a/9",
+      "value": 1
+    },
+    {
+      "op": "add",
+      "path": "a/1000000000/x",
+      "value": 1
+    },
+    {
+      "op": "add",
+      "path": "/a/-/1000000000/x",
+      "value": 1
+    },
+    {
+      "op": "patch",
+      "patch": {
+        "op": "move",
+        "from": "/a/0",
+        "path": "/a/1/1000000000/x"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/a/2",
+      "value": "end"
+    }
+  ],
+  "expected": {
+    "a": [
+      {},
+      [],
+      "end"
+    ]
+  }
+}

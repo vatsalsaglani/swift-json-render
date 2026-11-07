@@ -1,0 +1,20 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "2026-06-15",
+  "config": {
+    "checks": [
+      {
+        "type": "greaterThan",
+        "args": {
+          "other": "2026-01-01"
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

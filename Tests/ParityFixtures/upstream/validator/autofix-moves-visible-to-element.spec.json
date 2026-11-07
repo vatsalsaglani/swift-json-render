@@ -1,0 +1,15 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Text",
+      "props": {
+        "text": "hi",
+        "visible": {
+          "$state": "/show"
+        }
+      },
+      "children": []
+    }
+  }
+}

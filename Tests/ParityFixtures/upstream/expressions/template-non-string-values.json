@@ -1,0 +1,11 @@
+{
+  "kind": "value",
+  "state": {
+    "num": 42,
+    "bool": true
+  },
+  "input": {
+    "$template": "${/num} is ${/bool}"
+  },
+  "expected": "42 is true"
+}

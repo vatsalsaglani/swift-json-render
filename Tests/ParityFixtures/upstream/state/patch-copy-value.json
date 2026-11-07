@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "a": 1
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "copy",
+        "path": "/b",
+        "from": "/a"
+      }
+    }
+  ],
+  "expected": {
+    "a": 1,
+    "b": 1
+  }
+}

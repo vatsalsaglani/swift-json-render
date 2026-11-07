@@ -1,0 +1,21 @@
+{
+  "kind": "value",
+  "state": {
+    "a": 1,
+    "b": 2
+  },
+  "input": [
+    {
+      "$state": "/a"
+    },
+    {
+      "$state": "/b"
+    },
+    3
+  ],
+  "expected": [
+    1,
+    2,
+    3
+  ]
+}

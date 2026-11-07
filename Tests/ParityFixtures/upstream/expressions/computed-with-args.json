@@ -1,0 +1,24 @@
+{
+  "kind": "value",
+  "state": {
+    "form": {
+      "firstName": "Jane",
+      "lastName": "Doe"
+    }
+  },
+  "functions": [
+    "fullName"
+  ],
+  "input": {
+    "$computed": "fullName",
+    "args": {
+      "first": {
+        "$state": "/form/firstName"
+      },
+      "last": {
+        "$state": "/form/lastName"
+      }
+    }
+  },
+  "expected": "Jane Doe"
+}

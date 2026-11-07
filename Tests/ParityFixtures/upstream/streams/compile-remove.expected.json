@@ -1,0 +1,21 @@
+{
+  "result": {
+    "b": 2
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/a",
+      "value": 1
+    },
+    {
+      "op": "add",
+      "path": "/b",
+      "value": 2
+    },
+    {
+      "op": "remove",
+      "path": "/a"
+    }
+  ]
+}

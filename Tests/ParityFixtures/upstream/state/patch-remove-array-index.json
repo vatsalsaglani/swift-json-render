@@ -1,0 +1,24 @@
+{
+  "initial": {
+    "items": [
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "remove",
+        "path": "/items/1"
+      }
+    }
+  ],
+  "expected": {
+    "items": [
+      "a",
+      "c"
+    ]
+  }
+}

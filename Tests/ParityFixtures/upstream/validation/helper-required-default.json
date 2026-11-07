@@ -1,0 +1,9 @@
+{
+  "kind": "helper",
+  "fn": "required",
+  "args": [],
+  "expected": {
+    "type": "required",
+    "message": "This field is required"
+  }
+}

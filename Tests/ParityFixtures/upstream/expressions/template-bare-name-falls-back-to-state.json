@@ -1,0 +1,14 @@
+{
+  "kind": "value",
+  "state": {
+    "fallback": "ok"
+  },
+  "repeatItem": {
+    "name": "Alice"
+  },
+  "repeatIndex": 0,
+  "input": {
+    "$template": "${name} - ${fallback}"
+  },
+  "expected": "Alice - ok"
+}

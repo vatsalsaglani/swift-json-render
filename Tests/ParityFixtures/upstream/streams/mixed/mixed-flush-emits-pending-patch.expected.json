@@ -1,0 +1,16 @@
+{
+  "chunks": [
+    "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+  ],
+  "flush": true,
+  "events": [
+    {
+      "kind": "patch",
+      "value": {
+        "op": "add",
+        "path": "/root",
+        "value": "main"
+      }
+    }
+  ]
+}

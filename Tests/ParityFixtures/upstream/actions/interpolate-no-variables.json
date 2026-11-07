@@ -1,0 +1,10 @@
+{
+  "kind": "interpolate",
+  "cases": [
+    {
+      "state": {},
+      "input": "No vars here",
+      "expected": "No vars here"
+    }
+  ]
+}

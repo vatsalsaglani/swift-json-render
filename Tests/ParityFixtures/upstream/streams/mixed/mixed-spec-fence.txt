@@ -1,0 +1,5 @@
+Hello
+```spec
+{"op":"add","path":"/root","value":"main"}
+```
+Goodbye

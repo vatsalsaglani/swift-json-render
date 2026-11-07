@@ -1,0 +1,12 @@
+{
+  "kind": "param",
+  "state": {
+    "form": {
+      "id": "abc-123"
+    }
+  },
+  "input": {
+    "$state": "/form/id"
+  },
+  "expected": "abc-123"
+}

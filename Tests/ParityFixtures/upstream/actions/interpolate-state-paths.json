@@ -1,0 +1,25 @@
+{
+  "kind": "interpolate",
+  "cases": [
+    {
+      "state": {
+        "user": {
+          "name": "Alice"
+        },
+        "count": 5
+      },
+      "input": "Hello ${/user/name}!",
+      "expected": "Hello Alice!"
+    },
+    {
+      "state": {
+        "user": {
+          "name": "Alice"
+        },
+        "count": 5
+      },
+      "input": "${/user/name} has ${/count} items",
+      "expected": "Alice has 5 items"
+    }
+  ]
+}

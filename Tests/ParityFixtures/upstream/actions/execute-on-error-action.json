@@ -1,0 +1,31 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {},
+    "onError": {
+      "action": "handleError"
+    }
+  },
+  "handler": "rejects",
+  "errorMessage": "Failed",
+  "hooks": [
+    "executeAction"
+  ],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "executeAction",
+      "args": [
+        {
+          "action": "handleError"
+        }
+      ]
+    }
+  ]
+}

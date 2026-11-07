@@ -1,0 +1,28 @@
+{
+  "initial": {
+    "items": [
+      1,
+      2,
+      3
+    ]
+  },
+  "ops": [
+    {
+      "op": "flatten",
+      "expect": {
+        "/items": [
+          1,
+          2,
+          3
+        ]
+      }
+    }
+  ],
+  "expected": {
+    "items": [
+      1,
+      2,
+      3
+    ]
+  }
+}

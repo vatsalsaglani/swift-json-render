@@ -1,0 +1,19 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "params": {
+        "email": "direct",
+        "form.email": "dotted"
+      },
+      "state": {
+        "email": "state",
+        "form.email": "dotted state"
+      },
+      "expect": "direct"
+    }
+  ],
+  "expected": {}
+}

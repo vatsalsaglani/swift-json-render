@@ -1,0 +1,15 @@
+{
+  "kind": "value",
+  "state": {
+    "name": "Global"
+  },
+  "repeatItem": {
+    "name": "Alice",
+    "action": "signed up"
+  },
+  "repeatIndex": 0,
+  "input": {
+    "$template": "${name} ${action}"
+  },
+  "expected": "Alice signed up"
+}

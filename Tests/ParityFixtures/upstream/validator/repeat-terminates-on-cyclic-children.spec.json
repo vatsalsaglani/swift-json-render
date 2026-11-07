@@ -1,0 +1,34 @@
+{
+  "root": "groups",
+  "state": {
+    "groups": [
+      {
+        "items": []
+      }
+    ]
+  },
+  "elements": {
+    "groups": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "items"
+      ],
+      "repeat": {
+        "statePath": "/groups"
+      }
+    },
+    "items": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "groups"
+      ],
+      "repeat": {
+        "statePath": {
+          "$item": "items"
+        }
+      }
+    }
+  }
+}

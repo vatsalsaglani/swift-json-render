@@ -1,0 +1,26 @@
+{
+  "kind": "run",
+  "state": {
+    "form": {
+      "maxPrice": 100
+    }
+  },
+  "value": 50,
+  "config": {
+    "checks": [
+      {
+        "type": "lessThan",
+        "args": {
+          "other": {
+            "$state": "/form/maxPrice"
+          }
+        },
+        "message": "Must be less than max price"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

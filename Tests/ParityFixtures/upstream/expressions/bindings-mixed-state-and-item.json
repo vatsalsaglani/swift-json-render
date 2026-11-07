@@ -1,0 +1,22 @@
+{
+  "kind": "bindings",
+  "state": {},
+  "repeatItem": {
+    "done": false
+  },
+  "repeatIndex": 0,
+  "repeatBasePath": "/todos/0",
+  "input": {
+    "value": {
+      "$bindState": "/form/search"
+    },
+    "checked": {
+      "$bindItem": "done"
+    },
+    "label": "Task"
+  },
+  "expectedBindings": {
+    "value": "/form/search",
+    "checked": "/todos/0/done"
+  }
+}

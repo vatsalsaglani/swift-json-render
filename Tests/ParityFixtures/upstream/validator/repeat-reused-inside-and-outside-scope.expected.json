@@ -1,0 +1,25 @@
+{
+  "valid": false,
+  "codes": [
+    "repeat_item_outside_scope"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "repeat_item_outside_scope",
+      "severity": "error",
+      "elementKey": "shared",
+      "message": "Element \"shared\" uses relative repeat statePath {\"$item\":\"items\"} outside a repeat scope."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "repeat_item_outside_scope"
+  ],
+  "counts": {
+    "repeat_item_outside_scope": 1,
+    "repeat_state_mismatch": 0
+  }
+}

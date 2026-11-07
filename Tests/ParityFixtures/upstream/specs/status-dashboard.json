@@ -1,0 +1,122 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "lg",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "heading",
+        "alertOk",
+        "alertWarn",
+        "sep",
+        "table",
+        "sep2",
+        "accordion"
+      ]
+    },
+    "heading": {
+      "type": "Heading",
+      "props": {
+        "text": "System Status",
+        "level": "h1"
+      }
+    },
+    "alertOk": {
+      "type": "Alert",
+      "props": {
+        "title": "API",
+        "message": "All systems operational -- 99.98% uptime this month",
+        "type": "success"
+      }
+    },
+    "alertWarn": {
+      "type": "Alert",
+      "props": {
+        "title": "Database",
+        "message": "Elevated latency detected in us-east-1 region",
+        "type": "warning"
+      }
+    },
+    "sep": {
+      "type": "Separator",
+      "props": {
+        "orientation": null
+      }
+    },
+    "table": {
+      "type": "Table",
+      "props": {
+        "columns": [
+          "Service",
+          "Status",
+          "Latency",
+          "Uptime"
+        ],
+        "rows": [
+          [
+            "API Gateway",
+            "Operational",
+            "12ms",
+            "99.99%"
+          ],
+          [
+            "Auth Service",
+            "Operational",
+            "8ms",
+            "99.98%"
+          ],
+          [
+            "Database",
+            "Degraded",
+            "145ms",
+            "99.85%"
+          ],
+          [
+            "CDN",
+            "Operational",
+            "3ms",
+            "100%"
+          ],
+          [
+            "Workers",
+            "Operational",
+            "22ms",
+            "99.97%"
+          ]
+        ],
+        "caption": "Last updated 2 minutes ago"
+      }
+    },
+    "sep2": {
+      "type": "Separator",
+      "props": {
+        "orientation": null
+      }
+    },
+    "accordion": {
+      "type": "Accordion",
+      "props": {
+        "items": [
+          {
+            "title": "What does 'Degraded' mean?",
+            "content": "The service is still operational but experiencing slower response times than normal. We are actively investigating."
+          },
+          {
+            "title": "How is uptime calculated?",
+            "content": "Uptime is measured over the current calendar month based on successful health-check pings every 30 seconds."
+          },
+          {
+            "title": "How do I subscribe to updates?",
+            "content": "You can subscribe to incident notifications via email or webhook on the Settings page."
+          }
+        ],
+        "type": "single"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "initial": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {},
+        "children": []
+      },
+      "child": {
+        "type": "Text",
+        "props": {},
+        "children": []
+      }
+    }
+  },
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/elements/child"
+    }
+  ],
+  "result": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {},
+        "children": []
+      }
+    }
+  },
+  "applier": "applySpecPatch"
+}

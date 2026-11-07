@@ -1,0 +1,6 @@
+{
+  "kind": "param",
+  "state": {},
+  "input": 42,
+  "expected": 42
+}

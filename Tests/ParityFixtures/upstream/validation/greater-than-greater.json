@@ -1,0 +1,20 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": 7,
+  "config": {
+    "checks": [
+      {
+        "type": "greaterThan",
+        "args": {
+          "other": 5
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

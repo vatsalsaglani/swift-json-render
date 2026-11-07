@@ -1,0 +1,26 @@
+{
+  "autoFix": true,
+  "options": {},
+  "fixes": [],
+  "fixDetails": [],
+  "fixed": {
+    "root": "root",
+    "elements": {
+      "root": {
+        "type": "Card",
+        "props": {},
+        "children": [
+          "text"
+        ]
+      },
+      "text": {
+        "type": "Text",
+        "props": {
+          "text": "hi"
+        },
+        "children": []
+      }
+    }
+  },
+  "validAfterFix": true
+}

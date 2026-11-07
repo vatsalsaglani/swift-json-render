@@ -1,0 +1,15 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {},
+      "children": []
+    },
+    "orphan": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    }
+  }
+}

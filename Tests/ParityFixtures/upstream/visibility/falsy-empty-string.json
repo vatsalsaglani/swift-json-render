@@ -1,0 +1,10 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "name": ""
+  },
+  "condition": {
+    "$state": "/name"
+  },
+  "expected": false
+}

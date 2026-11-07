@@ -1,0 +1,20 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "params": {
+        "email": {
+          "$undefined": true
+        },
+        "form.email": "dotted"
+      },
+      "state": {
+        "form.email": "state"
+      },
+      "expect": "dotted"
+    }
+  ],
+  "expected": {}
+}

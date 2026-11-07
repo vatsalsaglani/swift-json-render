@@ -1,0 +1,26 @@
+{
+  "kind": "run",
+  "state": {
+    "minLen": 5
+  },
+  "value": "hi",
+  "config": {
+    "checks": [
+      {
+        "type": "minLength",
+        "args": {
+          "min": {
+            "$state": "/minLen"
+          }
+        },
+        "message": "Too short"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "Too short"
+    ]
+  }
+}

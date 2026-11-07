@@ -1,0 +1,29 @@
+{
+  "initial": {
+    "source": {
+      "nested": {
+        "value": 42
+      }
+    }
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "copy",
+        "path": "/dest",
+        "from": "/source/nested"
+      }
+    }
+  ],
+  "expected": {
+    "source": {
+      "nested": {
+        "value": 42
+      }
+    },
+    "dest": {
+      "value": 42
+    }
+  }
+}

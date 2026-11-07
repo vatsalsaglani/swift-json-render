@@ -1,0 +1,18 @@
+{
+  "kind": "value",
+  "state": {
+    "val": 3
+  },
+  "directives": [
+    "$double",
+    "$upper"
+  ],
+  "input": {
+    "$double": {
+      "$double": {
+        "$state": "/val"
+      }
+    }
+  },
+  "expected": 12
+}

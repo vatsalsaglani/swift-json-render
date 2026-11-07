@@ -1,0 +1,9 @@
+{
+  "kind": "helper",
+  "fn": "numeric",
+  "args": [],
+  "expected": {
+    "type": "numeric",
+    "message": "Must be a number"
+  }
+}

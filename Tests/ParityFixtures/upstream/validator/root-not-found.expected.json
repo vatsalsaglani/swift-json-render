@@ -1,0 +1,20 @@
+{
+  "valid": false,
+  "codes": [
+    "root_not_found"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "root_not_found",
+      "severity": "error",
+      "message": "Root element \"missing\" not found in elements map."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "root_not_found"
+  ]
+}

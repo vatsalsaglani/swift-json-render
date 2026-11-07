@@ -1,0 +1,19 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "not-a-url",
+  "config": {
+    "checks": [
+      {
+        "type": "url",
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

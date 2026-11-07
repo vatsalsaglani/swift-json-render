@@ -1,0 +1,21 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {
+      "value": 42
+    }
+  },
+  "handler": "resolves",
+  "hooks": [],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {
+          "value": 42
+        }
+      ]
+    }
+  ]
+}

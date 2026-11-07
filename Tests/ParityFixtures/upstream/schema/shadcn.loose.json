@@ -1,0 +1,88 @@
+{
+  "type": "object",
+  "properties": {
+    "root": {
+      "type": "string"
+    },
+    "elements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "Card",
+              "Stack",
+              "Grid",
+              "Separator",
+              "Tabs",
+              "Accordion",
+              "Collapsible",
+              "Dialog",
+              "Drawer",
+              "Carousel",
+              "Table",
+              "Heading",
+              "Text",
+              "Image",
+              "Avatar",
+              "Badge",
+              "Alert",
+              "Progress",
+              "Skeleton",
+              "Spinner",
+              "Tooltip",
+              "Popover",
+              "Input",
+              "Textarea",
+              "Select",
+              "Checkbox",
+              "Radio",
+              "Switch",
+              "Slider",
+              "Button",
+              "Link",
+              "DropdownMenu",
+              "Toggle",
+              "ToggleGroup",
+              "ButtonGroup",
+              "Pagination"
+            ]
+          },
+          "props": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "slots": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "visible": {},
+          "repeat": {}
+        },
+        "required": [
+          "type",
+          "props",
+          "children"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "root",
+    "elements"
+  ],
+  "additionalProperties": false
+}

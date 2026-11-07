@@ -1,0 +1,14 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Layout",
+      "props": {},
+      "slots": {
+        "header": [
+          "nonexistent"
+        ]
+      }
+    }
+  }
+}

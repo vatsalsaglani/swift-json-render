@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "missing_child"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "missing_child",
+      "severity": "error",
+      "elementKey": "root",
+      "message": "Element \"root\" references child \"nonexistent\" which does not exist in the elements map."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "missing_child"
+  ]
+}

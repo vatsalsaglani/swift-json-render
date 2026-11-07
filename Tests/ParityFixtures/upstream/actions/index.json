@@ -1,0 +1,164 @@
+[
+  {
+    "name": "interpolate-state-paths",
+    "kind": "interpolate",
+    "file": "interpolate-state-paths.json",
+    "upstreamTest": "actions.test.ts:31"
+  },
+  {
+    "name": "interpolate-no-variables",
+    "kind": "interpolate",
+    "file": "interpolate-no-variables.json",
+    "upstreamTest": "actions.test.ts:42"
+  },
+  {
+    "name": "interpolate-missing-is-empty",
+    "kind": "interpolate",
+    "file": "interpolate-missing-is-empty.json",
+    "upstreamTest": "actions.test.ts:46"
+  },
+  {
+    "name": "interpolate-repeated-variable",
+    "kind": "interpolate",
+    "file": "interpolate-repeated-variable.json",
+    "upstreamTest": "actions.test.ts:50"
+  },
+  {
+    "name": "resolve-literal-params",
+    "kind": "resolve",
+    "file": "resolve-literal-params.json",
+    "upstreamTest": "actions.test.ts:59"
+  },
+  {
+    "name": "resolve-state-params",
+    "kind": "resolve",
+    "file": "resolve-state-params.json",
+    "upstreamTest": "actions.test.ts:73"
+  },
+  {
+    "name": "resolve-form-email-param",
+    "kind": "resolve",
+    "file": "resolve-form-email-param.json",
+    "upstreamTest": "actions.test.ts:90"
+  },
+  {
+    "name": "resolve-interpolates-confirm",
+    "kind": "resolve",
+    "file": "resolve-interpolates-confirm.json",
+    "upstreamTest": "actions.test.ts:105"
+  },
+  {
+    "name": "resolve-preserves-on-success-and-error",
+    "kind": "resolve",
+    "file": "resolve-preserves-on-success-and-error.json",
+    "upstreamTest": "actions.test.ts:124"
+  },
+  {
+    "name": "execute-calls-handler-with-params",
+    "kind": "execute",
+    "file": "execute-calls-handler-with-params.json",
+    "upstreamTest": "actions.test.ts:140"
+  },
+  {
+    "name": "execute-on-success-navigate",
+    "kind": "execute",
+    "file": "execute-on-success-navigate.json",
+    "upstreamTest": "actions.test.ts:152"
+  },
+  {
+    "name": "execute-on-success-set",
+    "kind": "execute",
+    "file": "execute-on-success-set.json",
+    "upstreamTest": "actions.test.ts:169"
+  },
+  {
+    "name": "execute-on-success-action",
+    "kind": "execute",
+    "file": "execute-on-success-action.json",
+    "upstreamTest": "actions.test.ts:186"
+  },
+  {
+    "name": "execute-on-success-action-with-params",
+    "kind": "execute",
+    "file": "execute-on-success-action-with-params.json",
+    "upstreamTest": "actions.test.ts:203"
+  },
+  {
+    "name": "execute-on-error-set",
+    "kind": "execute",
+    "file": "execute-on-error-set.json",
+    "upstreamTest": "actions.test.ts:223"
+  },
+  {
+    "name": "execute-on-error-action",
+    "kind": "execute",
+    "file": "execute-on-error-action.json",
+    "upstreamTest": "actions.test.ts:240"
+  },
+  {
+    "name": "execute-on-error-action-with-params",
+    "kind": "execute",
+    "file": "execute-on-error-action-with-params.json",
+    "upstreamTest": "actions.test.ts:258"
+  },
+  {
+    "name": "execute-rethrows-without-on-error",
+    "kind": "execute",
+    "file": "execute-rethrows-without-on-error.json",
+    "upstreamTest": "actions.test.ts:279"
+  },
+  {
+    "name": "param-item-to-absolute-path",
+    "kind": "param",
+    "file": "param-item-to-absolute-path.json",
+    "upstreamTest": "props.test.ts:437"
+  },
+  {
+    "name": "param-item-empty-is-base-path",
+    "kind": "param",
+    "file": "param-item-empty-is-base-path.json",
+    "upstreamTest": "props.test.ts:447"
+  },
+  {
+    "name": "param-item-without-base-path",
+    "kind": "param",
+    "file": "param-item-without-base-path.json",
+    "upstreamTest": "props.test.ts:457"
+  },
+  {
+    "name": "param-index",
+    "kind": "param",
+    "file": "param-index.json",
+    "upstreamTest": "props.test.ts:466"
+  },
+  {
+    "name": "param-index-without-repeat",
+    "kind": "param",
+    "file": "param-index-without-repeat.json",
+    "upstreamTest": "props.test.ts:475"
+  },
+  {
+    "name": "param-state-delegates",
+    "kind": "param",
+    "file": "param-state-delegates.json",
+    "upstreamTest": "props.test.ts:480"
+  },
+  {
+    "name": "param-literal-string",
+    "kind": "param",
+    "file": "param-literal-string.json",
+    "upstreamTest": "props.test.ts:487"
+  },
+  {
+    "name": "param-literal-number",
+    "kind": "param",
+    "file": "param-literal-number.json",
+    "upstreamTest": "props.test.ts:492"
+  },
+  {
+    "name": "param-null",
+    "kind": "param",
+    "file": "param-null.json",
+    "upstreamTest": "props.test.ts:497"
+  }
+]

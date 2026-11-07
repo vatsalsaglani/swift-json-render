@@ -1,0 +1,22 @@
+{
+  "initial": {
+    "arr": [
+      1,
+      2
+    ]
+  },
+  "ops": [
+    {
+      "op": "add",
+      "path": "/arr/-",
+      "value": 3
+    }
+  ],
+  "expected": {
+    "arr": [
+      1,
+      2,
+      3
+    ]
+  }
+}

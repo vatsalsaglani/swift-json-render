@@ -1,0 +1,6 @@
+Here is some UI:
+```spec
+{"op":"add","path":"/root","value":"main"}
+{"op":"add","path":"/elements/main","value":{"type":"Card","props":{},"children":[]}}
+```
+Done!

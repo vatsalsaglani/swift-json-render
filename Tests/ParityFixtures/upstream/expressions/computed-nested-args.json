@@ -1,0 +1,28 @@
+{
+  "kind": "value",
+  "state": {
+    "active": true,
+    "values": {
+      "a": 10,
+      "b": 20
+    }
+  },
+  "functions": [
+    "conditionalSum"
+  ],
+  "input": {
+    "$computed": "conditionalSum",
+    "args": {
+      "enabled": {
+        "$state": "/active"
+      },
+      "x": {
+        "$state": "/values/a"
+      },
+      "y": {
+        "$state": "/values/b"
+      }
+    }
+  },
+  "expected": 30
+}

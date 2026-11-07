@@ -1,0 +1,458 @@
+[
+  {
+    "name": "undefined-is-visible",
+    "kind": "evaluate",
+    "file": "undefined-is-visible.json",
+    "upstreamTest": "visibility.test.ts:10"
+  },
+  {
+    "name": "true-is-visible",
+    "kind": "evaluate",
+    "file": "true-is-visible.json",
+    "upstreamTest": "visibility.test.ts:14"
+  },
+  {
+    "name": "false-is-hidden",
+    "kind": "evaluate",
+    "file": "false-is-hidden.json",
+    "upstreamTest": "visibility.test.ts:18"
+  },
+  {
+    "name": "truthy-boolean",
+    "kind": "evaluate",
+    "file": "truthy-boolean.json",
+    "upstreamTest": "visibility.test.ts:24"
+  },
+  {
+    "name": "truthy-number",
+    "kind": "evaluate",
+    "file": "truthy-number.json",
+    "upstreamTest": "visibility.test.ts:33"
+  },
+  {
+    "name": "truthy-string",
+    "kind": "evaluate",
+    "file": "truthy-string.json",
+    "upstreamTest": "visibility.test.ts:39"
+  },
+  {
+    "name": "falsy-boolean",
+    "kind": "evaluate",
+    "file": "falsy-boolean.json",
+    "upstreamTest": "visibility.test.ts:48"
+  },
+  {
+    "name": "falsy-zero",
+    "kind": "evaluate",
+    "file": "falsy-zero.json",
+    "upstreamTest": "visibility.test.ts:57"
+  },
+  {
+    "name": "falsy-empty-string",
+    "kind": "evaluate",
+    "file": "falsy-empty-string.json",
+    "upstreamTest": "visibility.test.ts:63"
+  },
+  {
+    "name": "falsy-undefined",
+    "kind": "evaluate",
+    "file": "falsy-undefined.json",
+    "upstreamTest": "visibility.test.ts:69"
+  },
+  {
+    "name": "falsy-missing-path",
+    "kind": "evaluate",
+    "file": "falsy-missing-path.json",
+    "upstreamTest": "visibility.test.ts:75"
+  },
+  {
+    "name": "not-truthy-hides",
+    "kind": "evaluate",
+    "file": "not-truthy-hides.json",
+    "upstreamTest": "visibility.test.ts:86"
+  },
+  {
+    "name": "not-falsy-shows",
+    "kind": "evaluate",
+    "file": "not-falsy-shows.json",
+    "upstreamTest": "visibility.test.ts:95"
+  },
+  {
+    "name": "not-inverts-eq-match",
+    "kind": "evaluate",
+    "file": "not-inverts-eq-match.json",
+    "upstreamTest": "visibility.test.ts:104"
+  },
+  {
+    "name": "not-inverts-eq-mismatch",
+    "kind": "evaluate",
+    "file": "not-inverts-eq-mismatch.json",
+    "upstreamTest": "visibility.test.ts:104"
+  },
+  {
+    "name": "not-inverts-gt-true",
+    "kind": "evaluate",
+    "file": "not-inverts-gt-true.json",
+    "upstreamTest": "visibility.test.ts:119"
+  },
+  {
+    "name": "not-inverts-gt-false",
+    "kind": "evaluate",
+    "file": "not-inverts-gt-false.json",
+    "upstreamTest": "visibility.test.ts:119"
+  },
+  {
+    "name": "eq-number-match",
+    "kind": "evaluate",
+    "file": "eq-number-match.json",
+    "upstreamTest": "visibility.test.ts:136"
+  },
+  {
+    "name": "eq-number-mismatch",
+    "kind": "evaluate",
+    "file": "eq-number-mismatch.json",
+    "upstreamTest": "visibility.test.ts:145"
+  },
+  {
+    "name": "eq-string-match",
+    "kind": "evaluate",
+    "file": "eq-string-match.json",
+    "upstreamTest": "visibility.test.ts:154"
+  },
+  {
+    "name": "eq-state-operand-match",
+    "kind": "evaluate",
+    "file": "eq-state-operand-match.json",
+    "upstreamTest": "visibility.test.ts:163"
+  },
+  {
+    "name": "eq-state-operand-mismatch",
+    "kind": "evaluate",
+    "file": "eq-state-operand-mismatch.json",
+    "upstreamTest": "visibility.test.ts:172"
+  },
+  {
+    "name": "neq-differs",
+    "kind": "evaluate",
+    "file": "neq-differs.json",
+    "upstreamTest": "visibility.test.ts:183"
+  },
+  {
+    "name": "neq-equal",
+    "kind": "evaluate",
+    "file": "neq-equal.json",
+    "upstreamTest": "visibility.test.ts:192"
+  },
+  {
+    "name": "gt-greater",
+    "kind": "evaluate",
+    "file": "gt-greater.json",
+    "upstreamTest": "visibility.test.ts:203"
+  },
+  {
+    "name": "gt-less",
+    "kind": "evaluate",
+    "file": "gt-less.json",
+    "upstreamTest": "visibility.test.ts:212"
+  },
+  {
+    "name": "gt-equal",
+    "kind": "evaluate",
+    "file": "gt-equal.json",
+    "upstreamTest": "visibility.test.ts:221"
+  },
+  {
+    "name": "gte-equal",
+    "kind": "evaluate",
+    "file": "gte-equal.json",
+    "upstreamTest": "visibility.test.ts:230"
+  },
+  {
+    "name": "gte-greater",
+    "kind": "evaluate",
+    "file": "gte-greater.json",
+    "upstreamTest": "visibility.test.ts:239"
+  },
+  {
+    "name": "gte-less",
+    "kind": "evaluate",
+    "file": "gte-less.json",
+    "upstreamTest": "visibility.test.ts:248"
+  },
+  {
+    "name": "lt-less",
+    "kind": "evaluate",
+    "file": "lt-less.json",
+    "upstreamTest": "visibility.test.ts:257"
+  },
+  {
+    "name": "lt-greater",
+    "kind": "evaluate",
+    "file": "lt-greater.json",
+    "upstreamTest": "visibility.test.ts:266"
+  },
+  {
+    "name": "lt-equal",
+    "kind": "evaluate",
+    "file": "lt-equal.json",
+    "upstreamTest": "visibility.test.ts:275"
+  },
+  {
+    "name": "lte-equal",
+    "kind": "evaluate",
+    "file": "lte-equal.json",
+    "upstreamTest": "visibility.test.ts:284"
+  },
+  {
+    "name": "lte-less",
+    "kind": "evaluate",
+    "file": "lte-less.json",
+    "upstreamTest": "visibility.test.ts:293"
+  },
+  {
+    "name": "lte-greater",
+    "kind": "evaluate",
+    "file": "lte-greater.json",
+    "upstreamTest": "visibility.test.ts:302"
+  },
+  {
+    "name": "numeric-compare-on-string-is-false",
+    "kind": "evaluate",
+    "file": "numeric-compare-on-string-is-false.json",
+    "upstreamTest": "visibility.test.ts:311"
+  },
+  {
+    "name": "eq-dynamic-operand",
+    "kind": "evaluate",
+    "file": "eq-dynamic-operand.json",
+    "upstreamTest": "visibility.test.ts:322"
+  },
+  {
+    "name": "lt-dynamic-operand",
+    "kind": "evaluate",
+    "file": "lt-dynamic-operand.json",
+    "upstreamTest": "visibility.test.ts:331"
+  },
+  {
+    "name": "implicit-and-all-true",
+    "kind": "evaluate",
+    "file": "implicit-and-all-true.json",
+    "upstreamTest": "visibility.test.ts:342"
+  },
+  {
+    "name": "implicit-and-one-false",
+    "kind": "evaluate",
+    "file": "implicit-and-one-false.json",
+    "upstreamTest": "visibility.test.ts:351"
+  },
+  {
+    "name": "implicit-and-all-false",
+    "kind": "evaluate",
+    "file": "implicit-and-all-false.json",
+    "upstreamTest": "visibility.test.ts:360"
+  },
+  {
+    "name": "and-all-true",
+    "kind": "evaluate",
+    "file": "and-all-true.json",
+    "upstreamTest": "visibility.test.ts:371"
+  },
+  {
+    "name": "and-one-false",
+    "kind": "evaluate",
+    "file": "and-one-false.json",
+    "upstreamTest": "visibility.test.ts:382"
+  },
+  {
+    "name": "and-all-false",
+    "kind": "evaluate",
+    "file": "and-all-false.json",
+    "upstreamTest": "visibility.test.ts:393"
+  },
+  {
+    "name": "and-with-nested-or-true",
+    "kind": "evaluate",
+    "file": "and-with-nested-or-true.json",
+    "upstreamTest": "visibility.test.ts:404"
+  },
+  {
+    "name": "and-with-nested-or-false",
+    "kind": "evaluate",
+    "file": "and-with-nested-or-false.json",
+    "upstreamTest": "visibility.test.ts:404"
+  },
+  {
+    "name": "and-with-boolean-true",
+    "kind": "evaluate",
+    "file": "and-with-boolean-true.json",
+    "upstreamTest": "visibility.test.ts:442"
+  },
+  {
+    "name": "and-with-boolean-false",
+    "kind": "evaluate",
+    "file": "and-with-boolean-false.json",
+    "upstreamTest": "visibility.test.ts:442"
+  },
+  {
+    "name": "or-one-true",
+    "kind": "evaluate",
+    "file": "or-one-true.json",
+    "upstreamTest": "visibility.test.ts:459"
+  },
+  {
+    "name": "or-all-true",
+    "kind": "evaluate",
+    "file": "or-all-true.json",
+    "upstreamTest": "visibility.test.ts:468"
+  },
+  {
+    "name": "or-all-false",
+    "kind": "evaluate",
+    "file": "or-all-false.json",
+    "upstreamTest": "visibility.test.ts:477"
+  },
+  {
+    "name": "or-with-nested-and-true",
+    "kind": "evaluate",
+    "file": "or-with-nested-and-true.json",
+    "upstreamTest": "visibility.test.ts:486"
+  },
+  {
+    "name": "or-with-nested-and-false",
+    "kind": "evaluate",
+    "file": "or-with-nested-and-false.json",
+    "upstreamTest": "visibility.test.ts:486"
+  },
+  {
+    "name": "or-with-boolean-true",
+    "kind": "evaluate",
+    "file": "or-with-boolean-true.json",
+    "upstreamTest": "visibility.test.ts:516"
+  },
+  {
+    "name": "or-all-boolean-false",
+    "kind": "evaluate",
+    "file": "or-all-boolean-false.json",
+    "upstreamTest": "visibility.test.ts:516"
+  },
+  {
+    "name": "item-truthy",
+    "kind": "evaluate",
+    "file": "item-truthy.json",
+    "upstreamTest": "visibility.test.ts:530"
+  },
+  {
+    "name": "item-falsy",
+    "kind": "evaluate",
+    "file": "item-falsy.json",
+    "upstreamTest": "visibility.test.ts:539"
+  },
+  {
+    "name": "item-eq-match",
+    "kind": "evaluate",
+    "file": "item-eq-match.json",
+    "upstreamTest": "visibility.test.ts:548"
+  },
+  {
+    "name": "item-eq-mismatch",
+    "kind": "evaluate",
+    "file": "item-eq-mismatch.json",
+    "upstreamTest": "visibility.test.ts:557"
+  },
+  {
+    "name": "item-root-reference",
+    "kind": "evaluate",
+    "file": "item-root-reference.json",
+    "upstreamTest": "visibility.test.ts:566"
+  },
+  {
+    "name": "item-with-not",
+    "kind": "evaluate",
+    "file": "item-with-not.json",
+    "upstreamTest": "visibility.test.ts:575"
+  },
+  {
+    "name": "item-outside-repeat-scope",
+    "kind": "evaluate",
+    "file": "item-outside-repeat-scope.json",
+    "upstreamTest": "visibility.test.ts:584"
+  },
+  {
+    "name": "index-eq-match",
+    "kind": "evaluate",
+    "file": "index-eq-match.json",
+    "upstreamTest": "visibility.test.ts:592"
+  },
+  {
+    "name": "index-eq-mismatch",
+    "kind": "evaluate",
+    "file": "index-eq-mismatch.json",
+    "upstreamTest": "visibility.test.ts:601"
+  },
+  {
+    "name": "index-gt",
+    "kind": "evaluate",
+    "file": "index-gt.json",
+    "upstreamTest": "visibility.test.ts:610"
+  },
+  {
+    "name": "index-truthy",
+    "kind": "evaluate",
+    "file": "index-truthy.json",
+    "upstreamTest": "visibility.test.ts:619"
+  },
+  {
+    "name": "index-zero-is-falsy",
+    "kind": "evaluate",
+    "file": "index-zero-is-falsy.json",
+    "upstreamTest": "visibility.test.ts:628"
+  },
+  {
+    "name": "index-with-not",
+    "kind": "evaluate",
+    "file": "index-with-not.json",
+    "upstreamTest": "visibility.test.ts:637"
+  },
+  {
+    "name": "split-container-condition-passes-through",
+    "kind": "split",
+    "file": "split-container-condition-passes-through.json",
+    "upstreamTest": "visibility.test.ts:734"
+  },
+  {
+    "name": "split-undefined-passes-through",
+    "kind": "split",
+    "file": "split-undefined-passes-through.json",
+    "upstreamTest": "visibility.test.ts:734"
+  },
+  {
+    "name": "split-boolean-passes-through",
+    "kind": "split",
+    "file": "split-boolean-passes-through.json",
+    "upstreamTest": "visibility.test.ts:734"
+  },
+  {
+    "name": "split-pure-item-condition",
+    "kind": "split",
+    "file": "split-pure-item-condition.json",
+    "upstreamTest": "visibility.test.ts:750"
+  },
+  {
+    "name": "split-mixed-implicit-and",
+    "kind": "split",
+    "file": "split-mixed-implicit-and.json",
+    "upstreamTest": "visibility.test.ts:758"
+  },
+  {
+    "name": "split-mixed-explicit-and",
+    "kind": "split",
+    "file": "split-mixed-explicit-and.json",
+    "upstreamTest": "visibility.test.ts:758"
+  },
+  {
+    "name": "split-mixed-or-is-item-filter",
+    "kind": "split",
+    "file": "split-mixed-or-is-item-filter.json",
+    "upstreamTest": "visibility.test.ts:769"
+  }
+]

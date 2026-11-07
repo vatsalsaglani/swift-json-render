@@ -1,0 +1,29 @@
+{
+  "root": "items",
+  "state": {
+    "items": [
+      {
+        "label": "root"
+      }
+    ]
+  },
+  "elements": {
+    "items": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "label"
+      ],
+      "repeat": {
+        "statePath": {
+          "$item": "items"
+        }
+      }
+    },
+    "label": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    }
+  }
+}

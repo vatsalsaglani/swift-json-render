@@ -1,0 +1,22 @@
+{
+  "initial": {
+    "user": {
+      "name": "Alice"
+    }
+  },
+  "ops": [
+    {
+      "op": "patch",
+      "patch": {
+        "op": "replace",
+        "path": "/user/name",
+        "value": "Bob"
+      }
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "Bob"
+    }
+  }
+}

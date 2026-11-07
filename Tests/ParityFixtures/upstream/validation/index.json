@@ -1,0 +1,746 @@
+[
+  {
+    "name": "required-nonempty-string",
+    "kind": "run",
+    "file": "required-nonempty-string.json",
+    "upstreamTest": "validation.test.ts:11"
+  },
+  {
+    "name": "required-zero",
+    "kind": "run",
+    "file": "required-zero.json",
+    "upstreamTest": "validation.test.ts:11"
+  },
+  {
+    "name": "required-false",
+    "kind": "run",
+    "file": "required-false.json",
+    "upstreamTest": "validation.test.ts:11"
+  },
+  {
+    "name": "required-nonempty-array",
+    "kind": "run",
+    "file": "required-nonempty-array.json",
+    "upstreamTest": "validation.test.ts:11"
+  },
+  {
+    "name": "required-nonempty-object",
+    "kind": "run",
+    "file": "required-nonempty-object.json",
+    "upstreamTest": "validation.test.ts:11"
+  },
+  {
+    "name": "required-empty-string",
+    "kind": "run",
+    "file": "required-empty-string.json",
+    "upstreamTest": "validation.test.ts:19"
+  },
+  {
+    "name": "required-whitespace-string",
+    "kind": "run",
+    "file": "required-whitespace-string.json",
+    "upstreamTest": "validation.test.ts:19"
+  },
+  {
+    "name": "required-null",
+    "kind": "run",
+    "file": "required-null.json",
+    "upstreamTest": "validation.test.ts:19"
+  },
+  {
+    "name": "required-undefined",
+    "kind": "run",
+    "file": "required-undefined.json",
+    "upstreamTest": "validation.test.ts:19"
+  },
+  {
+    "name": "required-empty-array",
+    "kind": "run",
+    "file": "required-empty-array.json",
+    "upstreamTest": "validation.test.ts:19"
+  },
+  {
+    "name": "email-valid-basic",
+    "kind": "run",
+    "file": "email-valid-basic.json",
+    "upstreamTest": "validation.test.ts:29"
+  },
+  {
+    "name": "email-valid-dotted-local",
+    "kind": "run",
+    "file": "email-valid-dotted-local.json",
+    "upstreamTest": "validation.test.ts:29"
+  },
+  {
+    "name": "email-valid-minimal",
+    "kind": "run",
+    "file": "email-valid-minimal.json",
+    "upstreamTest": "validation.test.ts:29"
+  },
+  {
+    "name": "email-no-at",
+    "kind": "run",
+    "file": "email-no-at.json",
+    "upstreamTest": "validation.test.ts:37"
+  },
+  {
+    "name": "email-no-tld",
+    "kind": "run",
+    "file": "email-no-tld.json",
+    "upstreamTest": "validation.test.ts:37"
+  },
+  {
+    "name": "email-no-local",
+    "kind": "run",
+    "file": "email-no-local.json",
+    "upstreamTest": "validation.test.ts:37"
+  },
+  {
+    "name": "email-no-domain",
+    "kind": "run",
+    "file": "email-no-domain.json",
+    "upstreamTest": "validation.test.ts:37"
+  },
+  {
+    "name": "email-number",
+    "kind": "run",
+    "file": "email-number.json",
+    "upstreamTest": "validation.test.ts:37"
+  },
+  {
+    "name": "min-length-longer",
+    "kind": "run",
+    "file": "min-length-longer.json",
+    "upstreamTest": "validation.test.ts:47"
+  },
+  {
+    "name": "min-length-exact",
+    "kind": "run",
+    "file": "min-length-exact.json",
+    "upstreamTest": "validation.test.ts:47"
+  },
+  {
+    "name": "min-length-too-short",
+    "kind": "run",
+    "file": "min-length-too-short.json",
+    "upstreamTest": "validation.test.ts:59"
+  },
+  {
+    "name": "min-length-empty-vs-one",
+    "kind": "run",
+    "file": "min-length-empty-vs-one.json",
+    "upstreamTest": "validation.test.ts:59"
+  },
+  {
+    "name": "min-length-non-string",
+    "kind": "run",
+    "file": "min-length-non-string.json",
+    "upstreamTest": "validation.test.ts:66"
+  },
+  {
+    "name": "min-length-missing-arg",
+    "kind": "run",
+    "file": "min-length-missing-arg.json",
+    "upstreamTest": "validation.test.ts:70"
+  },
+  {
+    "name": "max-length-shorter",
+    "kind": "run",
+    "file": "max-length-shorter.json",
+    "upstreamTest": "validation.test.ts:76"
+  },
+  {
+    "name": "max-length-exact",
+    "kind": "run",
+    "file": "max-length-exact.json",
+    "upstreamTest": "validation.test.ts:76"
+  },
+  {
+    "name": "max-length-too-long",
+    "kind": "run",
+    "file": "max-length-too-long.json",
+    "upstreamTest": "validation.test.ts:83"
+  },
+  {
+    "name": "pattern-match",
+    "kind": "run",
+    "file": "pattern-match.json",
+    "upstreamTest": "validation.test.ts:91"
+  },
+  {
+    "name": "pattern-no-match",
+    "kind": "run",
+    "file": "pattern-no-match.json",
+    "upstreamTest": "validation.test.ts:99"
+  },
+  {
+    "name": "pattern-invalid-regex",
+    "kind": "run",
+    "file": "pattern-invalid-regex.json",
+    "upstreamTest": "validation.test.ts:105"
+  },
+  {
+    "name": "min-above",
+    "kind": "run",
+    "file": "min-above.json",
+    "upstreamTest": "validation.test.ts:113"
+  },
+  {
+    "name": "min-equal",
+    "kind": "run",
+    "file": "min-equal.json",
+    "upstreamTest": "validation.test.ts:113"
+  },
+  {
+    "name": "min-below",
+    "kind": "run",
+    "file": "min-below.json",
+    "upstreamTest": "validation.test.ts:118"
+  },
+  {
+    "name": "min-string-number",
+    "kind": "run",
+    "file": "min-string-number.json",
+    "upstreamTest": "validation.test.ts:122"
+  },
+  {
+    "name": "max-below",
+    "kind": "run",
+    "file": "max-below.json",
+    "upstreamTest": "validation.test.ts:128"
+  },
+  {
+    "name": "max-equal",
+    "kind": "run",
+    "file": "max-equal.json",
+    "upstreamTest": "validation.test.ts:128"
+  },
+  {
+    "name": "max-above",
+    "kind": "run",
+    "file": "max-above.json",
+    "upstreamTest": "validation.test.ts:133"
+  },
+  {
+    "name": "numeric-integer",
+    "kind": "run",
+    "file": "numeric-integer.json",
+    "upstreamTest": "validation.test.ts:139"
+  },
+  {
+    "name": "numeric-float",
+    "kind": "run",
+    "file": "numeric-float.json",
+    "upstreamTest": "validation.test.ts:139"
+  },
+  {
+    "name": "numeric-zero",
+    "kind": "run",
+    "file": "numeric-zero.json",
+    "upstreamTest": "validation.test.ts:139"
+  },
+  {
+    "name": "numeric-integer-string",
+    "kind": "run",
+    "file": "numeric-integer-string.json",
+    "upstreamTest": "validation.test.ts:145"
+  },
+  {
+    "name": "numeric-float-string",
+    "kind": "run",
+    "file": "numeric-float-string.json",
+    "upstreamTest": "validation.test.ts:145"
+  },
+  {
+    "name": "numeric-letters",
+    "kind": "run",
+    "file": "numeric-letters.json",
+    "upstreamTest": "validation.test.ts:150"
+  },
+  {
+    "name": "numeric-nan",
+    "kind": "run",
+    "file": "numeric-nan.json",
+    "upstreamTest": "validation.test.ts:150"
+  },
+  {
+    "name": "numeric-null",
+    "kind": "run",
+    "file": "numeric-null.json",
+    "upstreamTest": "validation.test.ts:150"
+  },
+  {
+    "name": "numeric-trailing-letters",
+    "kind": "run",
+    "file": "numeric-trailing-letters.json",
+    "upstreamTest": "validation.test.ts:156"
+  },
+  {
+    "name": "numeric-trailing-word",
+    "kind": "run",
+    "file": "numeric-trailing-word.json",
+    "upstreamTest": "validation.test.ts:156"
+  },
+  {
+    "name": "numeric-empty-string",
+    "kind": "run",
+    "file": "numeric-empty-string.json",
+    "upstreamTest": "validation.test.ts:161"
+  },
+  {
+    "name": "numeric-whitespace-string",
+    "kind": "run",
+    "file": "numeric-whitespace-string.json",
+    "upstreamTest": "validation.test.ts:161"
+  },
+  {
+    "name": "url-https",
+    "kind": "run",
+    "file": "url-https.json",
+    "upstreamTest": "validation.test.ts:168"
+  },
+  {
+    "name": "url-localhost-port",
+    "kind": "run",
+    "file": "url-localhost-port.json",
+    "upstreamTest": "validation.test.ts:168"
+  },
+  {
+    "name": "url-with-query",
+    "kind": "run",
+    "file": "url-with-query.json",
+    "upstreamTest": "validation.test.ts:168"
+  },
+  {
+    "name": "url-not-a-url",
+    "kind": "run",
+    "file": "url-not-a-url.json",
+    "upstreamTest": "validation.test.ts:178"
+  },
+  {
+    "name": "url-no-scheme",
+    "kind": "run",
+    "file": "url-no-scheme.json",
+    "upstreamTest": "validation.test.ts:178"
+  },
+  {
+    "name": "matches-equal-strings",
+    "kind": "run",
+    "file": "matches-equal-strings.json",
+    "upstreamTest": "validation.test.ts:185"
+  },
+  {
+    "name": "matches-equal-numbers",
+    "kind": "run",
+    "file": "matches-equal-numbers.json",
+    "upstreamTest": "validation.test.ts:185"
+  },
+  {
+    "name": "matches-different",
+    "kind": "run",
+    "file": "matches-different.json",
+    "upstreamTest": "validation.test.ts:194"
+  },
+  {
+    "name": "equal-to-equal",
+    "kind": "run",
+    "file": "equal-to-equal.json",
+    "upstreamTest": "validation.test.ts:202"
+  },
+  {
+    "name": "equal-to-different",
+    "kind": "run",
+    "file": "equal-to-different.json",
+    "upstreamTest": "validation.test.ts:208"
+  },
+  {
+    "name": "less-than-less",
+    "kind": "run",
+    "file": "less-than-less.json",
+    "upstreamTest": "validation.test.ts:216"
+  },
+  {
+    "name": "less-than-equal",
+    "kind": "run",
+    "file": "less-than-equal.json",
+    "upstreamTest": "validation.test.ts:220"
+  },
+  {
+    "name": "less-than-greater",
+    "kind": "run",
+    "file": "less-than-greater.json",
+    "upstreamTest": "validation.test.ts:224"
+  },
+  {
+    "name": "less-than-numeric-string-coerced",
+    "kind": "run",
+    "file": "less-than-numeric-string-coerced.json",
+    "upstreamTest": "validation.test.ts:228"
+  },
+  {
+    "name": "less-than-non-numeric-string",
+    "kind": "run",
+    "file": "less-than-non-numeric-string.json",
+    "upstreamTest": "validation.test.ts:232"
+  },
+  {
+    "name": "less-than-iso-dates",
+    "kind": "run",
+    "file": "less-than-iso-dates.json",
+    "upstreamTest": "validation.test.ts:238"
+  },
+  {
+    "name": "less-than-equal-strings",
+    "kind": "run",
+    "file": "less-than-equal-strings.json",
+    "upstreamTest": "validation.test.ts:246"
+  },
+  {
+    "name": "less-than-empty-value",
+    "kind": "run",
+    "file": "less-than-empty-value.json",
+    "upstreamTest": "validation.test.ts:254"
+  },
+  {
+    "name": "less-than-empty-other",
+    "kind": "run",
+    "file": "less-than-empty-other.json",
+    "upstreamTest": "validation.test.ts:258"
+  },
+  {
+    "name": "less-than-empty-value-vs-string",
+    "kind": "run",
+    "file": "less-than-empty-value-vs-string.json",
+    "upstreamTest": "validation.test.ts:262"
+  },
+  {
+    "name": "less-than-empty-other-vs-string",
+    "kind": "run",
+    "file": "less-than-empty-other-vs-string.json",
+    "upstreamTest": "validation.test.ts:268"
+  },
+  {
+    "name": "less-than-null-other",
+    "kind": "run",
+    "file": "less-than-null-other.json",
+    "upstreamTest": "validation.test.ts:274"
+  },
+  {
+    "name": "less-than-null-value",
+    "kind": "run",
+    "file": "less-than-null-value.json",
+    "upstreamTest": "validation.test.ts:280"
+  },
+  {
+    "name": "less-than-undefined-other",
+    "kind": "run",
+    "file": "less-than-undefined-other.json",
+    "upstreamTest": "validation.test.ts:286"
+  },
+  {
+    "name": "greater-than-greater",
+    "kind": "run",
+    "file": "greater-than-greater.json",
+    "upstreamTest": "validation.test.ts:294"
+  },
+  {
+    "name": "greater-than-equal",
+    "kind": "run",
+    "file": "greater-than-equal.json",
+    "upstreamTest": "validation.test.ts:300"
+  },
+  {
+    "name": "greater-than-less",
+    "kind": "run",
+    "file": "greater-than-less.json",
+    "upstreamTest": "validation.test.ts:306"
+  },
+  {
+    "name": "greater-than-numeric-string-coerced",
+    "kind": "run",
+    "file": "greater-than-numeric-string-coerced.json",
+    "upstreamTest": "validation.test.ts:312"
+  },
+  {
+    "name": "greater-than-non-numeric-string",
+    "kind": "run",
+    "file": "greater-than-non-numeric-string.json",
+    "upstreamTest": "validation.test.ts:318"
+  },
+  {
+    "name": "greater-than-iso-dates",
+    "kind": "run",
+    "file": "greater-than-iso-dates.json",
+    "upstreamTest": "validation.test.ts:324"
+  },
+  {
+    "name": "greater-than-lesser-strings",
+    "kind": "run",
+    "file": "greater-than-lesser-strings.json",
+    "upstreamTest": "validation.test.ts:332"
+  },
+  {
+    "name": "greater-than-empty-value",
+    "kind": "run",
+    "file": "greater-than-empty-value.json",
+    "upstreamTest": "validation.test.ts:340"
+  },
+  {
+    "name": "greater-than-empty-other",
+    "kind": "run",
+    "file": "greater-than-empty-other.json",
+    "upstreamTest": "validation.test.ts:346"
+  },
+  {
+    "name": "greater-than-null-other",
+    "kind": "run",
+    "file": "greater-than-null-other.json",
+    "upstreamTest": "validation.test.ts:364"
+  },
+  {
+    "name": "greater-than-undefined-value",
+    "kind": "run",
+    "file": "greater-than-undefined-value.json",
+    "upstreamTest": "validation.test.ts:370"
+  },
+  {
+    "name": "greater-than-null-value",
+    "kind": "run",
+    "file": "greater-than-null-value.json",
+    "upstreamTest": "validation.test.ts:376"
+  },
+  {
+    "name": "required-if-false-condition",
+    "kind": "run",
+    "file": "required-if-false-condition.json",
+    "upstreamTest": "validation.test.ts:384"
+  },
+  {
+    "name": "required-if-empty-string-condition",
+    "kind": "run",
+    "file": "required-if-empty-string-condition.json",
+    "upstreamTest": "validation.test.ts:384"
+  },
+  {
+    "name": "required-if-null-condition",
+    "kind": "run",
+    "file": "required-if-null-condition.json",
+    "upstreamTest": "validation.test.ts:384"
+  },
+  {
+    "name": "required-if-undefined-condition",
+    "kind": "run",
+    "file": "required-if-undefined-condition.json",
+    "upstreamTest": "validation.test.ts:384"
+  },
+  {
+    "name": "required-if-true-condition-empty-value",
+    "kind": "run",
+    "file": "required-if-true-condition-empty-value.json",
+    "upstreamTest": "validation.test.ts:399"
+  },
+  {
+    "name": "required-if-string-condition-null-value",
+    "kind": "run",
+    "file": "required-if-string-condition-null-value.json",
+    "upstreamTest": "validation.test.ts:399"
+  },
+  {
+    "name": "required-if-number-condition-undefined-value",
+    "kind": "run",
+    "file": "required-if-number-condition-undefined-value.json",
+    "upstreamTest": "validation.test.ts:399"
+  },
+  {
+    "name": "required-if-true-condition-present-value",
+    "kind": "run",
+    "file": "required-if-true-condition-present-value.json",
+    "upstreamTest": "validation.test.ts:411"
+  },
+  {
+    "name": "required-if-true-condition-number-value",
+    "kind": "run",
+    "file": "required-if-true-condition-number-value.json",
+    "upstreamTest": "validation.test.ts:411"
+  },
+  {
+    "name": "run-check-reports-type-valid-message",
+    "kind": "run",
+    "file": "run-check-reports-type-valid-message.json",
+    "upstreamTest": "validation.test.ts:423"
+  },
+  {
+    "name": "run-dynamic-args-from-state",
+    "kind": "run",
+    "file": "run-dynamic-args-from-state.json",
+    "upstreamTest": "validation.test.ts:434"
+  },
+  {
+    "name": "run-unknown-function-is-valid",
+    "kind": "run",
+    "file": "run-unknown-function-is-valid.json",
+    "upstreamTest": "validation.test.ts:447"
+  },
+  {
+    "name": "run-custom-function",
+    "kind": "run",
+    "file": "run-custom-function.json",
+    "upstreamTest": "validation.test.ts:456"
+  },
+  {
+    "name": "run-all-checks-pass",
+    "kind": "run",
+    "file": "run-all-checks-pass.json",
+    "upstreamTest": "validation.test.ts:472"
+  },
+  {
+    "name": "run-collects-all-errors",
+    "kind": "run",
+    "file": "run-collects-all-errors.json",
+    "upstreamTest": "validation.test.ts:488"
+  },
+  {
+    "name": "run-skipped-when-enabled-false",
+    "kind": "run",
+    "file": "run-skipped-when-enabled-false.json",
+    "upstreamTest": "validation.test.ts:504"
+  },
+  {
+    "name": "run-enabled-when-condition-true",
+    "kind": "run",
+    "file": "run-enabled-when-condition-true.json",
+    "upstreamTest": "validation.test.ts:517"
+  },
+  {
+    "name": "run-no-checks-is-valid",
+    "kind": "run",
+    "file": "run-no-checks-is-valid.json",
+    "upstreamTest": "validation.test.ts:529"
+  },
+  {
+    "name": "run-matches-resolves-nested-state",
+    "kind": "run",
+    "file": "run-matches-resolves-nested-state.json",
+    "upstreamTest": "validation.test.ts:695"
+  },
+  {
+    "name": "run-less-than-cross-field",
+    "kind": "run",
+    "file": "run-less-than-cross-field.json",
+    "upstreamTest": "validation.test.ts:710"
+  },
+  {
+    "name": "run-required-if-state-true",
+    "kind": "run",
+    "file": "run-required-if-state-true.json",
+    "upstreamTest": "validation.test.ts:725"
+  },
+  {
+    "name": "run-required-if-state-false",
+    "kind": "run",
+    "file": "run-required-if-state-false.json",
+    "upstreamTest": "validation.test.ts:740"
+  },
+  {
+    "name": "helper-required-default",
+    "kind": "helper",
+    "file": "helper-required-default.json",
+    "upstreamTest": "validation.test.ts:539"
+  },
+  {
+    "name": "helper-required-custom",
+    "kind": "helper",
+    "file": "helper-required-custom.json",
+    "upstreamTest": "validation.test.ts:546"
+  },
+  {
+    "name": "helper-email-default",
+    "kind": "helper",
+    "file": "helper-email-default.json",
+    "upstreamTest": "validation.test.ts:554"
+  },
+  {
+    "name": "helper-min-length",
+    "kind": "helper",
+    "file": "helper-min-length.json",
+    "upstreamTest": "validation.test.ts:563"
+  },
+  {
+    "name": "helper-min-length-default",
+    "kind": "helper",
+    "file": "helper-min-length-default.json",
+    "upstreamTest": "validation.test.ts:571"
+  },
+  {
+    "name": "helper-max-length",
+    "kind": "helper",
+    "file": "helper-max-length.json",
+    "upstreamTest": "validation.test.ts:579"
+  },
+  {
+    "name": "helper-pattern",
+    "kind": "helper",
+    "file": "helper-pattern.json",
+    "upstreamTest": "validation.test.ts:588"
+  },
+  {
+    "name": "helper-min",
+    "kind": "helper",
+    "file": "helper-min.json",
+    "upstreamTest": "validation.test.ts:598"
+  },
+  {
+    "name": "helper-max",
+    "kind": "helper",
+    "file": "helper-max.json",
+    "upstreamTest": "validation.test.ts:607"
+  },
+  {
+    "name": "helper-url",
+    "kind": "helper",
+    "file": "helper-url.json",
+    "upstreamTest": "validation.test.ts:616"
+  },
+  {
+    "name": "helper-numeric-default",
+    "kind": "helper",
+    "file": "helper-numeric-default.json",
+    "upstreamTest": "validation.test.ts:625"
+  },
+  {
+    "name": "helper-numeric-custom",
+    "kind": "helper",
+    "file": "helper-numeric-custom.json",
+    "upstreamTest": "validation.test.ts:632"
+  },
+  {
+    "name": "helper-matches",
+    "kind": "helper",
+    "file": "helper-matches.json",
+    "upstreamTest": "validation.test.ts:641"
+  },
+  {
+    "name": "helper-equal-to",
+    "kind": "helper",
+    "file": "helper-equal-to.json",
+    "upstreamTest": "validation.test.ts:651"
+  },
+  {
+    "name": "helper-less-than",
+    "kind": "helper",
+    "file": "helper-less-than.json",
+    "upstreamTest": "validation.test.ts:661"
+  },
+  {
+    "name": "helper-greater-than",
+    "kind": "helper",
+    "file": "helper-greater-than.json",
+    "upstreamTest": "validation.test.ts:671"
+  },
+  {
+    "name": "helper-required-if",
+    "kind": "helper",
+    "file": "helper-required-if.json",
+    "upstreamTest": "validation.test.ts:680"
+  }
+]

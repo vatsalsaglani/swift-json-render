@@ -1,0 +1,17 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Select",
+      "props": {
+        "label": "Country",
+        "watch": {
+          "/form/country": {
+            "action": "loadCities"
+          }
+        }
+      },
+      "children": []
+    }
+  }
+}

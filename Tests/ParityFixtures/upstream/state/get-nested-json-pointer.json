@@ -1,0 +1,39 @@
+{
+  "initial": {
+    "user": {
+      "name": "John",
+      "scores": [
+        10,
+        20,
+        30
+      ]
+    }
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/user/name",
+      "expect": "John"
+    },
+    {
+      "op": "get",
+      "path": "/user/scores/0",
+      "expect": 10
+    },
+    {
+      "op": "get",
+      "path": "/user/scores/1",
+      "expect": 20
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "John",
+      "scores": [
+        10,
+        20,
+        30
+      ]
+    }
+  }
+}

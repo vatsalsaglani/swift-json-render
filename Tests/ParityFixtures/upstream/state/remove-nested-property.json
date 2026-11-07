@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "user": {
+      "name": "John",
+      "age": 30
+    }
+  },
+  "ops": [
+    {
+      "op": "remove",
+      "path": "/user/age"
+    }
+  ],
+  "expected": {
+    "user": {
+      "name": "John"
+    }
+  }
+}

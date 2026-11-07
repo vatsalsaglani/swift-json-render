@@ -1,0 +1,33 @@
+{
+  "kind": "split",
+  "condition": {
+    "$and": [
+      {
+        "$state": "/show",
+        "eq": true
+      },
+      {
+        "$item": "status",
+        "eq": "todo"
+      }
+    ]
+  },
+  "expected": {
+    "container": {
+      "$and": [
+        {
+          "$state": "/show",
+          "eq": true
+        }
+      ]
+    },
+    "itemFilter": {
+      "$and": [
+        {
+          "$item": "status",
+          "eq": "todo"
+        }
+      ]
+    }
+  }
+}

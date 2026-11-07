@@ -1,0 +1,13 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Text",
+      "props": {
+        "text": "hi"
+      },
+      "children": [],
+      "visible": true
+    }
+  }
+}

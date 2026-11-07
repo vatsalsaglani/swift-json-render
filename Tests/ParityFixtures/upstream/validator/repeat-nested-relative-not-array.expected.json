@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "repeat_state_mismatch"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "repeat_state_mismatch",
+      "severity": "error",
+      "elementKey": "subitems",
+      "message": "Element \"subitems\" repeats over \"/groups/0/subitems\" but state has a object there. Repeat statePath must reference an array in state; add sample items to state at that path."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "repeat_state_mismatch"
+  ]
+}

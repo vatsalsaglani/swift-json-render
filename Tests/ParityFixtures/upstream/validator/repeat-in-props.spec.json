@@ -1,0 +1,14 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Stack",
+      "props": {
+        "repeat": {
+          "statePath": "/items"
+        }
+      },
+      "children": []
+    }
+  }
+}

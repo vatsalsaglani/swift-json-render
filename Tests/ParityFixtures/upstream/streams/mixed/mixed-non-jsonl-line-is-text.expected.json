@@ -1,0 +1,12 @@
+{
+  "chunks": [
+    "Hello, here is your UI:\n"
+  ],
+  "flush": false,
+  "events": [
+    {
+      "kind": "text",
+      "value": "Hello, here is your UI:"
+    }
+  ]
+}

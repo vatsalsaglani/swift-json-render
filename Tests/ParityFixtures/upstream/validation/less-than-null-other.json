@@ -1,0 +1,22 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": 3,
+  "config": {
+    "checks": [
+      {
+        "type": "lessThan",
+        "args": {
+          "other": null
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

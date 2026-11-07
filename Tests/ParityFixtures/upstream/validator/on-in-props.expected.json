@@ -1,0 +1,21 @@
+{
+  "valid": false,
+  "codes": [
+    "on_in_props"
+  ],
+  "options": {
+    "checkOrphans": false
+  },
+  "issues": [
+    {
+      "code": "on_in_props",
+      "severity": "error",
+      "elementKey": "root",
+      "message": "Element \"root\" has \"on\" inside \"props\". It should be a top-level field on the element (sibling of type/props/children)."
+    }
+  ],
+  "partial": true,
+  "asserted": [
+    "on_in_props"
+  ]
+}

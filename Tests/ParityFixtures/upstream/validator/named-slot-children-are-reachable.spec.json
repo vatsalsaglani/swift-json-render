@@ -1,0 +1,18 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Layout",
+      "props": {},
+      "slots": {
+        "header": [
+          "heading"
+        ]
+      }
+    },
+    "heading": {
+      "type": "Heading",
+      "props": {}
+    }
+  }
+}

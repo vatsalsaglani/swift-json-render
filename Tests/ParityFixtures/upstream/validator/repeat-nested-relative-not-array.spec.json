@@ -1,0 +1,41 @@
+{
+  "root": "groups",
+  "state": {
+    "groups": [
+      {
+        "subitems": {
+          "label": "a"
+        }
+      }
+    ]
+  },
+  "elements": {
+    "groups": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "subitems"
+      ],
+      "repeat": {
+        "statePath": "/groups"
+      }
+    },
+    "subitems": {
+      "type": "Stack",
+      "props": {},
+      "children": [
+        "label"
+      ],
+      "repeat": {
+        "statePath": {
+          "$item": "/subitems"
+        }
+      }
+    },
+    "label": {
+      "type": "Text",
+      "props": {},
+      "children": []
+    }
+  }
+}

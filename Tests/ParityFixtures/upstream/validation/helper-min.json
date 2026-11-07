@@ -1,0 +1,15 @@
+{
+  "kind": "helper",
+  "fn": "min",
+  "args": [
+    0,
+    "Must be positive"
+  ],
+  "expected": {
+    "type": "min",
+    "args": {
+      "min": 0
+    }
+  },
+  "partial": true
+}

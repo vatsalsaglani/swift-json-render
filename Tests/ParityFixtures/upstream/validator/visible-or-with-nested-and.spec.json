@@ -1,0 +1,28 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Text",
+      "props": {
+        "text": "hi"
+      },
+      "children": [],
+      "visible": {
+        "$or": [
+          {
+            "$state": "/a",
+            "eq": 1
+          },
+          {
+            "$and": [
+              {
+                "$item": "b",
+                "not": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

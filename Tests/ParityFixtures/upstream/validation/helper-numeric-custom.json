@@ -1,0 +1,11 @@
+{
+  "kind": "helper",
+  "fn": "numeric",
+  "args": [
+    "Numbers only"
+  ],
+  "expected": {
+    "type": "numeric",
+    "message": "Numbers only"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "initial": {
+    "value": 42
+  },
+  "ops": [
+    {
+      "op": "get",
+      "path": "/",
+      "expect": {
+        "value": 42
+      }
+    },
+    {
+      "op": "get",
+      "path": "",
+      "expect": {
+        "value": 42
+      }
+    }
+  ],
+  "expected": {
+    "value": 42
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "helper",
+  "fn": "lessThan",
+  "args": [
+    "/maxValue",
+    "Must be less"
+  ],
+  "expected": {
+    "type": "lessThan",
+    "args": {
+      "other": {
+        "$state": "/maxValue"
+      }
+    },
+    "message": "Must be less"
+  }
+}

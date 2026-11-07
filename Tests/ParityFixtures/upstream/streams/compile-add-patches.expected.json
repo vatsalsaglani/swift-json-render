@@ -1,0 +1,18 @@
+{
+  "result": {
+    "name": "Alice",
+    "age": 30
+  },
+  "patches": [
+    {
+      "op": "add",
+      "path": "/name",
+      "value": "Alice"
+    },
+    {
+      "op": "add",
+      "path": "/age",
+      "value": 30
+    }
+  ]
+}

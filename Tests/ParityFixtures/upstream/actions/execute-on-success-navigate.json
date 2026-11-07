@@ -1,0 +1,28 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {},
+    "onSuccess": {
+      "navigate": "/success"
+    }
+  },
+  "handler": "resolves",
+  "hooks": [
+    "navigate"
+  ],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "navigate",
+      "args": [
+        "/success"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "kind": "resolve",
+  "state": {
+    "userId": 123,
+    "settings": {
+      "theme": "dark"
+    }
+  },
+  "binding": {
+    "action": "updateUser",
+    "params": {
+      "id": {
+        "$state": "/userId"
+      },
+      "theme": {
+        "$state": "/settings/theme"
+      }
+    }
+  },
+  "expectedResolved": {
+    "action": "updateUser",
+    "params": {
+      "id": 123,
+      "theme": "dark"
+    }
+  }
+}

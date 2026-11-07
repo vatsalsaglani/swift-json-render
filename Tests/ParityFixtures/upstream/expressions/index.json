@@ -1,0 +1,356 @@
+[
+  {
+    "name": "literal-string",
+    "kind": "value",
+    "file": "literal-string.json",
+    "upstreamTest": "props.test.ts:17"
+  },
+  {
+    "name": "literal-number",
+    "kind": "value",
+    "file": "literal-number.json",
+    "upstreamTest": "props.test.ts:22"
+  },
+  {
+    "name": "literal-true",
+    "kind": "value",
+    "file": "literal-true.json",
+    "upstreamTest": "props.test.ts:27"
+  },
+  {
+    "name": "literal-false",
+    "kind": "value",
+    "file": "literal-false.json",
+    "upstreamTest": "props.test.ts:27"
+  },
+  {
+    "name": "literal-null",
+    "kind": "value",
+    "file": "literal-null.json",
+    "upstreamTest": "props.test.ts:33"
+  },
+  {
+    "name": "literal-undefined",
+    "kind": "value",
+    "file": "literal-undefined.json",
+    "upstreamTest": "props.test.ts:38"
+  },
+  {
+    "name": "state-path",
+    "kind": "value",
+    "file": "state-path.json",
+    "upstreamTest": "props.test.ts:45"
+  },
+  {
+    "name": "state-missing-path",
+    "kind": "value",
+    "file": "state-missing-path.json",
+    "upstreamTest": "props.test.ts:52"
+  },
+  {
+    "name": "state-nested-path",
+    "kind": "value",
+    "file": "state-nested-path.json",
+    "upstreamTest": "props.test.ts:57"
+  },
+  {
+    "name": "item-field",
+    "kind": "value",
+    "file": "item-field.json",
+    "upstreamTest": "props.test.ts:66"
+  },
+  {
+    "name": "item-empty-path-is-whole-item",
+    "kind": "value",
+    "file": "item-empty-path-is-whole-item.json",
+    "upstreamTest": "props.test.ts:75"
+  },
+  {
+    "name": "item-nested-field",
+    "kind": "value",
+    "file": "item-nested-field.json",
+    "upstreamTest": "props.test.ts:85"
+  },
+  {
+    "name": "item-without-repeat-scope",
+    "kind": "value",
+    "file": "item-without-repeat-scope.json",
+    "upstreamTest": "props.test.ts:94"
+  },
+  {
+    "name": "item-missing-field",
+    "kind": "value",
+    "file": "item-missing-field.json",
+    "upstreamTest": "props.test.ts:99"
+  },
+  {
+    "name": "index-current",
+    "kind": "value",
+    "file": "index-current.json",
+    "upstreamTest": "props.test.ts:110"
+  },
+  {
+    "name": "index-zero",
+    "kind": "value",
+    "file": "index-zero.json",
+    "upstreamTest": "props.test.ts:119"
+  },
+  {
+    "name": "index-without-repeat-scope",
+    "kind": "value",
+    "file": "index-without-repeat-scope.json",
+    "upstreamTest": "props.test.ts:128"
+  },
+  {
+    "name": "cond-then-when-true",
+    "kind": "value",
+    "file": "cond-then-when-true.json",
+    "upstreamTest": "props.test.ts:135"
+  },
+  {
+    "name": "cond-else-when-false",
+    "kind": "value",
+    "file": "cond-else-when-false.json",
+    "upstreamTest": "props.test.ts:147"
+  },
+  {
+    "name": "cond-eq",
+    "kind": "value",
+    "file": "cond-eq.json",
+    "upstreamTest": "props.test.ts:159"
+  },
+  {
+    "name": "cond-nested-expression-in-then",
+    "kind": "value",
+    "file": "cond-nested-expression-in-then.json",
+    "upstreamTest": "props.test.ts:175"
+  },
+  {
+    "name": "cond-array-is-implicit-and",
+    "kind": "value",
+    "file": "cond-array-is-implicit-and.json",
+    "upstreamTest": "props.test.ts:191"
+  },
+  {
+    "name": "nested-object",
+    "kind": "value",
+    "file": "nested-object.json",
+    "upstreamTest": "props.test.ts:209"
+  },
+  {
+    "name": "nested-array",
+    "kind": "value",
+    "file": "nested-array.json",
+    "upstreamTest": "props.test.ts:220"
+  },
+  {
+    "name": "nested-deep",
+    "kind": "value",
+    "file": "nested-deep.json",
+    "upstreamTest": "props.test.ts:231"
+  },
+  {
+    "name": "element-props-all",
+    "kind": "props",
+    "file": "element-props-all.json",
+    "upstreamTest": "props.test.ts:249"
+  },
+  {
+    "name": "element-props-mixed",
+    "kind": "props",
+    "file": "element-props-mixed.json",
+    "upstreamTest": "props.test.ts:265"
+  },
+  {
+    "name": "element-props-empty",
+    "kind": "props",
+    "file": "element-props-empty.json",
+    "upstreamTest": "props.test.ts:289"
+  },
+  {
+    "name": "bind-state-value",
+    "kind": "value",
+    "file": "bind-state-value.json",
+    "upstreamTest": "props.test.ts:301"
+  },
+  {
+    "name": "bind-state-missing",
+    "kind": "value",
+    "file": "bind-state-missing.json",
+    "upstreamTest": "props.test.ts:310"
+  },
+  {
+    "name": "bind-item-with-base-path",
+    "kind": "value",
+    "file": "bind-item-with-base-path.json",
+    "upstreamTest": "props.test.ts:317"
+  },
+  {
+    "name": "bind-item-empty-is-whole-item",
+    "kind": "value",
+    "file": "bind-item-empty-is-whole-item.json",
+    "upstreamTest": "props.test.ts:327"
+  },
+  {
+    "name": "bind-item-without-base-path",
+    "kind": "value",
+    "file": "bind-item-without-base-path.json",
+    "upstreamTest": "props.test.ts:337"
+  },
+  {
+    "name": "bindings-extracts-bind-state",
+    "kind": "bindings",
+    "file": "bindings-extracts-bind-state.json",
+    "upstreamTest": "props.test.ts:349"
+  },
+  {
+    "name": "bindings-none-is-undefined",
+    "kind": "bindings",
+    "file": "bindings-none-is-undefined.json",
+    "upstreamTest": "props.test.ts:361"
+  },
+  {
+    "name": "bindings-multiple-bind-state",
+    "kind": "bindings",
+    "file": "bindings-multiple-bind-state.json",
+    "upstreamTest": "props.test.ts:370"
+  },
+  {
+    "name": "bindings-bind-item-base-path",
+    "kind": "bindings",
+    "file": "bindings-bind-item-base-path.json",
+    "upstreamTest": "props.test.ts:383"
+  },
+  {
+    "name": "bindings-ignore-non-bind",
+    "kind": "bindings",
+    "file": "bindings-ignore-non-bind.json",
+    "upstreamTest": "props.test.ts:399"
+  },
+  {
+    "name": "bindings-mixed-state-and-item",
+    "kind": "bindings",
+    "file": "bindings-mixed-state-and-item.json",
+    "upstreamTest": "props.test.ts:412"
+  },
+  {
+    "name": "computed-with-args",
+    "kind": "value",
+    "file": "computed-with-args.json",
+    "upstreamTest": "props.test.ts:508"
+  },
+  {
+    "name": "computed-no-args",
+    "kind": "value",
+    "file": "computed-no-args.json",
+    "upstreamTest": "props.test.ts:529"
+  },
+  {
+    "name": "computed-unknown-function",
+    "kind": "value",
+    "file": "computed-unknown-function.json",
+    "upstreamTest": "props.test.ts:539"
+  },
+  {
+    "name": "computed-no-functions-in-context",
+    "kind": "value",
+    "file": "computed-no-functions-in-context.json",
+    "upstreamTest": "props.test.ts:547"
+  },
+  {
+    "name": "computed-nested-args",
+    "kind": "value",
+    "file": "computed-nested-args.json",
+    "upstreamTest": "props.test.ts:564"
+  },
+  {
+    "name": "template-absolute-paths",
+    "kind": "value",
+    "file": "template-absolute-paths.json",
+    "upstreamTest": "props.test.ts:595"
+  },
+  {
+    "name": "template-missing-path-is-empty",
+    "kind": "value",
+    "file": "template-missing-path-is-empty.json",
+    "upstreamTest": "props.test.ts:607"
+  },
+  {
+    "name": "template-no-interpolation",
+    "kind": "value",
+    "file": "template-no-interpolation.json",
+    "upstreamTest": "props.test.ts:612"
+  },
+  {
+    "name": "template-repeated-path",
+    "kind": "value",
+    "file": "template-repeated-path.json",
+    "upstreamTest": "props.test.ts:619"
+  },
+  {
+    "name": "template-non-string-values",
+    "kind": "value",
+    "file": "template-non-string-values.json",
+    "upstreamTest": "props.test.ts:628"
+  },
+  {
+    "name": "template-bare-name-against-state",
+    "kind": "value",
+    "file": "template-bare-name-against-state.json",
+    "upstreamTest": "props.test.ts:637"
+  },
+  {
+    "name": "template-bare-name-prefers-repeat-item",
+    "kind": "value",
+    "file": "template-bare-name-prefers-repeat-item.json",
+    "upstreamTest": "props.test.ts:643"
+  },
+  {
+    "name": "template-bare-name-falls-back-to-state",
+    "kind": "value",
+    "file": "template-bare-name-falls-back-to-state.json",
+    "upstreamTest": "props.test.ts:653"
+  },
+  {
+    "name": "directive-double-literal",
+    "kind": "value",
+    "file": "directive-double-literal.json",
+    "upstreamTest": "directives.test.ts:146"
+  },
+  {
+    "name": "directive-double-state",
+    "kind": "value",
+    "file": "directive-double-state.json",
+    "upstreamTest": "directives.test.ts:151"
+  },
+  {
+    "name": "directive-double-nested",
+    "kind": "value",
+    "file": "directive-double-nested.json",
+    "upstreamTest": "directives.test.ts:159"
+  },
+  {
+    "name": "directive-inside-object",
+    "kind": "value",
+    "file": "directive-inside-object.json",
+    "upstreamTest": "directives.test.ts:168"
+  },
+  {
+    "name": "directive-inside-array",
+    "kind": "value",
+    "file": "directive-inside-array.json",
+    "upstreamTest": "directives.test.ts:180"
+  },
+  {
+    "name": "directive-no-match-falls-through",
+    "kind": "value",
+    "file": "directive-no-match-falls-through.json",
+    "upstreamTest": "directives.test.ts:189"
+  },
+  {
+    "name": "directive-absent-keeps-builtins",
+    "kind": "value",
+    "file": "directive-absent-keeps-builtins.json",
+    "upstreamTest": "directives.test.ts:209"
+  }
+]

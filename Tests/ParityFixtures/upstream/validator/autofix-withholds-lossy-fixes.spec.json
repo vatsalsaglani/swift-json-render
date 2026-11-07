@@ -1,0 +1,14 @@
+{
+  "root": "root",
+  "elements": {
+    "root": {
+      "type": "Card",
+      "props": {
+        "visible": true
+      },
+      "children": [
+        "ghost"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "kind": "bindings",
+  "state": {},
+  "input": {
+    "title": {
+      "$state": "/title"
+    },
+    "index": {
+      "$index": true
+    },
+    "name": {
+      "$item": "name"
+    },
+    "value": {
+      "$bindState": "/path"
+    }
+  },
+  "expectedBindings": {
+    "value": "/path"
+  }
+}

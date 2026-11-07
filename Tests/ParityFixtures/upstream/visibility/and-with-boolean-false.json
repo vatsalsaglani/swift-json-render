@@ -1,0 +1,15 @@
+{
+  "kind": "evaluate",
+  "state": {
+    "ok": true
+  },
+  "condition": {
+    "$and": [
+      false,
+      {
+        "$state": "/ok"
+      }
+    ]
+  },
+  "expected": false
+}

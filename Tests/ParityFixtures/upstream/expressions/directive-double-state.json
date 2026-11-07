@@ -1,0 +1,16 @@
+{
+  "kind": "value",
+  "state": {
+    "count": 7
+  },
+  "directives": [
+    "$double",
+    "$upper"
+  ],
+  "input": {
+    "$double": {
+      "$state": "/count"
+    }
+  },
+  "expected": 14
+}

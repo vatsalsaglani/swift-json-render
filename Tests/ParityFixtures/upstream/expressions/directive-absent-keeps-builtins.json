@@ -1,0 +1,12 @@
+{
+  "kind": "value",
+  "state": {
+    "x": 1
+  },
+  "input": {
+    "foo": "bar"
+  },
+  "expected": {
+    "foo": "bar"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "helper",
+  "fn": "matches",
+  "args": [
+    "/password",
+    "Passwords must match"
+  ],
+  "expected": {
+    "type": "matches",
+    "args": {
+      "other": {
+        "$state": "/password"
+      }
+    },
+    "message": "Passwords must match"
+  }
+}

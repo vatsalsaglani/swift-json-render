@@ -1,0 +1,22 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "test",
+  "config": {
+    "checks": [
+      {
+        "type": "pattern",
+        "args": {
+          "pattern": "[invalid"
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}

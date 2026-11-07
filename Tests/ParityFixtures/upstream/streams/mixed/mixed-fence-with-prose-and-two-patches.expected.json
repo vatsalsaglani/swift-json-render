@@ -1,0 +1,41 @@
+{
+  "chunks": [
+    "Here is some UI:\n",
+    "```spec\n",
+    "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}\n",
+    "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Card\",\"props\":{},\"children\":[]}}\n",
+    "```\n",
+    "Done!\n"
+  ],
+  "flush": true,
+  "events": [
+    {
+      "kind": "text",
+      "value": "Here is some UI:"
+    },
+    {
+      "kind": "patch",
+      "value": {
+        "op": "add",
+        "path": "/root",
+        "value": "main"
+      }
+    },
+    {
+      "kind": "patch",
+      "value": {
+        "op": "add",
+        "path": "/elements/main",
+        "value": {
+          "type": "Card",
+          "props": {},
+          "children": []
+        }
+      }
+    },
+    {
+      "kind": "text",
+      "value": "Done!"
+    }
+  ]
+}

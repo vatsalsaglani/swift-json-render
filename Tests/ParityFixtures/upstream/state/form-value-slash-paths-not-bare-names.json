@@ -1,0 +1,38 @@
+{
+  "initial": {},
+  "ops": [
+    {
+      "op": "findFormValue",
+      "field": "/form/email",
+      "state": {
+        "form": {
+          "email": "nested@example.com"
+        }
+      },
+      "expect": "nested@example.com"
+    },
+    {
+      "op": "findFormValue",
+      "field": "form/email",
+      "state": {
+        "form": {
+          "email": "nested@example.com"
+        }
+      },
+      "expect": "nested@example.com"
+    },
+    {
+      "op": "findFormValue",
+      "field": "email",
+      "state": {
+        "form": {
+          "email": "nested@example.com"
+        }
+      },
+      "expect": {
+        "$undefined": true
+      }
+    }
+  ],
+  "expected": {}
+}

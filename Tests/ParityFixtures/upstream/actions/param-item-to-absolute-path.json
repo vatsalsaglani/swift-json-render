@@ -1,0 +1,19 @@
+{
+  "kind": "param",
+  "state": {
+    "todos": [
+      {
+        "title": "Buy milk"
+      }
+    ]
+  },
+  "repeatItem": {
+    "title": "Buy milk"
+  },
+  "repeatIndex": 0,
+  "repeatBasePath": "/todos/0",
+  "input": {
+    "$item": "title"
+  },
+  "expected": "/todos/0/title"
+}

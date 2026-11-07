@@ -1,0 +1,12 @@
+{
+  "kind": "evaluate",
+  "state": {},
+  "repeatItem": {
+    "status": "done"
+  },
+  "condition": {
+    "$item": "status",
+    "eq": "done"
+  },
+  "expected": true
+}

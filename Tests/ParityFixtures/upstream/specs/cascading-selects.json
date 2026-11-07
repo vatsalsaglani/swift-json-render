@@ -1,0 +1,152 @@
+{
+  "root": "card",
+  "state": {
+    "form": {
+      "country": "",
+      "city": ""
+    },
+    "availableCities": []
+  },
+  "elements": {
+    "card": {
+      "type": "Card",
+      "props": {
+        "title": "Shipping Address",
+        "description": "Select your country to load available cities",
+        "maxWidth": "md",
+        "centered": null
+      },
+      "children": [
+        "formStack"
+      ]
+    },
+    "formStack": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md",
+        "align": null,
+        "justify": null
+      },
+      "children": [
+        "countrySelect",
+        "citySelect",
+        "sep",
+        "addressPreview",
+        "templatePreview"
+      ]
+    },
+    "countrySelect": {
+      "type": "Select",
+      "props": {
+        "label": "Country",
+        "name": "country",
+        "options": [
+          "US",
+          "Canada",
+          "UK",
+          "Germany",
+          "Japan"
+        ],
+        "placeholder": "Choose a country",
+        "value": {
+          "$bindState": "/form/country"
+        },
+        "checks": [
+          {
+            "type": "required",
+            "message": "Country is required"
+          }
+        ],
+        "validateOn": "change"
+      },
+      "watch": {
+        "/form/country": [
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/availableCities",
+              "value": {
+                "$computed": "citiesForCountry",
+                "args": {
+                  "country": {
+                    "$state": "/form/country"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "action": "setState",
+            "params": {
+              "statePath": "/form/city",
+              "value": ""
+            }
+          }
+        ]
+      },
+      "children": []
+    },
+    "citySelect": {
+      "type": "Select",
+      "props": {
+        "label": "City",
+        "name": "city",
+        "options": {
+          "$state": "/availableCities"
+        },
+        "placeholder": "Select a city",
+        "value": {
+          "$bindState": "/form/city"
+        },
+        "checks": [
+          {
+            "type": "required",
+            "message": "City is required"
+          }
+        ],
+        "validateOn": "change"
+      },
+      "children": []
+    },
+    "sep": {
+      "type": "Separator",
+      "props": {
+        "orientation": null
+      },
+      "children": []
+    },
+    "addressPreview": {
+      "type": "Heading",
+      "props": {
+        "text": {
+          "$computed": "formatAddress",
+          "args": {
+            "city": {
+              "$state": "/form/city"
+            },
+            "country": {
+              "$state": "/form/country"
+            }
+          }
+        },
+        "level": "h3"
+      },
+      "children": []
+    },
+    "templatePreview": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$template": "Shipping to: ${/form/city} in ${/form/country}. Cities available: ${/availableCities}"
+        },
+        "variant": "muted"
+      },
+      "visible": {
+        "$state": "/form/country",
+        "neq": ""
+      },
+      "children": []
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "initial": {
+    "a": 1
+  },
+  "ops": [
+    {
+      "op": "remove",
+      "path": "/b/c/d"
+    }
+  ],
+  "expected": {
+    "a": 1
+  }
+}

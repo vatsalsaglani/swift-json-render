@@ -1,0 +1,14 @@
+{
+  "kind": "value",
+  "state": {},
+  "repeatItem": {
+    "user": {
+      "name": "Bob"
+    }
+  },
+  "repeatIndex": 0,
+  "input": {
+    "$item": "user/name"
+  },
+  "expected": "Bob"
+}

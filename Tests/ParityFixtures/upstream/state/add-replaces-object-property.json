@@ -1,0 +1,15 @@
+{
+  "initial": {
+    "a": 1
+  },
+  "ops": [
+    {
+      "op": "add",
+      "path": "/a",
+      "value": 99
+    }
+  ],
+  "expected": {
+    "a": 99
+  }
+}

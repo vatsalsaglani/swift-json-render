@@ -1,0 +1,34 @@
+{
+  "initial": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "Old"
+        },
+        "children": []
+      }
+    }
+  },
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/elements/main/props/title",
+      "value": "New"
+    }
+  ],
+  "result": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "New"
+        },
+        "children": []
+      }
+    }
+  },
+  "applier": "applySpecPatch"
+}

@@ -1,0 +1,17 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "test",
+  "config": {
+    "checks": [
+      {
+        "type": "unknownFunction",
+        "message": "Unknown"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

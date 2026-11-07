@@ -1,0 +1,32 @@
+{
+  "kind": "split",
+  "condition": {
+    "$or": [
+      {
+        "$state": "/all",
+        "eq": true
+      },
+      {
+        "$item": "pinned",
+        "eq": true
+      }
+    ]
+  },
+  "expected": {
+    "container": {
+      "$undefined": true
+    },
+    "itemFilter": {
+      "$or": [
+        {
+          "$state": "/all",
+          "eq": true
+        },
+        {
+          "$item": "pinned",
+          "eq": true
+        }
+      ]
+    }
+  }
+}

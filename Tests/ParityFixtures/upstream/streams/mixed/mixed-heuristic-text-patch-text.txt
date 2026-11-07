@@ -1,0 +1,3 @@
+Some text
+{"op":"add","path":"/root","value":"r"}
+More text

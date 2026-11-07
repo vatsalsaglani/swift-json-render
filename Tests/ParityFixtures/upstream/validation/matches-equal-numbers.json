@@ -1,0 +1,20 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": 123,
+  "config": {
+    "checks": [
+      {
+        "type": "matches",
+        "args": {
+          "other": 123
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": true,
+    "errors": []
+  }
+}

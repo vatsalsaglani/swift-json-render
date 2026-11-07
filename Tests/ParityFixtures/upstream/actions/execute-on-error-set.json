@@ -1,0 +1,30 @@
+{
+  "kind": "execute",
+  "action": {
+    "action": "test",
+    "params": {},
+    "onError": {
+      "set": {
+        "error": "$error.message"
+      }
+    }
+  },
+  "handler": "rejects",
+  "errorMessage": "Something went wrong",
+  "hooks": [],
+  "expectedCalls": [
+    {
+      "fn": "handler",
+      "args": [
+        {}
+      ]
+    },
+    {
+      "fn": "setState",
+      "args": [
+        "error",
+        "Something went wrong"
+      ]
+    }
+  ]
+}

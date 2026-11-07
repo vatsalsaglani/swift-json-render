@@ -1,0 +1,22 @@
+{
+  "kind": "run",
+  "state": {},
+  "value": "hello!",
+  "config": {
+    "checks": [
+      {
+        "type": "maxLength",
+        "args": {
+          "max": 5
+        },
+        "message": "m"
+      }
+    ]
+  },
+  "expected": {
+    "valid": false,
+    "errors": [
+      "m"
+    ]
+  }
+}
