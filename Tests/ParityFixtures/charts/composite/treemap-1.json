@@ -1,0 +1,60 @@
+{
+  "elements": {
+    "card": {
+      "children": [
+        "t"
+      ],
+      "props": {
+        "title": "Source lines by module"
+      },
+      "type": "Card"
+    },
+    "t": {
+      "props": {
+        "data": {
+          "$state": "/modules"
+        },
+        "format": "compact",
+        "group": "area",
+        "label": "module",
+        "value": "lines"
+      },
+      "type": "Treemap"
+    }
+  },
+  "root": "card",
+  "state": {
+    "modules": [
+      {
+        "area": "App",
+        "lines": 41,
+        "module": "RafuApp"
+      },
+      {
+        "area": "Core and tests",
+        "lines": 16,
+        "module": "RafuCore"
+      },
+      {
+        "area": "Core and tests",
+        "lines": 13,
+        "module": "Tests"
+      },
+      {
+        "area": "Features",
+        "lines": 8,
+        "module": "Editor"
+      },
+      {
+        "area": "Features",
+        "lines": 6,
+        "module": "Voice"
+      },
+      {
+        "area": "Other",
+        "lines": 5,
+        "module": "Other"
+      }
+    ]
+  }
+}

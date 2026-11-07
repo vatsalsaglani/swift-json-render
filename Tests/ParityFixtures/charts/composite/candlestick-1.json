@@ -1,0 +1,98 @@
+{
+  "elements": {
+    "c": {
+      "props": {
+        "data": {
+          "$state": "/days"
+        },
+        "format": "currency:USD",
+        "x": "day"
+      },
+      "type": "Candlestick"
+    },
+    "card": {
+      "children": [
+        "c"
+      ],
+      "props": {
+        "title": "Voice spend, USD per day"
+      },
+      "type": "Card"
+    }
+  },
+  "root": "card",
+  "state": {
+    "days": [
+      {
+        "close": 11,
+        "day": "D1",
+        "high": 12,
+        "low": 9,
+        "open": 10
+      },
+      {
+        "close": 12.5,
+        "day": "D2",
+        "high": 13,
+        "low": 10,
+        "open": 11
+      },
+      {
+        "close": 11.5,
+        "day": "D3",
+        "high": 14,
+        "low": 11,
+        "open": 12.5
+      },
+      {
+        "close": 10,
+        "day": "D4",
+        "high": 12,
+        "low": 9.5,
+        "open": 11.5
+      },
+      {
+        "close": 10.8,
+        "day": "D5",
+        "high": 11,
+        "low": 9,
+        "open": 10
+      },
+      {
+        "close": 12.6,
+        "day": "D6",
+        "high": 13,
+        "low": 10.5,
+        "open": 10.8
+      },
+      {
+        "close": 14.5,
+        "day": "D7",
+        "high": 15,
+        "low": 12,
+        "open": 12.6
+      },
+      {
+        "close": 13.2,
+        "day": "D8",
+        "high": 15.5,
+        "low": 13,
+        "open": 14.5
+      },
+      {
+        "close": 13.9,
+        "day": "D9",
+        "high": 14,
+        "low": 12.4,
+        "open": 13.2
+      },
+      {
+        "close": 15.4,
+        "day": "D10",
+        "high": 16,
+        "low": 13.5,
+        "open": 13.9
+      }
+    ]
+  }
+}
