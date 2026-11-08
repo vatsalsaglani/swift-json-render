@@ -1,7 +1,7 @@
 // Owner: jr-3 (wave 2). Shared open-state and presentation for Dialog and Drawer.
 internal import JSONRenderCore
 public import JSONRenderSwiftUI
-public import SwiftUI
+internal import SwiftUI
 
 /// What a Dialog or Drawer style receives. `close` sets the open state to `false`.
 public struct JRPresentationStyleConfiguration {
