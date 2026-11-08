@@ -1,5 +1,5 @@
 internal import Foundation
-public import JSONRenderCore
+internal import JSONRenderCore
 
 /// The chart components this module ships. The raw value is the element `type`.
 public enum ChartKind: String, Sendable, Hashable, CaseIterable {

@@ -36,12 +36,23 @@
     build(doc.getElementById('side-inner'), false);
   }
 
+  /* Gallery screenshots (native preset) from the Swift package, for the components that have them. */
+  var GALLERY = { Card: 1, Table: 1, BarChart: 1, Treemap: 1 };
+  function shot(c) {
+    if (!GALLERY[c.name]) return [];
+    var label = c.name + ' in the Swift Gallery, native preset';
+    return [el('figure', { class: 'shot' }, [
+      el('img', { class: 'lt', src: 'assets/gallery/' + c.name + '-light.png', alt: label + ', light', width: '720', loading: 'lazy' }),
+      el('img', { class: 'dk', src: 'assets/gallery/' + c.name + '-dark.png', alt: label + ', dark', width: '720', loading: 'lazy' }),
+      el('figcaption', { class: 'small', text: 'The real SwiftUI view from the Gallery app (native preset, 720 pt wide).' })])];
+  }
+
   function propsTable(c) {
     var rows = c.props.map(function (p) {
       var name = el('td', null, [el('code', { text: p.name })]);
       if (p.required) name.appendChild(el('span', { class: 'mini req', text: 'required' }));
       if (p.bindable) name.appendChild(el('span', { class: 'mini', text: '$bindState', title: 'Accepts { "$bindState": "/path" } to write back' }));
-      if (p.provisional) name.appendChild(el('span', { class: 'mini draft', text: 'draft', title: 'Named for the mock. The plan names the behaviour, not this prop.' }));
+      if (c.source === 'planned') name.appendChild(el('span', { class: 'mini draft', text: 'planned', title: 'Planned for the Rafu catalog. This prop is not in the package.' }));
       return el('tr', null, [name, el('td', null, [el('span', { class: 'tt', text: p.type })]), el('td', { text: p.required ? 'yes' : 'no' }), el('td', null, [p.default === null || p.default === undefined ? el('span', { class: 'muted', text: 'none' }) : el('code', { text: JSON.stringify(p.default) })]), el('td', { text: p.note || '' })]);
     });
     if (!rows.length) return el('p', { class: 'muted', text: 'No props. The component takes only children.' });
@@ -59,14 +70,14 @@
     var grp = ui.groupOf(c.group), idx = reg.components.indexOf(c);
     var catLabel = { standard: 'Standard catalog', charts: 'Chart family', rafu: 'Rafu catalog' }[c.catalog];
     page.appendChild(el('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' }, [el('a', { href: 'index.html#components', text: 'Components' }), '/', el('span', { text: catLabel }), '/', el('span', { text: grp.label })]));
-    page.appendChild(el('div', { class: 'dhead' }, [el('h1', { text: c.name }), el('span', { class: 'pill ' + (c.catalog === 'rafu' ? 'warn' : c.catalog === 'charts' ? 'good' : 'plain'), text: c.catalog === 'rafu' ? 'Rafu catalog' : catLabel })].concat(c.moved ? [el('span', { class: 'pill warn', text: 'Moved' })] : [])));
+    page.appendChild(el('div', { class: 'dhead' }, [el('h1', { text: c.name }), el('span', { class: 'pill ' + (c.catalog === 'rafu' ? 'warn' : c.catalog === 'charts' ? 'good' : 'plain'), text: c.catalog === 'rafu' ? 'Rafu, planned' : catLabel })].concat(c.moved ? [el('span', { class: 'pill warn', text: 'Moved' })] : [])));
     page.appendChild(el('p', { class: 'dsum', text: c.description }));
     var facts = el('div', { class: 'facts-row' });
     facts.appendChild(el('span', null, [el('b', { text: 'Events: ' }), c.events.length ? c.events.join(', ') : 'none']));
     facts.appendChild(el('span', null, [el('b', { text: 'Slots: ' }), c.slots.length ? c.slots.join(', ') : 'none']));
     facts.appendChild(el('span', null, [el('b', { text: 'Variants: ' }), String(c.variants.length)]));
     page.appendChild(facts);
-    if (c.catalog === 'rafu') page.appendChild(el('div', { class: 'callout warn', role: 'note' }, [el('p', { text: 'Rafu catalog. This component is not part of the open-source standard catalog. Rafu registers it on top.' })]));
+    if (c.catalog === 'rafu') page.appendChild(el('div', { class: 'callout warn', role: 'note' }, [el('p', { text: 'Rafu, planned. This component is not part of the package. Rafu registers it on top of the standard catalog.' })]));
     page.appendChild(el('nav', { class: 'subnav', 'aria-label': 'On this page' }, [['preview', 'Preview'], ['variants', 'Variants'], ['props', 'Props'], ['spec', 'Spec'], ['swiftui', 'SwiftUI']].map(function (x) { return el('a', { href: '#' + x[0], text: x[1] }); })));
 
     /* preview with example tabs, state and action log */
@@ -109,7 +120,7 @@
     var insp = el('div', { class: 'insp' }, [el('h4', { text: 'State' }), stateOut, el('h4', { text: 'Actions' }), logOut]);
     page.appendChild(section('preview', 'Live preview', [
       el('p', { class: 'section-lede', text: 'Drawn from the example spec below by a small interpreter. Inputs write to state, and other elements read it back.' }),
-      el('div', { class: 'demo-bar' }, [tabsBar, reset]), desc, el('div', { class: 'demo' }, [stage, insp])]));
+      el('div', { class: 'demo-bar' }, [tabsBar, reset]), desc, el('div', { class: 'demo' }, [stage, insp])].concat(shot(c))));
 
     /* variants */
     var vBody;
@@ -135,7 +146,7 @@
     page.appendChild(section('swiftui', 'SwiftUI mapping', [
       el('p', { text: c.swiftui }),
       el('h4', { text: 'Catalog definition', style: 'margin-top:18px' }),
-      el('p', { class: 'small', text: 'Planned API. Generated from the registry. The final form comes from Catalog.jsonSchema().' }),
+      el('p', { class: 'small', text: c.source === 'planned' ? 'Planned. Rafu registers this component on top of the standard catalog; it is not in the package.' : 'The shape of the definition the package registers, generated from the registry. The package holds the real one.' }),
       ui.codeBox(ui.swiftDef(c), 'swift', { label: 'catalog definition' })]));
 
     var prev = reg.components[(idx - 1 + reg.components.length) % reg.components.length], next = reg.components[(idx + 1) % reg.components.length];

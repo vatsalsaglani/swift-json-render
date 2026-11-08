@@ -2,8 +2,6 @@
 
 Contents: the line format, the order to write in, chat streams, object mode, edits, what the app sees, budgets, the app side.
 
-<!-- verify after jr-2 merges: the decoder, store, journal, phase and view behaviour below come from the jr-2 brief; only SpecPatch, SpecSnapshot, SpecStreamEvent, StreamError and UserPrompt are on main -->
-
 A model can send a spec as it writes it. Each line is one JSON Patch (RFC 6902) operation that builds the spec. The view draws at most once per display frame, so a fast stream does not cost more frames.
 
 ## JSONL patch lines
@@ -51,7 +49,8 @@ Tick a task to finish it.
 ````
 
 - Outside the fence, a line is prose (shown as text). A line that is a valid patch is also taken as a patch, but put patches in the fence to be sure.
-- Inside the fence only patch lines count; other lines are dropped without a journal entry.
+- A JSON line with a string `op` that is not a valid patch (an unknown `op`, no `path`) is a bad patch, not prose: it goes to the journal as `badLine`, inside or outside the fence.
+- Inside the fence, other lines that are not patches are dropped without a journal entry.
 - Fence lines are not shown. Blank lines are skipped.
 
 Full example: `examples/chat-fence.txt`.
@@ -60,7 +59,7 @@ Full example: `examples/chat-fence.txt`.
 
 A function call or tool call delivers the whole spec as one JSON object, in argument fragments (for example the `show_view` tool of a voice agent). Object mode reads the growing text with a tolerant parser: it closes open strings, arrays and objects, and drops a trailing partial token. It emits patches at the level of `/root`, `/state` and `/elements/<id>` (one patch per changed element, whole). An element without a `type` yet is held back.
 
-When writing for object mode: put `root` first, then `elements` in tree order, then `state`; keep keys short. At the end the strict parse decides; an unclosed document is journaled and the tolerant result is used.
+When writing for object mode: put `root` first, then `elements` in tree order, then `state`; keep keys short. Bytes that no continuation can make valid JSON stop the stream at once (`unrecoverable`, "invalid JSON"); the last good snapshot stays. At the end the strict parse decides; an unclosed document is journaled (`badLine`, "document was not closed") and the tolerant result is used.
 
 ## Edit an existing spec
 
@@ -87,7 +86,7 @@ func editMessage(_ request: String, current: Spec, state: JSONValue) -> String {
 | `journal` | Stream problems: `badLine`, `patchFailed`, `unrecoverable`, `budget`. Ids, ops and paths only, never values |
 | phase | `idle`, `streaming`, `stopped`, `final` |
 
-Cancel keeps the last snapshot (`stopped`). A budget breach freezes the stream at the last good snapshot.
+Cancel keeps the last snapshot (`stopped`). A stream that throws also ends `stopped` and journals `unrecoverable` with the error type name only. A budget breach freezes the stream at the last good snapshot. Running a `StreamModel` again after it ended starts from its initial spec and state.
 
 ```swift
 import Foundation
@@ -110,10 +109,7 @@ func readLine(_ line: String) throws -> SpecPatch {
 ## The app side
 
 ```swift
-// verify after jr-2 merges: SpecStreamDecoder, JSONRenderStreamView
-import JSONRenderCore
-import JSONRenderStandardCatalog
-import JSONRenderSwiftUI
+import JSONRender
 import SwiftUI
 
 struct AssistantView: View {
@@ -126,7 +122,7 @@ struct AssistantView: View {
 }
 ```
 
-`JSONRenderStreamView(stream:mode:catalog:host:limits:onFinish:)` runs the whole pipeline: decode, patch, snapshot, coalesce, draw. `mode` is `.jsonl`, `.object` or `.mixed`. A host that owns the lifetime creates a `StreamModel` and passes it with `JSONRenderStreamView(model:content:)`. Lower-level pieces for tests or custom hosts: `SpecStreamDecoder(mode:)` with `push(_:)` and `flush()` returning `SpecStreamEvent`s, and `SpecStore` (an actor) with `apply(_:)`, `finish()` and `cancel()`.
+`JSONRenderStreamView(stream:mode:catalog:host:limits:observer:onFinish:)` runs the whole pipeline: decode, patch, snapshot, coalesce, draw with `JSONRenderView`. `mode` is `.jsonl`, `.object` or `.mixed`. Pass a trailing closure `{ snapshot, store in ... }` (with `limits:` and `onFinish:`) to draw the snapshot yourself. A host that owns the lifetime creates a `StreamModel` and passes it with `JSONRenderStreamView(model:catalog:host:observer:)` or `JSONRenderStreamView(model:content:)`, and feeds it with `model.run(_:mode:onFinish:)` (an `AsyncThrowingStream<String, any Error>` or any sendable `AsyncSequence` of `String`) or `model.run(bytes:mode:onFinish:)` (UTF-8 chunks). Lower-level pieces for tests or custom hosts: `SpecStreamDecoder(mode:)` with `push(_:)` and `flush()` returning `SpecStreamEvent`s, and `SpecStore` (an actor) with `apply(_:)`, `finish()` and `cancel()`.
 
 While streaming, the stream's `/state` wins over the live state model; after `finish` the store belongs to the user.
 

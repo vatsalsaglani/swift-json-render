@@ -302,7 +302,7 @@
     var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), w = (hi - lo) / bins || 1, counts = [];
     for (var i = 0; i < bins; i++) counts.push(0);
     vals.forEach(function (v) { counts[Math.min(bins - 1, Math.floor((v - lo) / w))]++; });
-    var percent = p.show === 'percent', ys = counts.map(function (c) { return percent ? (c / (n || 1)) * 100 : c; }), max = k.domain(niceCeil(Math.max.apply(null, ys.concat([0]))));
+    var percent = p.mode === 'percent', ys = counts.map(function (c) { return percent ? (c / (n || 1)) * 100 : c; }), max = k.domain(niceCeil(Math.max.apply(null, ys.concat([0]))));
     return shell(p, k, 'Histogram', 'Histogram, ' + n + ' values in ' + bins + ' bins', [plot(max, hpx(p, k), h('div', { class: 'ch-bars tight' }, ys.map(function (v, i) {
       return h('div', { class: 'ch-col' }, h('i', { title: fmt(lo + i * w, 'number', p.unit) + ' to ' + fmt(lo + (i + 1) * w, 'number', p.unit) + ': ' + (percent ? round(v, 1) + ' %' : counts[i]), style: 'height:' + pct(v, max) + '%' }));
     })), percent ? 'percent' : 'number'), h('div', { class: 'ch-lin-lbl pad' }, h('span', null, fmt(lo, 'number', p.unit)), h('span', null, fmt(hi, 'number', p.unit)))]);

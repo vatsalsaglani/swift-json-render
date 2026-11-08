@@ -138,7 +138,7 @@
     return h('div', { class: cx('jr-card', v === 'plain' && 'plain', v === 'elevated' && 'elev'), style: WIDTHS[p.maxWidth] ? 'max-width:' + px(WIDTHS[p.maxWidth]) : null },
       k.slots.header && k.slots.header.length ? h('div', { class: 'jr-slot' }, k.slots.header) : null,
       p.title ? h('div', { class: 'jr-title' }, str(p.title)) : null,
-      p.subtitle ? h('div', { class: 'jr-sub' }, str(p.subtitle)) : null,
+      p.description ? h('div', { class: 'jr-sub' }, str(p.description)) : null,
       k.kids,
       k.slots.footer && k.slots.footer.length ? h('div', { class: 'jr-row jr-slot' }, k.slots.footer) : null);
   };
@@ -205,12 +205,12 @@
   C.Alert = function (p) {
     var a = ALERT[p.type] || ALERT.info;
     return h('div', { class: 'jr-alert ' + a[0], role: p.type === 'error' ? 'alert' : 'status' },
-      h('span', { class: 'ic', 'aria-hidden': 'true' }, a[1]), h('div', null, p.title ? h('b', null, str(p.title)) : null, p.text ? h('span', null, str(p.text)) : null));
+      h('span', { class: 'ic', 'aria-hidden': 'true' }, a[1]), h('div', null, p.title ? h('b', null, str(p.title)) : null, p.message ? h('span', null, str(p.message)) : null));
   };
   C.Link = function (p, k) {
     function go() { k.emit('press'); k.store.note({ action: 'open_url', params: { href: str(p.href) }, host: true }); k.store.notify(); }
     return h('span', { class: 'jr-link', role: 'link', tabindex: '0', title: 'Opens externally after host confirmation: ' + str(p.href),
-      on: { click: go, keydown: function (e) { if (e.key === 'Enter') go(); } } }, str(p.text, p.href));
+      on: { click: go, keydown: function (e) { if (e.key === 'Enter') go(); } } }, str(p.label, p.href));
   };
 
   /* ---------- Form ---------- */
@@ -222,7 +222,12 @@
     return h('button', { type: 'button', class: cx('jr-btn', v !== 'secondary' && v, p.size === 'sm' && 'sm', p.size === 'lg' && 'lg'),
       on: { click: function () { k.emit('press'); } }, p: { disabled: !!p.disabled } }, p.icon ? h('span', { 'aria-hidden': 'true' }, glyph(p.icon)) : null, str(p.label));
   };
-  C.ButtonGroup = function (p, k) { return h('div', { class: 'jr-bgroup', role: 'group' }, k.kids); };
+  C.ButtonGroup = function (p, k) {
+    var buttons = options(p.buttons), m = k.model('selected', buttons.length ? buttons[0].value : '');
+    return h('div', { class: 'jr-bgroup', role: 'group' }, buttons.map(function (b) {
+      return h('button', { type: 'button', class: cx('jr-btn sm', m[0] === b.value && 'primary'), 'aria-pressed': m[0] === b.value ? 'true' : 'false', on: { click: function () { m[1](b.value); k.emit('change'); } } }, b.label);
+    }));
+  };
   C.Input = function (p, k) {
     var m = k.model('value', ''), type = pickKey(p.type, ['text', 'email', 'password', 'number'], 'text');
     return field(p.label, h('input', { class: 'jr-input', type: type, placeholder: p.placeholder || null, autocomplete: 'off', 'aria-label': p.label ? null : 'Input',
@@ -265,14 +270,14 @@
     return h('button', { type: 'button', class: cx('jr-btn', m[0] && 'on'), 'aria-pressed': m[0] ? 'true' : 'false', on: { click: function () { m[1](!m[0]); k.emit('change'); } } }, str(p.label));
   };
   C.ToggleGroup = function (p, k) {
-    var multiple = p.type === 'multiple', m = k.model('value', multiple ? [] : ''), opts = options(p.options);
+    var multiple = p.type === 'multiple', m = k.model('value', multiple ? [] : ''), opts = options(p.items);
     function on(v) { return multiple ? asList(m[0]).indexOf(v) >= 0 : m[0] === v; }
     function click(v) {
       if (multiple) { var cur = asList(m[0]); m[1](cur.indexOf(v) >= 0 ? cur.filter(function (x) { return x !== v; }) : cur.concat([v])); }
       else m[1](v);
       k.emit('change');
     }
-    return h('div', { class: 'jr-seg', role: 'group', 'aria-label': p.label || 'Options' }, opts.map(function (o) {
+    return h('div', { class: 'jr-seg', role: 'group', 'aria-label': 'Options' }, opts.map(function (o) {
       return h('button', { type: 'button', class: on(o.value) ? 'on' : null, 'aria-pressed': on(o.value) ? 'true' : 'false', on: { click: function () { click(o.value); } } }, o.label);
     }));
   };
@@ -297,7 +302,7 @@
       h('div', { class: 'jr-stack', role: 'tabpanel', style: 'flex-direction:column;gap:10px;margin-top:10px' }, k.kids));
   };
   C.Accordion = function (p, k) {
-    var items = options(p.items).map(function (o, i) { var src = asList(p.items)[i]; return { value: o.value !== undefined ? o.value : String(i), title: str(src.title, o.label), text: str(src.text) }; });
+    var items = options(p.items).map(function (o, i) { var src = asList(p.items)[i]; return { value: o.value !== undefined ? o.value : String(i), title: str(src.title, o.label), text: str(src.content) }; });
     var multiple = p.type === 'multiple', m = k.model('value', multiple ? [] : '');
     function open(v) { return multiple ? asList(m[0]).indexOf(v) >= 0 : m[0] === v; }
     function toggle(v) {
@@ -318,7 +323,7 @@
       m[0] ? h('div', { class: 'jr-acc-body' }, k.kids) : null));
   };
   C.Pagination = function (p, k) {
-    var m = k.model('page', 1), total = Math.max(1, Number(p.total) || 1), page = Math.min(Math.max(1, Number(m[0]) || 1), total);
+    var m = k.model('page', 1), total = Math.max(1, Number(p.totalPages) || 1), page = Math.min(Math.max(1, Number(m[0]) || 1), total);
     function go(n) { m[1](Math.min(total, Math.max(1, n))); k.emit('change'); }
     var from = Math.max(1, Math.min(page - 2, total - 4)), nums = [];
     for (var i = from; i <= Math.min(total, from + 4); i++) nums.push(i);
@@ -338,15 +343,15 @@
         k.kids));
   }
   C.Dialog = function (p, k) { return sheet(p, k, k.model('open', false), null) || h('div', { class: 'jr-closed', 'aria-hidden': 'true' }); };
-  C.Drawer = function (p, k) { return sheet(p, k, k.model('open', false), p.side === 'left' ? 'left' : 'right') || h('div', { class: 'jr-closed', 'aria-hidden': 'true' }); };
+  C.Drawer = function (p, k) { return sheet(p, k, k.model('open', false), 'right') || h('div', { class: 'jr-closed', 'aria-hidden': 'true' }); };
   C.Tooltip = function (p, k) {
-    return h('span', { class: 'jr-tip' }, k.kids, h('span', { class: 'jr-tip-bubble', role: 'tooltip' }, str(p.text)));
+    return h('span', { class: 'jr-tip', tabindex: '0' }, str(p.text), h('span', { class: 'jr-tip-bubble', role: 'tooltip' }, str(p.content)));
   };
   C.Popover = function (p, k) {
-    var m = k.model('open', false);
+    var m = k.local('open', false);
     return h('div', { class: 'jr-popwrap' },
-      h('span', { class: 'jr-poptrig', on: { click: function () { m[1](!m[0]); } } }, k.slots.trigger || []),
-      m[0] ? h('div', { class: 'jr-pop', role: 'dialog', on: { keydown: function (e) { if (e.key === 'Escape') m[1](false); } } }, k.kids) : null);
+      h('button', { type: 'button', class: 'jr-btn sm', 'aria-expanded': m[0] ? 'true' : 'false', on: { click: function () { m[1](!m[0]); } } }, str(p.trigger)),
+      m[0] ? h('div', { class: 'jr-pop', role: 'dialog', on: { keydown: function (e) { if (e.key === 'Escape') m[1](false); } } }, str(p.content)) : null);
   };
   C.DropdownMenu = function (p, k) {
     var o = k.local('open', false), v = k.model('value', null), items = options(p.items);

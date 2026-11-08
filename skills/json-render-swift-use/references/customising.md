@@ -40,9 +40,9 @@ struct Themed<Content: View>: View {
 
 Token groups: `ColorRoles` (surface, surfaceRaised, text, textSecondary, textMuted, hairline, accent, onAccent, good, warning, critical, info, focus), `TypeScale` (caption, footnote, body, bodyEmphasis, title, display, mono, weights), `SpaceScale` (s1 to s6), `RadiusScale` (control, field, card), `Elevation`, `Motion` (reveal, pulse), `ChartTokens`.
 
-Keep contrast: text 4.5:1, accent 3:1. The theme API checks it at load. <!-- verify after jr-3 merges: JSONRenderTheme.validated(), .highContrast, .jsonRenderTheme(_:), .jsonRenderTheme(\.radius.card, 6), .jsonRenderTheme(_:forTypes:) -->
+Keep contrast: text and secondary text 4.5:1, muted text 3:1, accent 3:1, on-accent 3:1. `try theme.validated()` throws `ThemeContrastError` with the failing pairs; `JSONRenderView` also audits each theme once (a debug build asserts, a release build logs role names only).
 
-Precedence: per-type theme beats per-token override beats whole theme. Presets: `.native` and `.highContrast`. Accent colour only on the primary Button, the active Tab, the Switch when on, Progress and the focus ring: do not spread it.
+Three modifiers set a theme for a subtree: `.jsonRenderTheme(theme)` (the whole theme), `.jsonRenderTheme(\.radius.card, 6)` (one token) and `.jsonRenderTheme(theme, forTypes: ["Card"])` (a whole theme for the listed component types). Precedence: per-type theme beats per-token override beats whole theme. Presets: `.native` and `.highContrast`. Accent colour only on the primary Button, the active Tab, the Switch when on, Progress and the focus ring: do not spread it.
 
 ## b. Variants
 
@@ -50,11 +50,10 @@ The catalog declares looks and the spec picks one: Button `primary` / `secondary
 
 ## c. Style hooks
 
-Each component has a style protocol shaped like `ButtonStyle`: `JRCardStyle`, `JRTableStyle`, `JRStatStyle`, and so on; charts have `BarChartStyle` and others. A style receives a configuration (resolved props, label views, flags, the theme) and returns a view. It never receives the store, bindings or `emit`, so it cannot change behaviour. <!-- verify after jr-3 and jr-3c merge: protocol, configuration and modifier names -->
+Each standard component has a style protocol shaped like `ButtonStyle`: `JRCardStyle`, `JRTableStyle`, `JRTabsStyle`, `JRLinkStyle`, `JRInputStyle` and so on (one per component that draws its own chrome), set with a `.jr<Name>Style(_:)` modifier. Charts share one protocol, `ChartStyle`, set per chart type with `.jrChartStyle(_:for:)` (for example `for: .bar`); `.jrChartMarks(for:_:)` replaces only the marks. A style receives a configuration (resolved props, label views, flags, the theme) and returns a view. It never receives the store, bindings or `emit`, so it cannot change behaviour.
 
 ```swift
-// verify after jr-3 merges: JRCardStyle, JRCardStyleConfiguration, .jrCardStyle(_:)
-import JSONRenderSwiftUI
+import JSONRender
 import SwiftUI
 
 struct QuietCardStyle: JRCardStyle {
@@ -65,7 +64,14 @@ struct QuietCardStyle: JRCardStyle {
         }
     }
 }
-// content.jrCardStyle(QuietCardStyle())
+
+struct QuietCards<Content: View>: View {
+    @ViewBuilder var content: Content
+
+    var body: some View {
+        content.jrCardStyle(QuietCardStyle())
+    }
+}
 ```
 
 ## d. Slots
@@ -106,6 +112,7 @@ A custom component is a SwiftUI view with the `@JRComponent` macro (product `JSO
 ```swift
 import JSONRenderClient
 import JSONRenderCore
+import JSONRenderStandardCatalog
 import JSONRenderSwiftUI
 import SwiftUI
 

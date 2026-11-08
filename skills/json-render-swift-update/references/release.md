@@ -14,11 +14,11 @@ Rules for the version number:
 
 ## Changelog
 
-`CHANGELOG.md` has one owner: the coordinator. An agent does not edit it; the handoff carries a **CHANGELOG line** for each change, in this shape: `Added|Changed|Fixed|Deprecated: <what a user sees> (<component or area>)`. Name any prompt text change, any new validator rule, and any new public type. <!-- verify at release: CHANGELOG.md is not on main yet -->
+`CHANGELOG.md` (Keep a Changelog) has one owner: the coordinator. An agent does not edit it; the handoff carries a **CHANGELOG line** for each change, in this shape: `Added|Changed|Fixed|Deprecated: <what a user sees> (<component or area>)`. Name any prompt text change, any new validator rule, and any new public type. Each release section names the upstream json-render commit it implements.
 
 ## Docs
 
-- DocC for the public API: every public type and method has a doc comment that says what it does, what it throws, and what it never logs. <!-- verify at release: DocC catalog -->
+- DocC for the public API: every public type and method has a doc comment that says what it does, what it throws, and what it never logs. The catalog is `Sources/JSONRenderCore/Documentation.docc/` (ten articles); build it with `swift package generate-documentation --target JSONRenderCore` (the CI `docc` job builds all seven library targets as one combined archive). A symbol link in an article must name a symbol that exists.
 - The README, `NOTICE`, `AGENTS.md` and `docs/**` have single owners; a needed edit is a request to the coordinator.
 - A reusable nuance (a platform quirk, a limit, a decision) goes into a reference note or a decision record in the same change; the coordinator or documentor owns the files under `docs/`.
 
@@ -26,9 +26,15 @@ Rules for the version number:
 
 - Both skills live in `skills/`. `skills/scripts/check-skills.sh` validates them: frontmatter, names equal folders, body length, links, examples decode. Run it after every skill edit.
 - `.claude/skills/json-render-swift-update` is a symlink to `skills/json-render-swift-update`, so a clone has the update skill ready. Keep it a symlink.
-- At release, run `skills/scripts/refresh-catalog-reference.sh` so the component and chart lists match the code, then `skills/scripts/check-skills.sh`.
+- At release, run `skills/scripts/refresh-catalog-reference.sh` so the component and chart lists match the code, then `skills/scripts/check-skills.sh` and `skills/scripts/compile-examples.sh` (builds every Swift block of both skills against this checkout; a block that cannot build outside a module starts with `// not compiled: <reason>`).
 - Install check: `npx skills add vatsalsaglani/swift-json-render --skill json-render-swift-use` and `--skill json-render-swift-update` into a scratch project; open the installed `SKILL.md` and follow one link.
 - The use skill must stay correct: when a public name, a prop, a limit or a default changes, change the matching reference in the same commit.
+
+## CI, the parity report and the site data
+
+- `.github/workflows/ci.yml` runs on a push to `main` or `jr/**`, on a pull request and on demand: `format`, `macos` (a parallel and a serial leg), `linux` and `docc`. The serial macOS leg also builds the Gallery and its snapshots, runs the skills and site checks, and checks that `docs/parity.md` is current.
+- `Scripts/parity-report.sh` runs the parity suites and writes `docs/parity.md` (counts per fixture folder, the pinned upstream commit, what is not upstream). Run it after any fixture or parity test change and commit the result.
+- Site data: `site/tools/dump-catalog.sh` (writes `site/data/catalog.generated.json` from the real catalogs) → `node site/tools/merge-catalog.mjs` (replaces description, props, events and slots; keeps the hand-written examples) → `node site/tools/sync-data.mjs` → `node site/tests/check.mjs`. A catalog change needs all four.
 
 ## Tagging and publishing
 

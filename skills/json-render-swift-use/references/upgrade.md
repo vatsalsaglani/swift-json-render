@@ -24,7 +24,7 @@ The package tracks the json-render spec by minor version: `0.22.x` follows upstr
 
 ## Upgrade steps
 
-1. Read the release notes in `CHANGELOG.md` for the new version. <!-- verify at release: CHANGELOG.md is created by the coordinator -->
+1. Read the release notes in `CHANGELOG.md` for the new version.
 2. Change the version in `Package.swift`; resolve; build with warnings visible.
 3. Regenerate the prompt (`catalog.prompt(...)`) and diff it against the stored one. Expected: new lines, not removed ones. A removed line is a breaking change; report it.
 4. Re-run the validator on stored specs (below). Fix new errors; check new warnings.

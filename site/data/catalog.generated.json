@@ -1,0 +1,3170 @@
+{
+  "charts" : [
+    {
+      "description" : "Compare categories. Horizontal when labels are long; stacked or normalized (100 %) for parts of each bar.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "n" : 1210,
+            "run" : "4208"
+          },
+          {
+            "n" : 1225,
+            "run" : "4209"
+          }
+        ],
+        "x" : "run",
+        "y" : "n"
+      },
+      "name" : "BarChart",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Field for the category.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "y",
+          "note" : "Field for the value.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "series",
+          "note" : "Field that splits bars into series.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "orientation",
+          "note" : "Default vertical.",
+          "required" : false,
+          "type" : "enum(vertical | horizontal)"
+        },
+        {
+          "name" : "layout",
+          "note" : "Default grouped.",
+          "required" : false,
+          "type" : "enum(grouped | stacked | normalized)"
+        },
+        {
+          "name" : "sort",
+          "note" : "Sort by bar total. Default none.",
+          "required" : false,
+          "type" : "enum(none | asc | desc)"
+        },
+        {
+          "name" : "limit",
+          "note" : "Keep the first N bars; the rest fold into \"Other\".",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "A trend over time. One line per series; ISO dates make a time axis.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "run" : "4210",
+            "secs" : 38
+          },
+          {
+            "run" : "4211",
+            "secs" : 42
+          }
+        ],
+        "unit" : "s",
+        "x" : "run",
+        "y" : "secs"
+      },
+      "name" : "LineChart",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Field for x (ISO dates make a time axis).",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "y",
+          "note" : "Field for the value.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "series",
+          "note" : "Field that splits lines into series.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "curve",
+          "note" : "Default linear.",
+          "required" : false,
+          "type" : "enum(linear | monotone | step)"
+        },
+        {
+          "name" : "points",
+          "note" : "auto shows points up to 30 per series.",
+          "required" : false,
+          "type" : "enum(auto | always | never)"
+        },
+        {
+          "name" : "xDomain",
+          "note" : "[min, max] for a numeric x axis.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "Totals and their parts over time. stacked: the top edge is the total; normalized: 100 % shares.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "agent" : "Claude",
+            "day" : "Mon",
+            "k" : 30
+          },
+          {
+            "agent" : "Codex",
+            "day" : "Mon",
+            "k" : 12
+          }
+        ],
+        "layout" : "stacked",
+        "series" : "agent",
+        "x" : "day",
+        "y" : "k"
+      },
+      "name" : "AreaChart",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Field for x (ISO dates make a time axis).",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "y",
+          "note" : "Field for the value.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "series",
+          "note" : "Field that splits areas into series.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "layout",
+          "note" : "Default overlap.",
+          "required" : false,
+          "type" : "enum(overlap | stacked | normalized)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "Parts of one whole, 2 to 6 parts. Slices after maxSlices fold into Other. Negative values are rejected: use BarChart.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "mb" : 61,
+            "part" : "Terminals"
+          },
+          {
+            "mb" : 36,
+            "part" : "Editor"
+          }
+        ],
+        "donut" : true,
+        "label" : "part",
+        "value" : "mb"
+      },
+      "name" : "PieChart",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "label",
+          "note" : "Field for the slice label.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "Field for the slice value (not negative).",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "donut",
+          "note" : "A ring with room for a centre text.",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "center",
+          "note" : "Donut centre: text, { value, label } or a $template.",
+          "required" : false,
+          "type" : "string | { value, label }"
+        },
+        {
+          "name" : "maxSlices",
+          "note" : "Slices shown, Other included. Default 6, at most 12.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip",
+        "center"
+      ]
+    },
+    {
+      "description" : "One value against a range: a budget, coverage, CPU. The value is always printed.",
+      "events" : [
+
+      ],
+      "example" : {
+        "format" : "currency:USD",
+        "label" : "Voice budget",
+        "max" : 5,
+        "value" : 3.6
+      },
+      "name" : "Gauge",
+      "props" : [
+        {
+          "name" : "value",
+          "note" : "The value.",
+          "required" : true,
+          "type" : "number"
+        },
+        {
+          "name" : "min",
+          "note" : "Default 0.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "max",
+          "note" : "Default 100.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "label",
+          "note" : "What the value is.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "target",
+          "note" : "A marker on the scale.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "bands",
+          "note" : "Colour bands up to a value: good | warn | risk | info.",
+          "required" : false,
+          "type" : "array<{ to, intent }>"
+        },
+        {
+          "name" : "style",
+          "note" : "Default arc.",
+          "required" : false,
+          "type" : "enum(arc | ring | linear)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "center"
+      ]
+    },
+    {
+      "description" : "A tiny trend inside a Stat or a Table cell. No axes.",
+      "events" : [
+
+      ],
+      "example" : {
+        "emphasis" : "last",
+        "values" : [
+          8,
+          10,
+          6,
+          14,
+          12,
+          16,
+          18,
+          20,
+          22
+        ]
+      },
+      "name" : "Sparkline",
+      "props" : [
+        {
+          "name" : "values",
+          "note" : "Numbers in order, or { \"$state\": \"/series\" }.",
+          "required" : true,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "intent",
+          "note" : "Colours the line only for a status.",
+          "required" : false,
+          "type" : "enum(good | warn | risk | info)"
+        },
+        {
+          "name" : "emphasis",
+          "note" : "Which point gets a dot. Default last.",
+          "required" : false,
+          "type" : "enum(last | max | none)"
+        },
+        {
+          "name" : "filled",
+          "note" : "Fill under the line.",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption"
+      ]
+    },
+    {
+      "description" : "The relation between two measures. size makes bubbles; trend adds a linear fit.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "secs" : 11.2,
+            "tests" : 61
+          },
+          {
+            "secs" : 8.6,
+            "tests" : 38
+          }
+        ],
+        "trend" : "linear",
+        "x" : "tests",
+        "y" : "secs"
+      },
+      "name" : "ScatterChart",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Numeric field for x.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "y",
+          "note" : "Numeric field for y.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "size",
+          "note" : "Numeric field for the bubble size.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "series",
+          "note" : "Field that colours points by series.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "trend",
+          "note" : "Default none.",
+          "required" : false,
+          "type" : "enum(none | linear)"
+        },
+        {
+          "name" : "xDomain",
+          "note" : "[min, max] for a numeric x axis.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "A grid of values: activity by day and hour, failures by suite and run. calendar draws weeks by weekdays from ISO dates.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "day" : "Mon",
+            "hour" : "08:00",
+            "n" : 3
+          },
+          {
+            "day" : "Mon",
+            "hour" : "09:00",
+            "n" : 7
+          }
+        ],
+        "value" : "n",
+        "x" : "hour",
+        "y" : "day"
+      },
+      "name" : "Heatmap",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Field for the column.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "y",
+          "note" : "Field for the row.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "Numeric field for the cell.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "scale",
+          "note" : "Default sequential; diverging only around a meaningful midpoint.",
+          "required" : false,
+          "type" : "enum(sequential | diverging)"
+        },
+        {
+          "name" : "layout",
+          "note" : "Default grid.",
+          "required" : false,
+          "type" : "enum(grid | calendar)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "A distribution, such as test durations. bins: \"auto\" or a count.",
+      "events" : [
+
+      ],
+      "example" : {
+        "bins" : "auto",
+        "unit" : "s",
+        "values" : [
+          2.7,
+          1.4,
+          2.5,
+          1.7,
+          3.1,
+          5.8
+        ]
+      },
+      "name" : "Histogram",
+      "props" : [
+        {
+          "name" : "values",
+          "note" : "Numbers, or { \"$state\": \"/durations\" }.",
+          "required" : true,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "bins",
+          "note" : "auto (Freedman–Diaconis) or a count up to 100.",
+          "required" : false,
+          "type" : "number | \"auto\""
+        },
+        {
+          "name" : "mode",
+          "note" : "Default count.",
+          "required" : false,
+          "type" : "enum(count | percent)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "Bars and a line (such as a moving average) on one y axis. Never two axes: the validator rejects a second unit.",
+      "events" : [
+
+      ],
+      "example" : {
+        "bars" : "secs",
+        "data" : [
+          {
+            "avg" : 40,
+            "day" : "Mon",
+            "secs" : 41
+          },
+          {
+            "avg" : 40,
+            "day" : "Tue",
+            "secs" : 38
+          }
+        ],
+        "line" : "avg",
+        "unit" : "s",
+        "x" : "day"
+      },
+      "name" : "ComboChart",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Field for the category.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "bars",
+          "note" : "Field drawn as bars.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "line",
+          "note" : "Field drawn as a line, in the same unit.",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "How a total is built from increases and decreases: memory by subsystem, time by phase. Rows named in subtotals show the running total from the baseline.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "label" : "Start",
+            "value" : 112
+          },
+          {
+            "label" : "Terminals",
+            "value" : 32
+          },
+          {
+            "label" : "Pool cap",
+            "value" : -24
+          },
+          {
+            "label" : "Now",
+            "value" : 0
+          }
+        ],
+        "label" : "label",
+        "subtotals" : [
+          "Start",
+          "Now"
+        ],
+        "value" : "value"
+      },
+      "name" : "Waterfall",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "label",
+          "note" : "Field for the step label. Default \"label\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "Field for the change (signed). Default \"value\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "start",
+          "note" : "The running total before the first row; drawn as a Start bar.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "subtotals",
+          "note" : "Labels of rows drawn as the running total from the baseline. A first-row subtotal sets the start from its value.",
+          "required" : false,
+          "type" : "array<string>"
+        },
+        {
+          "name" : "orientation",
+          "note" : "Default vertical.",
+          "required" : false,
+          "type" : "enum(vertical | horizontal)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "Stages that narrow: collected, run, passed. Each stage must not be larger than the one before it unless sort is set.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "n" : 1296,
+            "stage" : "Collected"
+          },
+          {
+            "n" : 1284,
+            "stage" : "Ran"
+          },
+          {
+            "n" : 1277,
+            "stage" : "Passed"
+          }
+        ],
+        "label" : "stage",
+        "show" : "both",
+        "value" : "n"
+      },
+      "name" : "Funnel",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "label",
+          "note" : "Field for the stage name. Default \"label\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "Field for the stage value. Default \"value\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "show",
+          "note" : "value: the value on each bar; percent: the share of the first stage; both: the value, and the step-to-step percent between rows. Default value.",
+          "required" : false,
+          "type" : "enum(value | percent | both)"
+        },
+        {
+          "name" : "sort",
+          "note" : "desc sorts the stages widest first; none keeps the order and allows a larger stage. Default: keep the order and reject a larger stage.",
+          "required" : false,
+          "type" : "enum(none | desc)"
+        },
+        {
+          "name" : "align",
+          "note" : "center (default), or start (left) for a ranked bar.",
+          "required" : false,
+          "type" : "enum(center | start | left)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "A distribution per group: suite durations, latency per backend. Each row has a values array, or precomputed min, q1, median, q3, max and outliers. At most 20 groups.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "suite" : "Canvas",
+            "values" : [
+              1.2,
+              1.8,
+              2.4,
+              3.1,
+              9.5
+            ]
+          },
+          {
+            "max" : 1.7,
+            "median" : 0.9,
+            "min" : 0.4,
+            "q1" : 0.7,
+            "q3" : 1.2,
+            "suite" : "MDX"
+          }
+        ],
+        "group" : "suite",
+        "unit" : "s"
+      },
+      "name" : "BoxPlot",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "group",
+          "note" : "Field for the group name. Default \"group\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "values",
+          "note" : "Field for the raw numbers of a row. Default \"values\".",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "orientation",
+          "note" : "Default vertical.",
+          "required" : false,
+          "type" : "enum(vertical | horizontal)"
+        },
+        {
+          "name" : "showOutliers",
+          "note" : "Default true. false draws the whiskers to the smallest and largest value and no points.",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "Open, high, low and close per period: cost per day, build time min and max per day. Up periods are filled, down periods hollow. At most 180 periods (the last ones).",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "close" : 11,
+            "day" : "D1",
+            "high" : 12,
+            "low" : 9,
+            "open" : 10
+          },
+          {
+            "close" : 10.5,
+            "day" : "D2",
+            "high" : 13,
+            "low" : 10,
+            "open" : 11
+          }
+        ],
+        "format" : "currency:USD",
+        "x" : "day"
+      },
+      "name" : "Candlestick",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "x",
+          "note" : "Field for the period (a label or an ISO date).",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "open",
+          "note" : "Field for the open value. Default \"open\".",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "high",
+          "note" : "Field for the high value. Default \"high\".",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "low",
+          "note" : "Field for the low value. Default \"low\".",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "close",
+          "note" : "Field for the close value. Default \"close\".",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "mark",
+          "note" : "candles (default) or ohlc bars.",
+          "required" : false,
+          "type" : "enum(candles | ohlc)"
+        },
+        {
+          "name" : "style",
+          "note" : "Another name for mark.",
+          "required" : false,
+          "type" : "enum(candles | ohlc)"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "yDomain",
+          "note" : "[min, max]. Default: nice numbers; bars start at zero.",
+          "required" : false,
+          "type" : "array<number>"
+        },
+        {
+          "name" : "referenceLines",
+          "note" : "A budget or threshold line. Give a label with an intent.",
+          "required" : false,
+          "type" : "array<{ value, label, intent }>"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    },
+    {
+      "description" : "Parts of a whole with many parts: bundle size by module, lines by directory. Values must be greater than zero. group nests one level and colours the cells.",
+      "events" : [
+
+      ],
+      "example" : {
+        "data" : [
+          {
+            "area" : "App",
+            "lines" : 41,
+            "module" : "RafuApp"
+          },
+          {
+            "area" : "Core",
+            "lines" : 16,
+            "module" : "RafuCore"
+          },
+          {
+            "area" : "Features",
+            "lines" : 8,
+            "module" : "Editor"
+          }
+        ],
+        "group" : "area",
+        "label" : "module",
+        "value" : "lines"
+      },
+      "name" : "Treemap",
+      "props" : [
+        {
+          "name" : "data",
+          "note" : "Rows: an array literal or { \"$state\": \"/rows\" }. Charts never fetch.",
+          "required" : true,
+          "type" : "array<record<any>>"
+        },
+        {
+          "name" : "label",
+          "note" : "Field for the cell label. Default \"label\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "Field for the cell size (> 0). Default \"value\".",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "group",
+          "note" : "Field that groups and colours the cells.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "maxDepth",
+          "note" : "2 (default) nests cells in their group; 1 draws a flat map.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "minLabelArea",
+          "note" : "Cells smaller than this (pt²) get no label. Default 900.",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "format",
+          "note" : "number | compact | percent | currency:<ISO code> | duration | bytes. Default number.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "unit",
+          "note" : "Names the axis, for example \"s\". Never two units on one chart.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "legend",
+          "note" : "Default auto: a legend only when there are two or more series.",
+          "required" : false,
+          "type" : "enum(auto | bottom | trailing | hidden)"
+        },
+        {
+          "name" : "height",
+          "note" : "96 / 160 / 240 pt. Default regular.",
+          "required" : false,
+          "type" : "enum(compact | regular | tall)"
+        },
+        {
+          "name" : "selection",
+          "note" : "Bind with { \"$bindState\": \"/picked\" }. The chart writes the selected x or label.",
+          "required" : false,
+          "type" : "any"
+        },
+        {
+          "name" : "emptyText",
+          "note" : "Shown when there is no data.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "summary",
+          "note" : "VoiceOver text. Generated when missing.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "minimal hides the axes; dense uses smaller type.",
+          "required" : false,
+          "type" : "enum(default | minimal | dense)"
+        },
+        {
+          "name" : "title",
+          "note" : "A short heading.",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "caption",
+          "note" : "One line under the chart.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "title",
+        "caption",
+        "empty",
+        "tooltip"
+      ]
+    }
+  ],
+  "generatedFrom" : "5d1bdce52686b3b56c7802f16db72a81ef50e15b",
+  "standard" : [
+    {
+      "description" : "Container card for content sections. Use for forms/content boxes, NOT for page headers.",
+      "events" : [
+
+      ],
+      "name" : "Card",
+      "props" : [
+        {
+          "name" : "title",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "description",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "maxWidth",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(sm | md | lg | full)"
+        },
+        {
+          "name" : "centered",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "className",
+          "note" : "Additional CSS classes",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "Surface: outlined (default), plain (no border) or elevated (one shadow).",
+          "required" : false,
+          "type" : "enum(outlined | plain | elevated)"
+        }
+      ],
+      "slots" : [
+        "default",
+        "header",
+        "footer"
+      ]
+    },
+    {
+      "description" : "Flex container for layouts",
+      "events" : [
+
+      ],
+      "name" : "Stack",
+      "props" : [
+        {
+          "name" : "direction",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(horizontal | vertical)"
+        },
+        {
+          "name" : "gap",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(none | sm | md | lg | xl)"
+        },
+        {
+          "name" : "align",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(start | center | end | stretch)"
+        },
+        {
+          "name" : "justify",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(start | center | end | between | around)"
+        },
+        {
+          "name" : "className",
+          "note" : "Additional CSS classes",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "wrap",
+          "note" : "A horizontal stack flows its children onto new lines (default true).",
+          "required" : false,
+          "type" : "boolean"
+        }
+      ],
+      "slots" : [
+        "default"
+      ]
+    },
+    {
+      "description" : "Grid layout (1-6 columns)",
+      "events" : [
+
+      ],
+      "name" : "Grid",
+      "props" : [
+        {
+          "name" : "columns",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "gap",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(sm | md | lg | xl)"
+        },
+        {
+          "name" : "className",
+          "note" : "Additional CSS classes",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+        "default"
+      ]
+    },
+    {
+      "description" : "Visual separator line",
+      "events" : [
+
+      ],
+      "name" : "Separator",
+      "props" : [
+        {
+          "name" : "orientation",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(horizontal | vertical)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Tab navigation. Use { $bindState } on value for active tab binding.",
+      "events" : [
+        "change"
+      ],
+      "name" : "Tabs",
+      "props" : [
+        {
+          "name" : "tabs",
+          "note" : "",
+          "required" : true,
+          "type" : "array<{ label, value }>"
+        },
+        {
+          "name" : "defaultValue",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "Look: underline (default) or segmented.",
+          "required" : false,
+          "type" : "enum(underline | segmented)"
+        }
+      ],
+      "slots" : [
+        "default"
+      ]
+    },
+    {
+      "description" : "Collapsible sections. Items as [{title, content}]. Type 'single' (default) or 'multiple'.",
+      "events" : [
+
+      ],
+      "name" : "Accordion",
+      "props" : [
+        {
+          "name" : "items",
+          "note" : "",
+          "required" : true,
+          "type" : "array<{ title, content }>"
+        },
+        {
+          "name" : "type",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(single | multiple)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Collapsible section with trigger. Children render inside.",
+      "events" : [
+
+      ],
+      "name" : "Collapsible",
+      "props" : [
+        {
+          "name" : "title",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "defaultOpen",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "open",
+          "note" : "Open state. Use { $bindState } to read or set it from state.",
+          "required" : false,
+          "type" : "boolean"
+        }
+      ],
+      "slots" : [
+        "default"
+      ]
+    },
+    {
+      "description" : "Page navigation. Use { $bindState } on page for current page number.",
+      "events" : [
+        "change"
+      ],
+      "name" : "Pagination",
+      "props" : [
+        {
+          "name" : "totalPages",
+          "note" : "",
+          "required" : true,
+          "type" : "number"
+        },
+        {
+          "name" : "page",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Modal dialog. Set openPath to a boolean state path. Use setState to toggle.",
+      "events" : [
+
+      ],
+      "name" : "Dialog",
+      "props" : [
+        {
+          "name" : "title",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "description",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "openPath",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "open",
+          "note" : "Open state as an alternative to openPath. Use { $bindState }.",
+          "required" : false,
+          "type" : "boolean"
+        }
+      ],
+      "slots" : [
+        "default",
+        "footer"
+      ]
+    },
+    {
+      "description" : "Bottom sheet drawer. Set openPath to a boolean state path. Use setState to toggle.",
+      "events" : [
+
+      ],
+      "name" : "Drawer",
+      "props" : [
+        {
+          "name" : "title",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "description",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "openPath",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "open",
+          "note" : "Open state as an alternative to openPath. Use { $bindState }.",
+          "required" : false,
+          "type" : "boolean"
+        }
+      ],
+      "slots" : [
+        "default",
+        "footer"
+      ]
+    },
+    {
+      "description" : "Hover tooltip. Shows content on hover over text.",
+      "events" : [
+
+      ],
+      "name" : "Tooltip",
+      "props" : [
+        {
+          "name" : "content",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "text",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Popover that appears on click of trigger.",
+      "events" : [
+
+      ],
+      "name" : "Popover",
+      "props" : [
+        {
+          "name" : "trigger",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "content",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Dropdown menu with trigger button and selectable items. Use { $bindState } on value for selected item binding.",
+      "events" : [
+        "select"
+      ],
+      "name" : "DropdownMenu",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "items",
+          "note" : "",
+          "required" : true,
+          "type" : "array<{ label, value }>"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Heading text (h1-h4)",
+      "events" : [
+
+      ],
+      "name" : "Heading",
+      "props" : [
+        {
+          "name" : "text",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "level",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(h1 | h2 | h3 | h4)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Paragraph text",
+      "events" : [
+
+      ],
+      "name" : "Text",
+      "props" : [
+        {
+          "name" : "text",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(body | caption | muted | lead | code)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Status badge",
+      "events" : [
+
+      ],
+      "name" : "Badge",
+      "props" : [
+        {
+          "name" : "text",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(default | secondary | destructive | outline | good | warning | critical)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Alert banner",
+      "events" : [
+
+      ],
+      "name" : "Alert",
+      "props" : [
+        {
+          "name" : "title",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "message",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "type",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(info | success | warning | error)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Loading placeholder skeleton",
+      "events" : [
+
+      ],
+      "name" : "Skeleton",
+      "props" : [
+        {
+          "name" : "width",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "height",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "rounded",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "shape",
+          "note" : "Placeholder shape: line (default), block, circle, card or tableBody.",
+          "required" : false,
+          "type" : "enum(line | block | circle | card | tableBody)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Image component. Renders an img tag when src is provided, otherwise a placeholder.",
+      "events" : [
+
+      ],
+      "name" : "Image",
+      "props" : [
+        {
+          "name" : "src",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "alt",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "width",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "height",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "fit",
+          "note" : "contain (default) or cover.",
+          "required" : false,
+          "type" : "enum(contain | cover)"
+        }
+      ],
+      "slots" : [
+        "error",
+        "loading"
+      ]
+    },
+    {
+      "description" : "User avatar with fallback initials",
+      "events" : [
+
+      ],
+      "name" : "Avatar",
+      "props" : [
+        {
+          "name" : "src",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "size",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(sm | md | lg)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Horizontally scrollable carousel of cards.",
+      "events" : [
+
+      ],
+      "name" : "Carousel",
+      "props" : [
+        {
+          "name" : "items",
+          "note" : "",
+          "required" : true,
+          "type" : "array<{ title, description }>"
+        }
+      ],
+      "slots" : [
+        "default"
+      ]
+    },
+    {
+      "description" : "Data table. columns: header labels. rows: 2D array of cell strings, e.g. [[\"Alice\",\"admin\"],[\"Bob\",\"user\"]].",
+      "events" : [
+
+      ],
+      "name" : "Table",
+      "props" : [
+        {
+          "name" : "columns",
+          "note" : "",
+          "required" : true,
+          "type" : "array<string>"
+        },
+        {
+          "name" : "rows",
+          "note" : "",
+          "required" : true,
+          "type" : "array<array<string>>"
+        },
+        {
+          "name" : "caption",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "sortable",
+          "note" : "Let the user sort rows by a column header.",
+          "required" : false,
+          "type" : "boolean"
+        }
+      ],
+      "slots" : [
+        "default",
+        "empty",
+        "loading"
+      ]
+    },
+    {
+      "description" : "Progress bar (value 0-100)",
+      "events" : [
+
+      ],
+      "name" : "Progress",
+      "props" : [
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : true,
+          "type" : "number"
+        },
+        {
+          "name" : "max",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Loading spinner indicator",
+      "events" : [
+
+      ],
+      "name" : "Spinner",
+      "props" : [
+        {
+          "name" : "size",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(sm | md | lg)"
+        },
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Clickable button. Bind on.press for handler.",
+      "events" : [
+        "press"
+      ],
+      "name" : "Button",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "variant",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(primary | secondary | danger | destructive | plain)"
+        },
+        {
+          "name" : "disabled",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "size",
+          "note" : "Control size (default md).",
+          "required" : false,
+          "type" : "enum(sm | md | lg)"
+        },
+        {
+          "name" : "icon",
+          "note" : "SF Symbol name shown before the label.",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Anchor link. Bind on.press for click handler.",
+      "events" : [
+        "press"
+      ],
+      "name" : "Link",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "href",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Text input field. Use { $bindState } on value for two-way binding. Use checks for validation (e.g. required, email, minLength). validateOn controls timing (default: blur).",
+      "events" : [
+        "submit",
+        "focus",
+        "blur"
+      ],
+      "name" : "Input",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "type",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(text | email | password | number)"
+        },
+        {
+          "name" : "placeholder",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "checks",
+          "note" : "",
+          "required" : false,
+          "type" : "array<{ type, message, args }>"
+        },
+        {
+          "name" : "validateOn",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(change | blur | submit)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Multi-line text input. Use { $bindState } on value for binding. Use checks for validation. validateOn controls timing (default: blur).",
+      "events" : [
+
+      ],
+      "name" : "Textarea",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "placeholder",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "rows",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "checks",
+          "note" : "",
+          "required" : false,
+          "type" : "array<{ type, message, args }>"
+        },
+        {
+          "name" : "validateOn",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(change | blur | submit)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Dropdown select input. Use { $bindState } on value for binding. Use checks for validation. validateOn controls timing (default: change).",
+      "events" : [
+        "change"
+      ],
+      "name" : "Select",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "options",
+          "note" : "",
+          "required" : true,
+          "type" : "array<string>"
+        },
+        {
+          "name" : "placeholder",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "checks",
+          "note" : "",
+          "required" : false,
+          "type" : "array<{ type, message, args }>"
+        },
+        {
+          "name" : "validateOn",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(change | blur | submit)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Checkbox input. Use { $bindState } on checked for binding. Use checks for validation. validateOn controls timing (default: change).",
+      "events" : [
+        "change"
+      ],
+      "name" : "Checkbox",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "checked",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "checks",
+          "note" : "",
+          "required" : false,
+          "type" : "array<{ type, message, args }>"
+        },
+        {
+          "name" : "validateOn",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(change | blur | submit)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Radio button group. Use { $bindState } on value for binding. Use checks for validation. validateOn controls timing (default: change).",
+      "events" : [
+        "change"
+      ],
+      "name" : "Radio",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "options",
+          "note" : "",
+          "required" : true,
+          "type" : "array<string>"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "checks",
+          "note" : "",
+          "required" : false,
+          "type" : "array<{ type, message, args }>"
+        },
+        {
+          "name" : "validateOn",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(change | blur | submit)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Toggle switch. Use { $bindState } on checked for binding. Use checks for validation. validateOn controls timing (default: change).",
+      "events" : [
+        "change"
+      ],
+      "name" : "Switch",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "name",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "checked",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "checks",
+          "note" : "",
+          "required" : false,
+          "type" : "array<{ type, message, args }>"
+        },
+        {
+          "name" : "validateOn",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(change | blur | submit)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Range slider input. Use { $bindState } on value for binding.",
+      "events" : [
+        "change"
+      ],
+      "name" : "Slider",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        },
+        {
+          "name" : "min",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "max",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "step",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "number"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Toggle button. Use { $bindState } on pressed for state binding.",
+      "events" : [
+        "change"
+      ],
+      "name" : "Toggle",
+      "props" : [
+        {
+          "name" : "label",
+          "note" : "",
+          "required" : true,
+          "type" : "string"
+        },
+        {
+          "name" : "pressed",
+          "note" : "",
+          "required" : false,
+          "type" : "boolean"
+        },
+        {
+          "name" : "variant",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(default | outline)"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Group of toggle buttons. Type 'single' (default) or 'multiple'. Use { $bindState } on value.",
+      "events" : [
+        "change"
+      ],
+      "name" : "ToggleGroup",
+      "props" : [
+        {
+          "name" : "items",
+          "note" : "",
+          "required" : true,
+          "type" : "array<{ label, value }>"
+        },
+        {
+          "name" : "type",
+          "note" : "",
+          "required" : false,
+          "type" : "enum(single | multiple)"
+        },
+        {
+          "name" : "value",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    },
+    {
+      "description" : "Segmented button group. Use { $bindState } on selected for selected value.",
+      "events" : [
+        "change"
+      ],
+      "name" : "ButtonGroup",
+      "props" : [
+        {
+          "name" : "buttons",
+          "note" : "",
+          "required" : true,
+          "type" : "array<{ label, value }>"
+        },
+        {
+          "name" : "selected",
+          "note" : "",
+          "required" : false,
+          "type" : "string"
+        }
+      ],
+      "slots" : [
+
+      ]
+    }
+  ]
+}

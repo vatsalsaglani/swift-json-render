@@ -9,7 +9,7 @@ import Foundation
 ///   is not a patch gives `.error(.badLine)` and the stream goes on (upstream skips it
 ///   silently; the final result is the same).
 /// - `.mixed`: upstream `createMixedStreamParser`. Text lines and patch lines, with the
-///   optional ```` ```spec ```` fence. Outside the fence, a line that is not a patch is
+///   optional fenced block that opens with three backticks and the word `spec`. Outside the fence, a line that is not a patch is
 ///   `.text` (prose, and a JSON object without a string `op`, as upstream). A JSON object
 ///   with a string `op` that is not a valid patch (an unknown `op`, no `path`) is a bad
 ///   patch, not prose: it gives `.error(.badLine)`, inside or outside the fence. Other lines

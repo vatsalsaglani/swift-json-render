@@ -103,9 +103,12 @@ public struct ChartContainer<Plot: View>: View {
     @State private var showsTable = false
 
     /// - Parameters:
+    ///   - kind: which chart this container draws.
+    ///   - context: the element's render context (props, bindings, children).
     ///   - make: decodes props into data; default `ChartData.make(props:kind:)`.
     ///   - fixedHeight: `false` lets the plot size itself (gauge, sparkline).
     ///   - summary: a default summary that replaces `ChartSummary` (gauge).
+    ///   - plot: draws the marks from the resolved `ChartPlotInput`.
     public init(
         kind: ChartKind, context: JRRenderContext,
         make: (@Sendable ([String: JSONValue?]) -> (ChartData, [ChartWarning]))? = nil,

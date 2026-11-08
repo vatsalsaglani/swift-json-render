@@ -2,7 +2,7 @@
 internal import Foundation
 public import JSONRenderCore
 public import JSONRenderSwiftUI
-public import Observation
+internal import Observation
 public import SwiftUI
 
 /// The message under a form field.

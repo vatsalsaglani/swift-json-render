@@ -20,11 +20,11 @@ A spec is data. It never contains code, and the runtime has no `eval`, no JavaSc
 | A confirmation | `ActionHost.confirm` (shown to the user) |
 | Navigation | `ActionHost.navigate` |
 | Opening a link | `ActionHost.openURL`; a host may refuse any scheme |
-| Remote images | A separate product, `JSONRenderRemoteImages`, with consent. The package does not fetch by itself |
+| Remote images | The host installs a `JRRemoteImageProvider` (environment `\.jrRemoteImageProvider`) and owns consent, trust list and limits. The package does not fetch by itself |
 
 ## Images
 
-`Image` shows local files inside folders the host allows, `data:` URLs and SF Symbol names by default. An `https` src draws a placeholder with the host name and the alt text. Remote loading needs the optional `JSONRenderRemoteImages` product and an explicit consent flow in the app; a spec cannot grant it. Write meaningful `alt` text.
+`Image` shows local files inside folders the host allows, `data:` URLs and SF Symbol names by default. An `https` src draws a placeholder with the host name and the alt text. Remote loading needs a `JRRemoteImageProvider` that the app installs, with an explicit consent flow; a spec cannot grant it. The provider answers `notAllowed`, `needsConsent(host:)`, `loading`, `image` or `failed`, and the Image draws each state calmly. The `JSONRenderRemoteImages` product is reserved for a ready-made provider and holds no code in `0.22.0-alpha.2`. Write meaningful `alt` text.
 
 ## Secrets and personal data
 

@@ -2,8 +2,6 @@
 
 Contents: decide the contract, the file, the macro, the style protocol, slots and events, accessibility, registration, tests, the end of the chain.
 
-<!-- verify after jr-3 and jr-3b merge: style protocols, GalleryPage, Slots, StandardEntries lines. The macro, Catalog.register and the environment seeds are on main -->
-
 A standard component is one SwiftUI view that reads a `JRRenderContext`, plus its catalog definition. Upstream shadcn names and prop names are the base: a spec written for the upstream shadcn catalog must render with no change. Extra props marked `+` in the plan are optional.
 
 ## 1. Decide the contract first
@@ -25,7 +23,7 @@ import JSONRenderSwiftUI
 import SwiftUI
 
 @JRComponent("Callout", description: "A short note with a title.", slots: ["default"])
-struct Callout: View {
+struct JRCallout: View {
     @JRProp(description: "Heading line") var title: String
     @JRProp(description: "Tone of the note", oneOf: ["info", "warning"]) var tone: String = "info"
 
@@ -41,7 +39,7 @@ struct Callout: View {
 }
 ```
 
-- `@JRComponent` generates `static let definition`, `jrContext`, `init(context:)` and the `JRComponentType` conformance. Use it for every component.
+- The Swift type is named `JR<Name>` (`JRCard`, `JRLink`); the macro takes the catalog name from its first argument. `@JRComponent` generates `static let definition`, `jrContext`, `init(context:)` and the `JRComponentType` conformance. Use it for every component.
 - `JRComponentType` is not `Sendable`. Never mark a view `@unchecked Sendable`.
 - Read props from the generated properties. Read raw values with `jrContext.prop("name")` (`JSONValue?`).
 - Never put a document's text or state value into a log, an issue message or an accessibility identifier.
@@ -70,7 +68,9 @@ struct Callout: View {
 Every component gets a style protocol shaped like `ButtonStyle`, so an app can restyle it without touching behaviour.
 
 ```swift
-// verify after jr-3 merges: the real names and the AnyJR...Style erasure live in JSONRenderSwiftUI
+import JSONRender
+import SwiftUI
+
 public protocol JRCalloutStyle: Sendable {
     associatedtype Body: View
     @MainActor @ViewBuilder func makeBody(configuration: JRCalloutStyleConfiguration) -> Body
@@ -78,23 +78,41 @@ public protocol JRCalloutStyle: Sendable {
 
 public struct JRCalloutStyleConfiguration {
     public let title: Text
-    public let content: AnyView
+    public let content: JRStyleContent
     public let theme: JSONRenderTheme
     public let isStreaming: Bool
 }
 
-public struct DefaultJRCalloutStyle: JRCalloutStyle { /* the default look */ }
+public struct DefaultJRCalloutStyle: JRCalloutStyle {
+    public init() {}
+
+    public func makeBody(configuration: JRCalloutStyleConfiguration) -> some View {
+        VStack(alignment: .leading, spacing: configuration.theme.space.s2) {
+            configuration.title.font(configuration.theme.type.bodyEmphasis)
+            configuration.content
+        }
+        .padding(configuration.theme.space.s3)
+    }
+}
+
+extension EnvironmentValues {
+    @Entry public var jrCalloutStyle: any JRCalloutStyle = DefaultJRCalloutStyle()
+}
 
 extension View {
-    public func jrCalloutStyle(_ style: some JRCalloutStyle) -> some View { /* set the environment entry */ }
+    public func jrCalloutStyle(_ style: some JRCalloutStyle) -> some View {
+        environment(\.jrCalloutStyle, style)
+    }
 }
 ```
+
+The view then draws `JRStyleContent(style.makeBody(configuration: configuration))`; see `Components/Link.swift` for the whole pattern. `JRStyleContent` (in `JSONRenderSwiftUI`) is the type-erasing wrapper for a child region and for the style's result.
 
 Rules:
 
 - The configuration carries resolved props, label views, state flags and the theme. It never carries the store, a binding writer or `emit`. A style can change looks, not behaviour.
 - The focus ring is drawn by the configuration's content, so a style can move it but not remove it.
-- `AnyView` is allowed only at the registry boundary (`ViewFactory`) and in the configuration's `content`. Do not scatter it.
+- `AnyView` is allowed only at the registry boundary (`ViewFactory`) and inside `JRStyleContent`. Do not scatter it.
 - The default style reads only theme tokens. No hard-coded colours, radii or fonts. No shadow inside a card. A hairline only where a surface starts.
 - Environment entries hold `Equatable` structs, never a bare closure. Give a new `id` only when the function really changes.
 
@@ -119,15 +137,18 @@ Rules:
 Add the type to the group file, in prompt order (the list order is the prompt order):
 
 ```swift
-// verify after jr-3 merges: Sources/JSONRenderStandardCatalog/StandardEntries+Group1.swift (jr-3's group; group 2 is jr-3b's)
-static let group1: [ComponentDefinition] = [Card.definition, Stack.definition /* ... */]
+// not compiled: the group files are internal to JSONRenderStandardCatalog
+// Sources/JSONRenderStandardCatalog/StandardEntries+Group1.swift (group 2 is in StandardEntries+Group2.swift)
+static let group1: [ComponentDefinition] = [JRCard.definition, JRStack.definition /* ... */]
 
 static func registerGroup1(into catalog: inout Catalog) throws(CatalogError) {
-    try catalog.register(Card.self)
-    try catalog.register(Stack.self)
+    try catalog.register(JRCard.self)
+    try catalog.register(JRStack.self)
     // ...
 }
 ```
+
+A component whose object-list props need a spelled-out schema (`Tabs`, `Accordion`, `Table`, `DropdownMenu`) lists `catalogDefinition` instead of `definition`.
 
 `Catalog.register<C: View & JRComponentType>(_:)` is not main-actor; the view is built only inside the `@MainActor` factory closure. A duplicate name throws `duplicateComponent`. `StandardEntries.components` sums the groups; do not edit `StandardEntries.swift`.
 
@@ -142,6 +163,6 @@ static func registerGroup1(into catalog: inout Catalog) throws(CatalogError) {
 
 ## End of the chain
 
-1. Gallery page: a page that shows every variant in a Card (`GalleryPage`, `Examples/Gallery`). The registration line in `GalleryPages.all` is a coordinator edit.
+1. Gallery page: a page that shows every variant in a Card (`GalleryPage`, `Examples/Gallery/Sources/Gallery/`), and its line in `GalleryPages.all`.
 2. Regenerate the use skill's component list: `skills/scripts/refresh-catalog-reference.sh`, then update the notes in `skills/json-render-swift-use/references/components.md` (extras, slots, events, binding prop) and `skills/scripts/check-skills.sh`.
-3. In the handoff: a CHANGELOG line (the coordinator owns `CHANGELOG.md`), the test counts, and any prompt text change.
+3. Refresh the site data (`release.md`), add a CHANGELOG line, and report the test counts and any prompt text change.

@@ -28,7 +28,7 @@
 
 <section class="hero" aria-labelledby="h1">
   <div>
-    <p class="eyebrow">swift-json-render <span class="pill warn" style="margin-left:6px">Planned</span></p>
+    <p class="eyebrow">swift-json-render <span class="pill plain" style="margin-left:6px">0.22.0-alpha.2</span></p>
     <h1 id="h1">Spectacularly simple, <em>highly customisable.</em></h1>
     <p class="lede">A native SwiftUI runtime for the json-render spec. A model writes a small flat JSON spec. Your app shows real macOS and iOS views. No web view, no JavaScript, no code in the spec.</p>
     <div class="cta">
@@ -56,39 +56,45 @@
 </section>
 
 <section class="section" id="quickstart" aria-labelledby="qs-h">
-  <h2 id="qs-h">Quick start <span class="pill warn" style="vertical-align:3px;margin-left:8px">Planned API</span></h2>
-  <p class="section-lede">Nothing here is released yet. These names come from the plan and may change before the first alpha. The goal is a quick start under 20 lines.</p>
+  <h2 id="qs-h">Quick start <span class="pill plain" style="vertical-align:3px;margin-left:8px">Pre-release</span></h2>
+  <p class="section-lede">This is the API of the 0.22.0-alpha.2 tag. Pin an exact alpha version until 0.22.0 is released.</p>
   <div class="codebar" role="tablist" aria-label="Quick start examples" id="qs-tabs">
     <button type="button" class="tab-btn" role="tab" aria-selected="true" aria-controls="qs-render" id="t-render">Render a spec</button>
     <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="qs-stream" id="t-stream" tabindex="-1">Stream a spec</button>
     <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="qs-spec" id="t-spec" tabindex="-1">The spec</button>
     <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="qs-install" id="t-install" tabindex="-1">Install</button>
   </div>
-  <div role="tabpanel" id="qs-render" aria-labelledby="t-render"><pre data-code data-lang="swift" data-label="render example">import SwiftUI
-import JSONRender
+  <div role="tabpanel" id="qs-render" aria-labelledby="t-render"><pre data-code data-lang="swift" data-label="render example">import JSONRender
+import SwiftUI
 
-struct FailingTestsCard: View {
-    let spec: Spec   // decoded from the model's JSON
+let json = """
+{"root": "card", "elements": {
+  "card": {"type": "Card", "props": {"title": "Hello"}, "children": ["text"]},
+  "text": {"type": "Text", "props": {"text": "A native card from JSON."}, "children": []}}}
+"""
 
+struct HelloView: View {
     var body: some View {
-        JSONRenderView(spec: spec, catalog: .standard)
-            .jsonRenderTheme(.native)
+        if let spec = try? Spec.decode(Data(json.utf8)).spec, let catalog = try? Catalog.standard {
+            JSONRenderView(spec: spec, catalog: catalog)
+        }
     }
 }</pre></div>
-  <div role="tabpanel" id="qs-stream" aria-labelledby="t-stream" hidden><pre data-code data-lang="swift" data-label="stream example">import SwiftUI
-import JSONRender
+  <div role="tabpanel" id="qs-stream" aria-labelledby="t-stream" hidden><pre data-code data-lang="swift" data-label="stream example">import JSONRender
+import SwiftUI
 
-struct StreamingCard: View {
-    let chunks: AsyncStream&lt;String&gt;   // model output, any chunk size
+struct Assistant: View {
+    let chunks: AsyncThrowingStream&lt;String, any Error&gt;   // model output, any chunk size
 
     var body: some View {
-        JSONRenderStreamView(chunks: chunks, mode: .jsonl, catalog: .standard)
-            .jsonRenderTheme(.rafuIndigo)   // skeletons fill in as patches arrive
+        if let catalog = try? Catalog.standard {
+            JSONRenderStreamView(stream: chunks, mode: .jsonl, catalog: catalog)   // skeletons fill in as patches arrive
+        }
     }
 }</pre></div>
   <div role="tabpanel" id="qs-spec" aria-labelledby="t-spec" hidden><div id="qs-spec-host"></div></div>
   <div role="tabpanel" id="qs-install" aria-labelledby="t-install" hidden><pre data-code data-lang="swift" data-label="install example">// Package.swift
-.package(url: "https://github.com/vatsalsaglani/swift-json-render", from: "0.22.0"),
+.package(url: "https://github.com/vatsalsaglani/swift-json-render.git", exact: "0.22.0-alpha.2"),
 
 // target dependencies
 .product(name: "JSONRender", package: "swift-json-render"),
@@ -96,7 +102,7 @@ struct StreamingCard: View {
 </section>
 
 <section class="section" id="components" aria-labelledby="comp-h">
-  <h2 id="comp-h">Every component in the plan</h2>
+  <h2 id="comp-h">Every component</h2>
   <p class="section-lede">36 standard components, 15 charts, and the Rafu catalog. Every preview is rendered from its example spec. Open one to see the variants, the props, the spec and the SwiftUI mapping.</p>
   <div class="toolbar">
     <div class="search"><label class="sr-only" for="q">Search components</label><input id="q" type="search" data-search placeholder="Search components ( / )" autocomplete="off"></div>
@@ -110,7 +116,7 @@ struct StreamingCard: View {
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
-  <div>swift-json-render is planned. This site shows the design from the plan (VPLAN revision 4, 2026-11-07). The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
+  <div>swift-json-render 0.22.0-alpha.2, pre-release. The standard catalog and charts are generated from the Swift package (commit <span data-gen-sha>5d1bdce</span>). Rafu additions are planned. The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
   <div>Keys: <kbd>/</kbd> search · <kbd>j</kbd> <kbd>k</kbd> next and previous component</div>
 </div></footer>
 <script src="data/components.js"></script>

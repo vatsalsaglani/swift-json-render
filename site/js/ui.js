@@ -116,21 +116,26 @@
     return s;
   };
 
-  /* ---------- planned Swift catalog definition, generated from the registry ---------- */
-  function swiftType(p) {
-    var t = p.type, m = /^enum\((.*)\)$/.exec(t);
-    if (m) return '.enum([' + m[1].split(' | ').map(function (v) { return JSON.stringify(v); }).join(', ') + ']' + (p.default !== null && p.default !== undefined ? ', default: ' + JSON.stringify(String(p.default)) : '') + ')';
-    if (t === 'string') return '.string()';
-    if (t === 'number') return '.number(' + (p.default !== null && p.default !== undefined ? 'default: ' + p.default : '') + ')';
-    if (t === 'boolean') return '.bool(default: ' + (p.default ? 'true' : 'false') + ')';
-    if (/^array/.test(t)) return '.array(.object())';
-    return '.any()';
+  /* ---------- the catalog definition, drawn from the registry ---------- */
+  /* The registry holds a readable type text per prop (for example `enum(a | b)`); this maps it to
+     the PropSchema builder a ComponentDefinition uses. Nested shapes stay `.any` and keep the exact text in a comment. */
+  function schemaOf(t) {
+    var m = /^enum\((.*)\)$/.exec(t);
+    if (m) return '.enum([' + m[1].split(' | ').map(function (v) { return JSON.stringify(v); }).join(', ') + '])';
+    if (t === 'string' || t === 'number' || t === 'boolean' || t === 'any') return '.' + t;
+    if (/^array</.test(t)) return '.array(.any)';
+    if (/^record</.test(t)) return '.record(.any)';
+    if (/^\{/.test(t)) return '.object([])';
+    return '.any';
   }
   ui.swiftDef = function (c) {
-    var lines = [c.name + ': .component(', '    description: ' + JSON.stringify(c.description) + ',', '    props: ['];
-    c.props.forEach(function (p) { lines.push('        ' + JSON.stringify(p.name) + ': ' + swiftType(p) + ',' + (p.required ? '' : '  // optional')); });
-    lines.push('    ],');
-    if (c.slots && c.slots.length) lines.push('    slots: [' + c.slots.map(function (s) { return JSON.stringify(s); }).join(', ') + '],');
+    var lines = ['ComponentDefinition(', '    name: ' + JSON.stringify(c.name) + ',', '    description: ' + JSON.stringify(c.description) + ',', '    props: .object(['];
+    c.props.forEach(function (p) {
+      var exact = /^(string|number|boolean|any|enum\(.*\))$/.test(p.type) ? '' : '  // ' + p.type;
+      lines.push('        .init(name: ' + JSON.stringify(p.name) + ', schema: PropSchema' + schemaOf(p.type) + (p.required ? '' : '.optional()') + '),' + exact);
+    });
+    lines.push('    ]),');
+    lines.push('    slots: [' + (c.slots || []).map(function (s) { return JSON.stringify(s); }).join(', ') + '],');
     lines.push('    events: [' + (c.events || []).map(function (s) { return JSON.stringify(s); }).join(', ') + '])');
     return lines.join('\n');
   };

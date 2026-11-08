@@ -49,7 +49,7 @@ Put your own fixtures in a **sibling folder** of `upstream/`, with its own `inde
 
 - `Tests/ParityFixtures/streams/` for stream transcripts (out of order, root last, malformed line, object-mode fragments).
 - `Tests/ParityFixtures/charts/` for chart specs.
-- `Tests/ParityFixtures/skills/` (proposed) for the example specs in the "use" skill, read by `FixtureRenderTests` (a jr-3 test, <!-- verify after jr-3 merges --> the eight upstream specs render with no fallback block) so a prop rename fails a test.
+- `Tests/ParityFixtures/skills/` (proposed; it does not exist yet) for the example specs in the "use" skill. Until then `FixtureRenderTests` (`Tests/JSONRenderSwiftUITests/Catalog/`) renders the eight upstream specs with no fallback block, and `skills/scripts/compile-examples.sh` builds every Swift block of the skills, so a renamed type fails a build.
 
 Keep a small fixture folder under 64 KiB total and give every case a name and a one-line description. Add a count assertion to an inventory test so a wrong path cannot make a suite pass with zero cases.
 
