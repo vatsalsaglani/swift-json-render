@@ -148,7 +148,7 @@ struct AppHost: ActionHost {
 
 - `confirm` shows the dialog and answers `true` or `false`.
 - `navigate` handles `onSuccess.navigate`.
-- `openURL` opens a `Link` href. It runs only when the element has no `on.press` <!-- verify after jr-3 merges -->.
+- `openURL` opens a `Link` href. It runs only when the element has no `on.press` and the `href` is an absolute URL with a scheme (`JRLinkPolicy`); the host decides whether to open it.
 - `NoopActionHost` confirms everything and opens nothing; use it in tests.
 - A spec cannot run code, make a network call, read a file or open a window. Only registered handlers do.
 

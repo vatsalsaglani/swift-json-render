@@ -11,29 +11,27 @@ dependencies: [
 ],
 ```
 
-While the package is pre-release, pin an alpha tag: `exact: "0.22.0-alpha.0"`. In Xcode: File > Add Package Dependencies, use the same URL.
+While the package is pre-release, pin an alpha tag: `exact: "0.22.0-alpha.2"`. In Xcode: File > Add Package Dependencies, use the same URL.
 
 ## Products
 
 | Product | Use | Platforms |
 |---|---|---|
+| `JSONRender` | One import: the core, the SwiftUI renderer and the standard catalog (it re-exports those three). Start here | macOS 14, iOS 17 |
 | `JSONRenderCore` | Spec model, expressions, actions, state, validator, catalog, prompt, stream types. Foundation only | macOS, iOS, Linux |
 | `JSONRenderClient` | `@JRComponent` and `@JRProp` macros for custom components | macOS, iOS, Linux |
 | `JSONRenderSwiftUI` | `JSONRenderView`, `JSONRenderStreamView`, theme, style hooks, registry | macOS 14, iOS 17 |
 | `JSONRenderStandardCatalog` | `Catalog.standard`: the 36 components, built-in actions, directives | macOS 14, iOS 17 |
 | `JSONRenderCharts` | `Catalog.charts`: the 15 charts | macOS 14, iOS 17 |
-| `JSONRenderRemoteImages` | Optional consented loading of `https` images | macOS 14, iOS 17 |
-| `JSONRenderCompose` | Optional composer on a Decisions API | macOS, iOS, Linux |
+| `JSONRenderRemoteImages` | Reserved for a ready-made `https` image provider; empty in `0.22.0-alpha.2`. The seam is `JRRemoteImageProvider` in `JSONRenderSwiftUI` | macOS 14, iOS 17 |
+| `JSONRenderCompose` | Optional batched composer on the OpenAI Decisions API (the only networking target) | macOS, iOS, Linux |
 
-The package needs Swift 6.2 tools. Add only what you use; an app that renders standard components needs `JSONRenderCore`, `JSONRenderSwiftUI` and `JSONRenderStandardCatalog`.
+The package needs Swift 6.2 tools. Add only what you use; an app that renders standard components needs only `JSONRender`. Add `JSONRenderCharts` for charts.
 
 ## Render a spec
 
 ```swift
-// verify after jr-3 merges: JSONRenderView
-import JSONRenderCore
-import JSONRenderStandardCatalog
-import JSONRenderSwiftUI
+import JSONRender
 import SwiftUI
 
 struct SpecScreen: View {
@@ -53,9 +51,7 @@ Merged catalogs: `try Catalog.standard.merging(Catalog.charts)`, then register y
 ## Stream a spec
 
 ```swift
-// verify after jr-2 merges: JSONRenderStreamView
-import JSONRenderCore
-import JSONRenderSwiftUI
+import JSONRender
 import SwiftUI
 
 struct Assistant: View {
@@ -68,7 +64,7 @@ struct Assistant: View {
 }
 ```
 
-`mode` is `.jsonl` for patch lines, `.mixed` for chat text with a `spec` fence, `.object` for one JSON document in fragments. See `streaming.md`.
+`mode` is `.jsonl` for patch lines, `.mixed` for chat text with a `spec` fence, `.object` for one JSON document in fragments. The view starts the stream once, when it first appears. See `streaming.md`.
 
 ## Give a model the catalog
 
@@ -107,11 +103,19 @@ func noteCatalog() throws -> Catalog {
 
 ## Charts theme line
 
-`JSONRenderTheme.native` already carries a chart palette (`ChartTokens.standard`), so charts draw with no setup. If the charts product ships tuned tokens, set them once at the root:
+`JSONRenderTheme.native` already carries a chart palette (`ChartTokens.standard`, in `JSONRenderSwiftUI`), so charts draw with no setup. To change one chart token for a subtree, set it once at the root:
 
 ```swift
-// verify after jr-3 and jr-3c merge: ChartTokens.native, .jsonRenderTheme(_:_:)
-content.jsonRenderTheme(\.charts, .native)
+import JSONRender
+import SwiftUI
+
+struct ThinLines<Content: View>: View {
+    @ViewBuilder var content: Content
+
+    var body: some View {
+        content.jsonRenderTheme(\.charts.lineWidth, 1.5)
+    }
+}
 ```
 
 ## Linux
@@ -125,4 +129,4 @@ npx skills add vatsalsaglani/swift-json-render --skill json-render-swift-use
 npx skills add vatsalsaglani/swift-json-render --skill json-render-swift-update
 ```
 
-The CLI copies the skill into the agent's skills folder (`.claude/skills/<name>/` for Claude Code). A future release may also ship the use skill as a package resource, so a tool description can read it at run time. <!-- verify at release: needs a resources entry in Package.swift -->
+The CLI copies the skill into the agent's skills folder (`.claude/skills/<name>/` for Claude Code). The skill is not a package resource in `0.22.0-alpha.2`; the CLI is the only install path.

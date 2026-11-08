@@ -49,9 +49,9 @@
   </div>
 
   <h2 style="font-size:20px;margin-top:48px">Default tokens</h2>
-  <p class="section-lede">The native preset, from the plan. Colour rows change with the preset above.</p>
+  <p class="section-lede">The native preset. Colour rows change with the preset above.</p>
   <div class="tblwrap" tabindex="0" role="region" aria-label="Tokens table"><table class="props" id="tokens"><thead><tr><th scope="col">Token</th><th scope="col">Default</th><th scope="col">Note</th></tr></thead><tbody></tbody></table></div>
-  <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:550">The JSONRenderTheme value (planned API)</summary>
+  <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:550">The JSONRenderTheme value</summary>
 <pre data-code data-lang="swift" data-label="JSONRenderTheme">public struct JSONRenderTheme: Sendable, Equatable {
     public var color: ColorRoles        // surface, surfaceRaised, text, textSecondary, textMuted, hairline, accent, onAccent, good, warning, critical, info, focus
     public var type: TypeScale          // caption, footnote, body, bodyEmphasis, title, display; weights; mono
@@ -59,6 +59,7 @@
     public var radius: RadiusScale      // control, field, card
     public var elevation: Elevation     // card shadow for the elevated variant only
     public var motion: Motion           // reveal, pulse; honours accessibilityReduceMotion
+    public var charts: ChartTokens      // categorical, sequential and diverging ramps, gridline, widths
     public static let native: JSONRenderTheme
     public static let highContrast: JSONRenderTheme
     public func validated() throws(ThemeContrastError) -> JSONRenderTheme   // 4.5:1 text, 3:1 accent
@@ -100,11 +101,11 @@ Card: variant plain | outlined | elevated      // default outlined</pre></div>
     func makeBody(configuration: JRCardStyleConfiguration) -> Body
 }
 public struct JRCardStyleConfiguration {
-    public let title: Text?; public let subtitle: Text?
-    public let variant: JRCardVariant; public let content: JRCardStyleConfiguration.Content
+    public let title: Text?; public let description: Text?
+    public let variant: JRCardVariant; public let content: JRStyleContent
     public let isStreaming: Bool
 }
-JSONRenderView(...).jrCardStyle(RafuCardStyle())   // also jrButtonStyle, jrTableStyle, jrStatStyle ...</pre></div>
+JSONRenderView(...).jrCardStyle(RafuCardStyle())   // also jrTabsStyle, jrTableStyle, jrLinkStyle ...</pre></div>
     <div class="live"><div class="rangerow"><label><input type="checkbox" id="style-toggle"> Apply <code>RafuCardStyle()</code> and pill buttons</label></div><div class="mock" id="lc-mock"><div id="lc-body"></div></div></div></div>
   </div></div>
 
@@ -120,9 +121,9 @@ JSONRenderView(...).jrCardStyle(RafuCardStyle())   // also jrButtonStyle, jrTabl
   <div class="layer"><div class="ln">e</div><div>
     <h3>Full view replacement per type</h3>
     <p>Replace the view for one type and keep its props schema, bindings, children and actions. Both tables below share one state. Dismiss a row in either and both change.</p>
-    <div class="lcols"><div><pre data-code data-lang="swift" data-label="override">var catalog = Catalog.standard
-catalog.override("Table") { ctx in
-    RafuTable(rows: ctx.children, columns: ctx.props["columns"], emit: ctx.emit)
+    <div class="lcols"><div><pre data-code data-lang="swift" data-label="override">var catalog = try Catalog.standard
+try catalog.override("Table") { context in
+    AnyView(RafuTable(context: context))   // same props, same events: use context.emit
 }</pre></div>
     <div class="live"><p class="small" style="margin:0 0 6px">Standard Table</p><div class="mock" id="le1-mock"><div id="le1-body"></div></div><p class="small" style="margin:10px 0 6px">Overridden Table</p><div class="mock" id="le2-mock"><div id="le2-body"></div></div></div></div>
   </div></div>
@@ -137,16 +138,20 @@ struct TerminalStatusView: View {
     @JRProp(bindable: true) var pinned: Bool = false
     var body: some View { /* ... */ }
 }
-catalog.register(TerminalStatusView.self)
-catalog.action("open_file", params: ["path": .string()]) { params, host in
-    try await host.openFile(params["path"])        // host-gated
+try catalog.register(TerminalStatusView.self)
+catalog.action(
+    "open_file", params: .object([.init(name: "path", schema: .string)]),
+    description: "Open a file in the editor"
+) { params, host in
+    // Runs only because the app registered it. A spec cannot add an action.
+    return nil
 }</pre>
   </div></div>
 </section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
-  <div>swift-json-render is planned. This site shows the design from the plan (VPLAN revision 4, 2026-11-07). The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
+  <div>swift-json-render 0.22.0-alpha.2, pre-release. The standard catalog and charts are generated from the Swift package (commit <span data-gen-sha>5d1bdce</span>). Rafu additions are planned. The previews are HTML mocks of native SwiftUI views, drawn by a small JavaScript interpreter of the spec.</div>
   <div>Keys: <kbd>/</kbd> search · <kbd>j</kbd> <kbd>k</kbd> next and previous component</div>
 </div></footer>
 <script src="data/components.js"></script>

@@ -21,4 +21,6 @@ link=".claude/skills/json-render-swift-update"
 
 sh -n skills/scripts/refresh-catalog-reference.sh
 sh -n skills/scripts/check-skills.sh
+sh -n skills/scripts/compile-examples.sh
+python3 -I -B -c 'import ast, sys; ast.parse(open(sys.argv[1], encoding="utf-8").read())' skills/scripts/extract-swift-examples.py
 echo "skills ok"

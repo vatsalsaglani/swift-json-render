@@ -25,7 +25,7 @@ Rules for a new test:
 
 ## The invariance suite
 
-`Tests/JSONRenderSwiftUITests/Invariance/` proves that customisation never changes semantics. Headless, through the model layer, no views: for each of the eight fixture specs and each scripted interaction (`(elementID, event, payload)` and direct `store.set` writes, defined per fixture in `Invariance/Scripts.swift`), run the render model with (a) `Catalog.standard` and `.native`, (b) `.highContrast`, (c) every standard type replaced by a stub that renders `EmptyView`. Record the sequence of state changes and the dispatched actions. Assert (a) equals (b) equals (c). Also assert the resolved props and bindings handed to the stub equal those handed to the real view. <!-- verify after jr-3 merges: names -->
+`Tests/JSONRenderSwiftUITests/Invariance/` proves that customisation never changes semantics. Headless, through the model layer, no views: for each of the eight fixture specs and each scripted interaction (`(elementID, event, payload)` and direct `store.set` writes, defined per fixture in `Invariance/Scripts.swift`), run the render model with (a) `Catalog.standard` and `.native`, (b) `.highContrast`, (c) every standard type replaced by a stub that renders `EmptyView`. Record the sequence of state changes and the dispatched actions. Assert (a) equals (b) equals (c). Also assert the resolved props and bindings handed to the stub equal those handed to the real view.
 
 To extend it:
 
@@ -36,7 +36,7 @@ To extend it:
 
 ## Linux core job
 
-The platform-neutral products (`JSONRenderCore`, `JSONRenderClient`, `JSONRenderCompose`, the macros) must build on Linux. Check: `swift build --target JSONRenderCore`. Core stays Foundation only: no SwiftUI, no network, no `URLSession`. A link-map test enforces that only `JSONRenderRemoteImages` fetches images and only `JSONRenderCompose` calls the Decisions API.
+The platform-neutral products (`JSONRenderCore`, `JSONRenderClient`, `JSONRenderCompose`, the macros) must build on Linux. Check: `swift build --target JSONRenderCore`. Core stays Foundation only: no SwiftUI, no network, no `URLSession`. `Tests/JSONRenderCoreTests/NetworkBoundaryTests.swift` enforces the link map at source level (only `JSONRenderCompose` and `JSONRenderRemoteImages` may name a network API), and CI adds an object-file `nm` check for the same rule.
 
 ## Test modes
 

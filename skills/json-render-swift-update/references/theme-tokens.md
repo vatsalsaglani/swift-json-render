@@ -20,7 +20,7 @@ The environment value is `EnvironmentValues.jsonRenderTheme` (default `.native`)
 
 ## Presets
 
-Presets live in `Sources/JSONRenderSwiftUI/Theme/Presets/`. `.native` follows the system (light and dark, Increase Contrast, Dynamic Type). `.highContrast` has a 2 pt opaque hairline and `textMuted` equal to `textSecondary`. <!-- verify after jr-3 merges: .highContrast and the final .native values -->
+Presets live in `Sources/JSONRenderSwiftUI/Theme/Presets/` (`Native.swift`, `HighContrast.swift`, `ChartTokens+Defaults.swift`). `.native` follows the system (light and dark, Increase Contrast; Dynamic Type on iOS, a fixed 11 / 12 / 13 / 15 / 20 pt ramp on macOS). `.highContrast` has an opaque hairline that draws at 2 pt, `text` at full ink, and `textMuted` equal to `textSecondary`; `onAccent` is black or white, whichever has more contrast with the accent. Under the system Increase Contrast setting, any theme steps `textMuted` up to `textSecondary` (`adjusted(for:)`).
 
 Default look rules the values must keep:
 
@@ -33,18 +33,18 @@ Rafu's own presets (`.rafuIndigo`, `.rafuKhadi`) are not in this package; the Ra
 
 ## validated()
 
-`JSONRenderTheme.validated()` checks contrast at load and throws `ThemeContrastError` listing the failing pairs. The planned rules: text and textSecondary on surface at least 4.5:1, textMuted at least 3:1 (or raise it to 4.5:1), accent on surface at least 3:1, onAccent on accent at least 4.5:1. Colours resolve to sRGB in both appearances. A debug build asserts; a release build logs once per theme, with role names only. <!-- verify after jr-3 merges: the final thresholds and the muted-text decision -->
+`JSONRenderTheme.validated()` throws `ThemeContrastError` listing the failing pairs. The rules are `JSONRenderTheme.contrastRules`: text and textSecondary on surface and on surfaceRaised at least 4.5:1, textMuted on surface at least 3:1 (it is only for hints next to a real label), accent on surface at least 3:1, onAccent on accent at least 3:1 (the macOS system accent with white text measures about 4.0:1, so 4.5:1 would reject the system look). `contrastReport()` returns every measured pair. Colours resolve to sRGB in both appearances; a translucent foreground is composited over its background first. `JSONRenderView` audits each theme once per process when it appears: a debug build asserts (not under tests), a release build logs once with role names and ratios only.
 
 Every preset must pass `validated()` in a test, and a test with a broken theme must throw with the failing pair names.
 
 ## Overrides
 
-- <!-- verify after jr-3 merges: the three modifiers and ElementView --> Whole theme: `.jsonRenderTheme(_:)`. One token: `.jsonRenderTheme(\.radius.card, 6)`. Per component type: `.jsonRenderTheme(_:forTypes:)`, stored in a type-to-theme environment map that `ElementView` applies to the subtree.
-- Precedence: per-type beats per-token beats whole. <!-- verify after jr-3 merges -->
+- Whole theme: `.jsonRenderTheme(_:)`. One token: `.jsonRenderTheme(\.radius.card, 6)` (stored in `\.jsonRenderThemeTokens`, so its order against the whole-theme modifier does not matter). Per component type: `.jsonRenderTheme(_:forTypes:)` takes a `Set<String>` and is stored in `\.jsonRenderTypeThemes`; `ResolvedElementView` computes the effective theme per element (`JSONRenderTheme.effective(forType:typeThemes:tokens:contrast:)`).
+- Precedence: per-type beats per-token beats whole.
 - A component reads `@Environment(\.jsonRenderTheme)`. It never reads a global.
 
 ## Chart tokens and the dependency direction
 
-`JSONRenderSwiftUI` cannot import `JSONRenderCharts` (the graph is one way), so the SwiftUI presets can never see values defined in the charts target. On main, `JSONRenderTheme.native` carries `ChartTokens.standard` (an Okabe-Ito categorical palette, a blue sequential ramp, an orange-to-blue diverging ramp) defined in `Theme/Presets/ChartTokens+Defaults.swift`. The charts target may define tuned `ChartTokens.native` and `.highContrast` values; if so, the host sets `.jsonRenderTheme(\.charts, .native)`. Moving the colours into the SwiftUI target is a boundary change for the coordinator. Do not add a reverse dependency. <!-- verify after jr-3c merges -->
+`JSONRenderSwiftUI` cannot import `JSONRenderCharts` (the graph is one way), so the SwiftUI presets can never see values defined in the charts target. On main, `JSONRenderTheme.native` carries `ChartTokens.standard` (an Okabe-Ito categorical palette, a blue sequential ramp, an orange-to-blue diverging ramp) defined in `Theme/Presets/ChartTokens+Defaults.swift`. `ChartTokens.defaults(role:)` gives `.standard` for `.native` and `.standard` with an opaque gridline and a heavier line for `.highContrast`. The charts target defines no tokens of its own, so there is no `ChartTokens.native`; a host changes one chart token with `.jsonRenderTheme(\.charts.lineWidth, 1.5)`. Do not add a reverse dependency.
 
 Chart palette checks: each categorical colour at least 3:1 against the card surface, and a minimum distance between neighbours. State the method you used (for example CIE76 on a simulated colour-vision-deficiency copy) and do not claim more than you test.

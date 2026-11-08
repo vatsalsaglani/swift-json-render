@@ -1,0 +1,143 @@
+# CI for swift-json-render. Works on a private repository with Actions.
+#
+# Jobs: format, macos (parallel and serial legs), linux, docc.
+# Every job prints its toolchain versions first, so a runner-image change is one line to fix.
+# The expensive steps (Gallery snapshots, skills, site, parity, example builds) run once, in the
+# serial macOS leg, because macOS minutes cost ten times a Linux minute on a private repository.
+name: CI
+
+on:
+  push:
+    branches: [main, "jr/**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  format:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain versions
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+          ls /Applications | grep -i xcode || true
+      - name: Format lint
+        run: ./script/format.sh --lint
+
+  macos:
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [parallel, serial]
+    env:
+      JR_TEST_FLAGS: ${{ matrix.mode == 'serial' && '--no-parallel' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain versions
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+          node --version
+          python3 --version
+          ls /Applications | grep -i xcode || true
+      - uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-swift-${{ matrix.mode }}-${{ hashFiles('Package.swift') }}
+          restore-keys: ${{ runner.os }}-swift-${{ matrix.mode }}-
+      - name: Build, tests included (no warnings from our sources)
+        shell: bash
+        run: |
+          set -o pipefail
+          ./script/build.sh --build-tests 2>&1 | tee build.log
+          if grep -E "/(Sources|Tests|Examples)/.*: warning:" build.log; then
+            echo "warnings in our sources"; exit 1
+          fi
+      - name: Test (${{ matrix.mode }})
+        run: ./script/test.sh
+      - name: Fixture check
+        run: Scripts/import-fixtures.sh --check
+      - name: Network boundary (object files)
+        run: Scripts/check-network-symbols.sh
+      - name: Site
+        run: node site/tests/check.mjs
+      - name: Gallery build
+        if: matrix.mode == 'serial'
+        run: swift build --package-path Examples/Gallery
+      - name: Gallery snapshots
+        if: matrix.mode == 'serial'
+        run: swift run --package-path Examples/Gallery Gallery --snapshot "$RUNNER_TEMP/snapshots"
+      - uses: actions/upload-artifact@v4
+        if: matrix.mode == 'serial'
+        with:
+          name: gallery-snapshots
+          path: ${{ runner.temp }}/snapshots
+          retention-days: 14
+      - name: Skills
+        if: matrix.mode == 'serial'
+        run: |
+          skills/scripts/check-skills.sh
+          skills/scripts/refresh-catalog-reference.sh --check
+      - name: Examples in the skills, README and DocC articles compile
+        if: matrix.mode == 'serial'
+        run: skills/scripts/compile-examples.sh
+      - name: Parity report is current
+        if: matrix.mode == 'serial'
+        run: |
+          Scripts/parity-report.sh
+          git diff -I '^<!-- generated' --exit-code -- docs/parity.md
+
+  linux:
+    runs-on: ubuntu-24.04
+    container: swift:6.2-noble
+    steps:
+      - uses: actions/checkout@v4
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Toolchain versions
+        run: |
+          swift --version
+          cat /etc/os-release | head -n 2
+      - uses: actions/cache@v4
+        with:
+          path: .build
+          key: linux-swift-${{ hashFiles('Package.swift') }}
+          restore-keys: linux-swift-
+      # The manifest leaves the Apple-only targets out on Linux: Core, Compose, Client, Macros.
+      - run: swift build --build-tests
+      - run: swift test --no-parallel
+
+  docc:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain versions
+        run: |
+          xcodebuild -version
+          swift --version
+      - name: Build the documentation
+        run: |
+          swift package --allow-writing-to-directory "$RUNNER_TEMP/docs" \
+            generate-documentation \
+            --target JSONRenderCore --target JSONRenderClient \
+            --target JSONRenderSwiftUI --target JSONRenderStandardCatalog \
+            --target JSONRenderCharts --target JSONRenderCompose \
+            --target JSONRenderRemoteImages \
+            --enable-experimental-combined-documentation \
+            --transform-for-static-hosting --hosting-base-path swift-json-render \
+            --output-path "$RUNNER_TEMP/docs"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docc
+          path: ${{ runner.temp }}/docs
+          retention-days: 14

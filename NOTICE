@@ -10,3 +10,18 @@ repository at a pinned commit and keep their original licence.
 
 Design ideas (the component macro and the JSON value and pointer types) are
 adapted, with credit, from rxtech-lab/json-render-swift (MIT License).
+
+Third-party material (as of 2026-11-08)
+
+- vercel-labs/json-render (Apache License 2.0, Copyright 2025 Vercel Inc.):
+  the specification this package implements; the prompt text, which is
+  byte-exact in Tests/ParityFixtures/upstream/prompt/; and the parity
+  fixtures under Tests/ParityFixtures/upstream/ (licence copied there).
+- rxtech-lab/json-render-swift (MIT License): design ideas, and any lines
+  copied with credit (the component macro, the JSON value and pointer types).
+- swiftlang/swift-syntax (Apache License 2.0 with Runtime Library Exception):
+  a build-time dependency of the macro target. Not part of a built app.
+- swiftlang/swift-docc-plugin (Apache License 2.0 with Runtime Library
+  Exception): used to build the documentation only.
+
+Nothing else is vendored.

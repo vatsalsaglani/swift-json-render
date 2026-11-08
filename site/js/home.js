@@ -6,7 +6,7 @@
   var HERO = {
     root: 'card',
     elements: {
-      card: { type: 'Card', props: { title: 'Failing tests by suite', subtitle: { $template: '${/failing} suites failing · run ${/runs}' } }, children: ['stats', 'tabs'] },
+      card: { type: 'Card', props: { title: 'Failing tests by suite', description: { $template: '${/failing} suites failing · run ${/runs}' } }, children: ['stats', 'tabs'] },
       stats: { type: 'Grid', props: { columns: 3 }, children: ['s1', 's2', 's3'] },
       s1: { type: 'Stat', props: { label: 'Tests', value: { $state: '/tests' }, delta: '+12', intent: 'good' } },
       s2: { type: 'Stat', props: { label: 'Suites failing', value: { $state: '/failing' }, delta: '+3', intent: 'risk' } },

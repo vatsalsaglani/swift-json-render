@@ -566,3 +566,11 @@ details>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px
 /* Intrinsic controls keep their natural width inside a column (a native VStack does not stretch a Button). */
 .jr-card>.jr-btn,.jr-card>.jr-badge,.jr-card>.jr-chip,.jr-card>.jr-seg,.jr-card>.jr-switch,.jr-card>.jr-link,.jr-card>.jr-bgroup,.jr-card>.jr-avatar,.jr-card>.jr-popwrap,.jr-card>.jr-tip,.jr-card>.jr-spinner,.jr-card>.jr-iconlib,.jr-card>.jr-choice,
 .jr-stack>.jr-btn,.jr-stack>.jr-badge,.jr-stack>.jr-chip,.jr-stack>.jr-seg,.jr-stack>.jr-switch,.jr-stack>.jr-link,.jr-stack>.jr-bgroup,.jr-stack>.jr-avatar,.jr-stack>.jr-popwrap,.jr-stack>.jr-tip,.jr-stack>.jr-spinner,.jr-stack>.jr-iconlib,.jr-stack>.jr-choice{align-self:flex-start}
+
+/* Gallery screenshots: the light image by default, the dark one in a dark scheme. */
+.shot{margin:18px 0 0}
+.shot img{display:block;width:100%;max-width:720px;height:auto;border:1px solid var(--line);border-radius:var(--radius)}
+.shot .dk{display:none}
+:root[data-theme="dark"] .shot .lt{display:none}
+:root[data-theme="dark"] .shot .dk{display:block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .shot .lt{display:none}:root:not([data-theme="light"]) .shot .dk{display:block}}

@@ -18,7 +18,7 @@
   var MAIN = {
     root: 'card',
     elements: {
-      card: { type: 'Card', props: { title: 'Failing tests by suite', subtitle: 'main · run 4213' }, children: ['stats', 'table', 'alert', 'form', 'chart', 'actions'] },
+      card: { type: 'Card', props: { title: 'Failing tests by suite', description: 'main · run 4213' }, children: ['stats', 'table', 'alert', 'form', 'chart', 'actions'] },
       stats: { type: 'Grid', props: { columns: 3 }, children: ['s1', 's2', 's3'] },
       s1: { type: 'Stat', props: { label: 'Failing', value: '7', delta: '+3', intent: 'risk' } },
       s2: { type: 'Stat', props: { label: 'Tests', value: '1,284', delta: '+12', intent: 'good' } },

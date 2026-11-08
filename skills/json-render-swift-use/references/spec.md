@@ -58,7 +58,7 @@ Any prop value can be an expression. Eight are built in; custom directives (for 
 | `{ "$template": "Hi ${/user/name}" }` | String with state values | `${/abs}` reads state; `${field}` reads the repeat item first, then `/field` |
 | `{ "$format": "currency", "value": ... }` | A custom directive | Only registered directives resolve. See below |
 
-Standard directives (shipped in `JSONRenderStandardCatalog`; <!-- verify after jr-3 merges -->):
+Standard directives (shipped in `JSONRenderStandardCatalog`):
 
 ```json
 { "$format": "currency", "value": { "$state": "/cart/total" }, "currency": "USD" }
@@ -132,7 +132,7 @@ Nested lists: the inner `repeat` reads an array from the enclosing item.
 "card": { "type": "Card", "props": { "title": "Plan" }, "children": ["body"], "slots": { "footer": ["actions"] } }
 ```
 
-Never use `slots.default`. Every listed id must exist. Slot names come from the catalog (`ComponentDefinition.slots`); a name the component does not declare is journaled once and ignored <!-- verify after jr-3 merges -->. Common names: `header`, `footer`, `leading`, `trailing`, `empty`, `loading`, `error`; charts add `title`, `caption`, `tooltip`, `center`.
+Never use `slots.default`. Every listed id must exist. Slot names come from the catalog (`ComponentDefinition.slots`); a name the component does not declare is recorded once as a `RenderWarning.unknownSlot` on the render model and not drawn. `slots.default` is a synonym for `children` that records `RenderWarning.defaultSlot`. Common names: `header`, `footer`, `leading`, `trailing`, `empty`, `loading`, `error`; charts add `title`, `caption`, `tooltip`, `center`.
 
 ## Watch
 
@@ -145,7 +145,7 @@ Never use `slots.default`. Every listed id must exist. Slot names come from the 
 }
 ```
 
-A watcher fires when the value at the path changes, not on first render. Use it for cascading fields. Watchers run on the host's actions, so the host must register `loadCities`.
+A watcher fires when the value at the path changes, not on first render, and also while its element is hidden by `visible` or has an unknown type (as upstream). Use it for cascading fields. Watchers run on the host's actions, so the host must register `loadCities`.
 
 ## `nil` and `null`
 
@@ -164,7 +164,7 @@ In `JRRenderContext.props` (`[String: JSONValue?]`), `nil` is undefined and `.nu
 |---|---|---|
 | Spec size | 256 KiB | `spec_too_large` / decode error |
 | Elements | 2,000 | `too_many_elements` |
-| Nesting depth | 64 | `depth_exceeded`; the subtree renders as a calm fallback <!-- verify after jr-3 merges --> |
+| Nesting depth | 64 | `depth_exceeded`; the subtree renders as a calm fallback block (`RenderWarning.tooDeep`) |
 | Repeat rows | 500 | rows capped |
 | Stream buffer | 64 KiB per partial line | stream error, last good frame stays |
 

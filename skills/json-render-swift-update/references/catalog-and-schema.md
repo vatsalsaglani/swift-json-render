@@ -62,7 +62,7 @@ Keep every addition on its own line or section so a diff against upstream stays 
 
 - A change that moves a fixture line is a bug unless the upstream pin moved too.
 - Never edit `Tests/ParityFixtures/upstream/**`. To test new text, add a sibling fixture folder.
-- The standard catalog's component lines must equal upstream after removing the `+` props (`StandardCatalogPromptTests`). <!-- verify after jr-3 merges: test name -->
+- The standard catalog's component lines must equal upstream after removing the `+` props (`StandardCatalogPromptTests`).
 
 ## Add a directive
 
@@ -82,7 +82,7 @@ catalog.directive(double)
 
 - The name starts with `$` and is not a built-in key (`$state`, `$item`, `$index`, `$bindState`, `$bindItem`, `$cond`, `$computed`, `$template`); the init throws `DirectiveError` otherwise.
 - Resolve operands with `resolver.resolveValue(_:)` so directives compose.
-- The shipped four (`$format`, `$count`, `$join`, `$pluralize`) live in `Sources/JSONRenderStandardCatalog/Directives/StandardDirectives.swift` and match upstream output. <!-- verify after jr-3 merges -->
+- The shipped four (`$format`, `$count`, `$join`, `$pluralize`) live in `Sources/JSONRenderStandardCatalog/Directives/StandardDirectives.swift` and match upstream output.
 - Fixtures: add expression cases in a sibling folder; the schema must match the zod shape so the prompt lists it under CUSTOM DYNAMIC VALUES.
 
 ## Add a $computed function, action, validator or rule

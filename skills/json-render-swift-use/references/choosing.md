@@ -2,8 +2,6 @@
 
 Contents: the table, layout and forms, anti-patterns, defaults that look good.
 
-<!-- verify after jr-3c and jr-3d merge: the chart names and variants come from the VPLAN 7.3 table -->
-
 Rule of the package: spectacularly simple by default. Pick the plainest element that shows the data; the theme does the styling.
 
 ## Which element for which data
@@ -14,7 +12,7 @@ Rule of the package: spectacularly simple by default. Pick the plainest element 
 | Rows with a few columns | `Table` | A chart, or a stack of `Text` |
 | A list of items with actions | `repeat` over a `Stack` row | Hand-copied elements |
 | A series over time or order | `LineChart` or `AreaChart` (`BarChart` for few points) | `Table` of 200 rows |
-| Compare a value across categories | `BarChart` (`ranked` or `horizontal` for long labels) | `PieChart` with more than 6 slices |
+| Compare a value across categories | `BarChart` (`orientation: "horizontal"`, with `sort: "desc"` and `limit` to rank, for long labels) | `PieChart` with more than 6 slices |
 | Parts of a whole, up to 6 parts | `PieChart` (donut) | 3D, exploded slices |
 | Many parts of a whole | `Treemap` | `PieChart` |
 | Stages that shrink (a pipeline) | `Funnel` | `BarChart` |

@@ -8,7 +8,7 @@
 
   var tests = [
     add('/root', 'card'),
-    add('/elements/card', { type: 'Card', props: { title: 'Failing tests by suite', subtitle: 'Streamed one patch at a time' }, children: ['stats', 'tabs'] }),
+    add('/elements/card', { type: 'Card', props: { title: 'Failing tests by suite', description: 'Streamed one patch at a time' }, children: ['stats', 'tabs'] }),
     add('/elements/row-open', { type: 'Button', props: { label: 'Open', size: 'sm' }, on: { press: { action: 'open_file', params: { path: { $item: 'file' } } } } }),
     add('/elements/stats', { type: 'Grid', props: { columns: 3 }, children: ['s1', 's2', 's3'] }),
     add('/elements/s1', { type: 'Stat', props: { label: 'Failing', value: { $state: '/failing' }, delta: '+3', intent: 'risk' } }),
@@ -18,13 +18,13 @@
     '{"op":"add","path":"/elements/table","value":{"type":"Table","props":{"columns":[{"key":"name"',
     add('/elements/table', { type: 'Table', props: { columns: [{ key: 'name', label: 'Suite' }, { key: 'failed', label: 'Failed', align: 'right' }] }, children: ['row-open'], repeat: { statePath: '/suites', key: 'name' } }),
     add('/state', { tab: 'suites', failing: 7, suiteCount: 3, suites: [{ name: 'CanvasBoardStateTests', failed: 4, file: 'Tests/CanvasBoardStateTests.swift' }, { name: 'VoiceSessionTests', failed: 2, file: 'Tests/VoiceSessionTests.swift' }, { name: 'MDXBlockScannerTests', failed: 1, file: 'Tests/MDXBlockScannerTests.swift' }] }),
-    line({ op: 'replace', path: '/elements/card/props/subtitle', value: 'Stream complete. Validated and frozen.' })
+    line({ op: 'replace', path: '/elements/card/props/description', value: 'Stream complete. Validated and frozen.' })
   ];
 
   var wall = [12, 18, 15, 22, 28, 26, 40, 37, 33, 58, 52, 46, 44, 49];
   var chart = [
     add('/root', 'card'),
-    add('/elements/card', { type: 'Card', props: { title: 'Wall time, run by run', subtitle: 'Points arrive while the model works' }, children: ['chart', 'caption'] }),
+    add('/elements/card', { type: 'Card', props: { title: 'Wall time, run by run', description: 'Points arrive while the model works' }, children: ['chart', 'caption'] }),
     add('/elements/chart', { type: 'LineChart', props: { x: 'run', y: 'secs', unit: 's', curve: 'monotone', points: 'always' } }),
     add('/elements/chart/props/data', [{ run: 'r1', secs: wall[0] }])
   ];

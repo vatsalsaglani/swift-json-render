@@ -6,6 +6,7 @@
 //  5. streaming transcripts replay, y-domain only grows, final spec has no dangling ids
 //  6. Treemap layout tiles its rectangle exactly
 //  7. internal links, script and style references, hygiene patterns, total size
+//  8. the registry comes from the Swift catalogs: data/catalog.generated.json matches, no provisional props, source labels, Gallery screenshots
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -44,7 +45,8 @@ comps.forEach((c) => {
     assert.ok(c.description && c.swiftui, 'description and swiftui mapping');
     assert.ok(Array.isArray(c.props) && Array.isArray(c.events) && Array.isArray(c.slots) && Array.isArray(c.variants), 'arrays');
     assert.ok(c.examples.length >= 1 && c.examples.length <= 3, '1 to 3 examples');
-    c.props.forEach((p) => { assert.ok(p.name && p.type, 'prop name and type'); assert.equal(typeof p.required, 'boolean'); assert.ok('default' in p && 'note' in p); });
+    c.props.forEach((p) => { assert.ok(p.name && p.type, 'prop name and type'); assert.equal(typeof p.required, 'boolean'); assert.ok('default' in p && 'note' in p); assert.ok(!('provisional' in p), 'provisional prop ' + p.name); });
+    assert.equal(c.source, c.catalog === 'rafu' ? 'planned' : 'Catalog', 'source label');
     c.examples.forEach((ex) => {
       assert.ok(ex.spec.root && ex.spec.elements[ex.spec.root], 'root element exists');
       Object.values(ex.spec.elements).forEach((el) => { assert.ok(el.type && el.props, 'type and props'); (el.children || []).forEach((id) => assert.ok(ex.spec.elements[id], 'child ' + id + ' exists')); Object.values(el.slots || {}).forEach((l) => l.forEach((id) => assert.ok(ex.spec.elements[id], 'slot child ' + id))); });
@@ -84,7 +86,7 @@ comps.forEach((c) => {
   c.variants.forEach((vr, i) => {
     check(`render: ${c.name} variant "${vr.label}"`, () => { renderOnce(JR.ui.variantSpec(c, vr)); variantsRendered++; });
   });
-  check(`swift definition: ${c.name}`, () => assert.ok(JR.ui.swiftDef(c).startsWith(c.name + ': .component(')));
+  check(`swift definition: ${c.name}`, () => assert.ok(JR.ui.swiftDef(c).startsWith('ComponentDefinition(\n    name: ' + JSON.stringify(c.name) + ',')));
 });
 check('render: all 66 registry components rendered at least once', () => { assert.equal(renderedNames.size, comps.length); assert.equal(comps.length, 66); });
 
@@ -298,10 +300,50 @@ check('hygiene: no network calls from site scripts (no fetch, XHR, WebSocket, ev
     assert.ok(!/\bfetch\s*\(|XMLHttpRequest|WebSocket|\beval\s*\(|new Function\s*\(|\.innerHTML\s*=|document\.write/.test(src), path.basename(f));
   });
 });
-check('size: site is under 2 MB', () => {
-  const total = files.reduce((s, f) => s + fs.statSync(f).size, 0);
+/* The Gallery screenshots have their own gate below: at most 12 files of 250 KB each. */
+const GALLERY_DIR = path.join(SITE, 'assets', 'gallery');
+check('size: site is under 2 MB (without the Gallery screenshots)', () => {
+  const total = files.filter((f) => !f.startsWith(GALLERY_DIR + path.sep)).reduce((s, f) => s + fs.statSync(f).size, 0);
   assert.ok(total < 2 * 1024 * 1024, total + ' bytes');
   console.log(`   site size: ${(total / 1024).toFixed(0)} KB in ${files.length} files`);
+});
+
+/* ---------- 8. the registry comes from the Swift catalogs ---------- */
+const generated = JSON.parse(fs.readFileSync(at('data/catalog.generated.json'), 'utf8'));
+['standard', 'charts'].forEach((catalog) => {
+  check(`generated: ${catalog} entries match the Swift catalog (names, props, events, slots)`, () => {
+    const fresh = generated[catalog], entries = comps.filter((c) => c.catalog === catalog);
+    assert.deepEqual(entries.map((c) => c.name).sort(), fresh.map((e) => e.name).sort());
+    entries.forEach((c) => {
+      const g = fresh.find((e) => e.name === c.name);
+      assert.deepEqual(c.props.map((p) => [p.name, p.type, p.required]), g.props.map((p) => [p.name, p.type, p.required]), c.name + ' props');
+      assert.deepEqual(c.events, g.events, c.name + ' events');
+      assert.deepEqual(c.slots, g.slots.filter((s) => s !== 'default'), c.name + ' slots');
+    });
+  });
+});
+check('generated: every example prop exists in the Swift catalog', () => {
+  comps.filter((c) => c.catalog !== 'rafu').forEach((c) => {
+    const known = new Set(c.props.map((p) => p.name));
+    c.examples.forEach((ex) => Object.values(ex.spec.elements).forEach((el) => {
+      if (el.type === c.name) Object.keys(el.props || {}).forEach((k) => assert.ok(known.has(k), `${c.name}: example prop "${k}"`));
+    }));
+    c.variants.forEach((v) => Object.keys(v.props || {}).forEach((k) => assert.ok(known.has(k), `${c.name}: variant prop "${k}"`)));
+  });
+});
+check('footers name the commit the registry was generated from', () => {
+  const short = generated.generatedFrom.slice(0, 7);
+  assert.equal(json.meta.generatedFrom, generated.generatedFrom);
+  htmlFiles.forEach((f) => assert.ok(fs.readFileSync(f, 'utf8').includes('<span data-gen-sha>' + short + '</span>'), path.basename(f)));
+});
+check('gallery: screenshots exist for the mapped components, at most 12 files of 250 KB', () => {
+  const src = fs.readFileSync(at('js/component.js'), 'utf8');
+  const mapped = Object.keys(JSON.parse(/var GALLERY = (\{[^}]*\})/.exec(src)[1].replace(/(\w+):/g, '"$1":')));
+  const pngs = fs.existsSync(GALLERY_DIR) ? fs.readdirSync(GALLERY_DIR).filter((f) => f.endsWith('.png')) : [];
+  assert.ok(pngs.length <= 12, pngs.length + ' screenshots');
+  pngs.forEach((f) => assert.ok(fs.statSync(path.join(GALLERY_DIR, f)).size <= 250 * 1024, f + ' is over 250 KB'));
+  mapped.forEach((n) => { assert.ok(names.has(n), 'unknown component ' + n); ['light', 'dark'].forEach((s) => assert.ok(pngs.includes(`${n}-${s}.png`), `${n}-${s}.png missing`)); });
+  pngs.forEach((f) => assert.ok(mapped.some((n) => f === `${n}-light.png` || f === `${n}-dark.png`), f + ' is not mapped'));
 });
 
 /* ---------- report ---------- */
