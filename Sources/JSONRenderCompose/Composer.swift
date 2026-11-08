@@ -45,6 +45,7 @@ public struct Composer: Sendable {
     /// Composes a spec for `prompt`.
     ///
     /// - Parameters:
+    ///   - prompt: the user's request, sent to the evaluator as `user_request`.
     ///   - context: app context shared with the evaluator on purpose. Put only what the
     ///     evaluator may read; never secrets, file contents or terminal text by accident.
     ///   - initialState: goes into the spec's `state`; never sent to the evaluator.
