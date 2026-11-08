@@ -1,0 +1,340 @@
+[
+  {
+    "id": "dashboard",
+    "description": "Operations dashboard panel",
+    "root": true,
+    "element": {
+      "type": "Panel",
+      "props": {
+        "title": "Operations"
+      }
+    }
+  },
+  {
+    "id": "stack",
+    "description": "A vertical group of related elements",
+    "root": true,
+    "element": {
+      "type": "Stack",
+      "props": {}
+    },
+    "maxUses": 3
+  },
+  {
+    "id": "title_text",
+    "description": "Dashboard heading text",
+    "root": false,
+    "element": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$state": "/title"
+        }
+      }
+    }
+  },
+  {
+    "id": "summary_text",
+    "description": "One-paragraph summary of the period",
+    "root": false,
+    "element": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$state": "/summary"
+        }
+      }
+    }
+  },
+  {
+    "id": "revenue_stat",
+    "description": "Revenue as a single number",
+    "root": false,
+    "element": {
+      "type": "Stat",
+      "props": {
+        "label": "Revenue",
+        "value": {
+          "$state": "/revenue/total"
+        }
+      }
+    },
+    "resource": "revenue"
+  },
+  {
+    "id": "revenue_chart",
+    "description": "Revenue over time as a chart",
+    "root": false,
+    "element": {
+      "type": "Chart",
+      "props": {
+        "title": "Revenue",
+        "series": {
+          "$state": "/revenue/series"
+        }
+      }
+    },
+    "resource": "revenue"
+  },
+  {
+    "id": "revenue_table",
+    "description": "Revenue by region as a table",
+    "root": false,
+    "element": {
+      "type": "Table",
+      "props": {
+        "title": "Revenue by region",
+        "rows": {
+          "$state": "/revenue/rows"
+        }
+      }
+    },
+    "resource": "revenue"
+  },
+  {
+    "id": "latency_stat",
+    "description": "p95 latency as a single number",
+    "root": false,
+    "element": {
+      "type": "Stat",
+      "props": {
+        "label": "p95 latency",
+        "value": {
+          "$state": "/latency/p95"
+        }
+      }
+    },
+    "resource": "latency"
+  },
+  {
+    "id": "latency_chart",
+    "description": "Latency over time as a chart",
+    "root": false,
+    "element": {
+      "type": "Chart",
+      "props": {
+        "title": "Latency",
+        "series": {
+          "$state": "/latency/series"
+        }
+      }
+    },
+    "resource": "latency"
+  },
+  {
+    "id": "errors_stat",
+    "description": "Error rate as a single number",
+    "root": false,
+    "element": {
+      "type": "Stat",
+      "props": {
+        "label": "Error rate",
+        "value": {
+          "$state": "/errors/rate"
+        }
+      }
+    },
+    "resource": "errors"
+  },
+  {
+    "id": "errors_chart",
+    "description": "Errors over time as a chart",
+    "root": false,
+    "element": {
+      "type": "Chart",
+      "props": {
+        "title": "Errors",
+        "series": {
+          "$state": "/errors/series"
+        }
+      }
+    },
+    "resource": "errors"
+  },
+  {
+    "id": "errors_table",
+    "description": "Recent errors as a table",
+    "root": false,
+    "element": {
+      "type": "Table",
+      "props": {
+        "title": "Recent errors",
+        "rows": {
+          "$state": "/errors/rows"
+        }
+      }
+    },
+    "resource": "errors"
+  },
+  {
+    "id": "users_stat",
+    "description": "Active users as a single number",
+    "root": false,
+    "element": {
+      "type": "Stat",
+      "props": {
+        "label": "Active users",
+        "value": {
+          "$state": "/users"
+        }
+      }
+    }
+  },
+  {
+    "id": "sessions_stat",
+    "description": "Sessions as a single number",
+    "root": false,
+    "element": {
+      "type": "Stat",
+      "props": {
+        "label": "Sessions",
+        "value": {
+          "$state": "/sessions"
+        }
+      }
+    }
+  },
+  {
+    "id": "uptime_stat",
+    "description": "Uptime as a single number",
+    "root": false,
+    "element": {
+      "type": "Stat",
+      "props": {
+        "label": "Uptime",
+        "value": {
+          "$state": "/uptime"
+        }
+      }
+    }
+  },
+  {
+    "id": "cpu_chart",
+    "description": "CPU use over time as a chart",
+    "root": false,
+    "element": {
+      "type": "Chart",
+      "props": {
+        "title": "CPU",
+        "series": {
+          "$state": "/cpu"
+        }
+      }
+    }
+  },
+  {
+    "id": "memory_chart",
+    "description": "Memory use over time as a chart",
+    "root": false,
+    "element": {
+      "type": "Chart",
+      "props": {
+        "title": "Memory",
+        "series": {
+          "$state": "/memory"
+        }
+      }
+    }
+  },
+  {
+    "id": "deploys_table",
+    "description": "Recent deploys as a table",
+    "root": false,
+    "element": {
+      "type": "Table",
+      "props": {
+        "title": "Deploys",
+        "rows": {
+          "$state": "/deploys"
+        }
+      }
+    }
+  },
+  {
+    "id": "alerts_table",
+    "description": "Open alerts as a table",
+    "root": false,
+    "element": {
+      "type": "Table",
+      "props": {
+        "title": "Open alerts",
+        "rows": {
+          "$state": "/alerts"
+        }
+      }
+    }
+  },
+  {
+    "id": "filter_input",
+    "description": "Filter text field",
+    "root": false,
+    "element": {
+      "type": "Input",
+      "props": {
+        "label": "Filter",
+        "value": {
+          "$bindState": "/filter"
+        }
+      }
+    }
+  },
+  {
+    "id": "search_input",
+    "description": "Search text field",
+    "root": false,
+    "element": {
+      "type": "Input",
+      "props": {
+        "label": "Search",
+        "value": {
+          "$bindState": "/search"
+        }
+      }
+    }
+  },
+  {
+    "id": "refresh_button",
+    "description": "Refresh the data",
+    "root": false,
+    "element": {
+      "type": "Button",
+      "props": {
+        "label": "Refresh"
+      },
+      "on": {
+        "press": {
+          "action": "refresh"
+        }
+      }
+    }
+  },
+  {
+    "id": "export_button",
+    "description": "Export the data",
+    "root": false,
+    "element": {
+      "type": "Button",
+      "props": {
+        "label": "Export"
+      },
+      "on": {
+        "press": {
+          "action": "export"
+        }
+      }
+    }
+  },
+  {
+    "id": "notes_text",
+    "description": "Free-form operator notes",
+    "root": false,
+    "element": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$state": "/notes"
+        }
+      }
+    }
+  }
+]

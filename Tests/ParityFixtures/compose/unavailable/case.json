@@ -1,0 +1,11 @@
+{
+  "candidates": "jev-preferences",
+  "catalog": "jev",
+  "prompt": "Create account preferences with a name field and Save button",
+  "initialState": {
+    "name": ""
+  },
+  "stopReason": "unavailable",
+  "requests": 1,
+  "elements": null
+}

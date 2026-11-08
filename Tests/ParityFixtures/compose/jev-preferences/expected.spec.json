@@ -1,0 +1,47 @@
+{
+  "root": "node_0",
+  "elements": {
+    "node_0": {
+      "type": "Panel",
+      "props": {
+        "title": "Account preferences"
+      },
+      "children": [
+        "node_1",
+        "node_2"
+      ]
+    },
+    "node_1": {
+      "type": "Input",
+      "props": {
+        "label": "Name",
+        "value": {
+          "$bindState": "/name"
+        }
+      },
+      "children": []
+    },
+    "node_2": {
+      "type": "Button",
+      "props": {
+        "label": "Save"
+      },
+      "children": [],
+      "on": {
+        "press": [
+          {
+            "action": "savePreferences",
+            "params": {
+              "name": {
+                "$state": "/name"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "state": {
+    "name": ""
+  }
+}

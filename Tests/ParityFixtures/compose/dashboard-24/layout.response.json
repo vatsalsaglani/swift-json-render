@@ -1,0 +1,224 @@
+{
+  "model": "gpt-6-luna",
+  "answers": [
+    {
+      "type": "choice",
+      "name": "parent_node_1",
+      "choice": "node_0:default",
+      "probabilities": [
+        {
+          "value": "node_0:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_1",
+      "choice": "2",
+      "probabilities": [
+        {
+          "value": "2",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_2",
+      "choice": "node_0:default",
+      "probabilities": [
+        {
+          "value": "node_0:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_2",
+      "choice": "3",
+      "probabilities": [
+        {
+          "value": "3",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_3",
+      "choice": "node_0:default",
+      "probabilities": [
+        {
+          "value": "node_0:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_3",
+      "choice": "1",
+      "probabilities": [
+        {
+          "value": "1",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_4",
+      "choice": "node_1:default",
+      "probabilities": [
+        {
+          "value": "node_1:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_4",
+      "choice": "1",
+      "probabilities": [
+        {
+          "value": "1",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_5",
+      "choice": "node_2:default",
+      "probabilities": [
+        {
+          "value": "node_2:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_5",
+      "choice": "1",
+      "probabilities": [
+        {
+          "value": "1",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_6",
+      "choice": "node_2:default",
+      "probabilities": [
+        {
+          "value": "node_2:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_6",
+      "choice": "2",
+      "probabilities": [
+        {
+          "value": "2",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_7",
+      "choice": "node_2:default",
+      "probabilities": [
+        {
+          "value": "node_2:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_7",
+      "choice": "3",
+      "probabilities": [
+        {
+          "value": "3",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_8",
+      "choice": "node_0:default",
+      "probabilities": [
+        {
+          "value": "node_0:default",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_8",
+      "choice": "4",
+      "probabilities": [
+        {
+          "value": "4",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    },
+    {
+      "type": "choice",
+      "name": "parent_node_9",
+      "choice": "node_0:footer",
+      "probabilities": [
+        {
+          "value": "node_0:footer",
+          "probability": 0.75
+        }
+      ],
+      "confidence": 0.75
+    },
+    {
+      "type": "choice",
+      "name": "order_node_9",
+      "choice": "1",
+      "probabilities": [
+        {
+          "value": "1",
+          "probability": 0.7
+        }
+      ],
+      "confidence": 0.7
+    }
+  ],
+  "usage": {
+    "input_tokens": 980
+  }
+}

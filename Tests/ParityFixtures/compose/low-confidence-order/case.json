@@ -1,0 +1,18 @@
+{
+  "candidates": "jev-preferences",
+  "catalog": "jev",
+  "prompt": "Create account preferences with a name field and Save button",
+  "initialState": {
+    "name": ""
+  },
+  "stopReason": "finish",
+  "requests": 2,
+  "elements": 3,
+  "fallbacks": [
+    "order_node_1"
+  ],
+  "rootChildren": [
+    "node_1",
+    "node_2"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "model": "gpt-6-luna",
+  "answers": [
+    {
+      "type": "choice",
+      "name": "root",
+      "choice": "preferences",
+      "probabilities": [
+        {
+          "value": "preferences",
+          "probability": 0.9
+        }
+      ],
+      "confidence": 0.9
+    },
+    {
+      "type": "predicate",
+      "name": "select_2",
+      "probability": 0.9
+    },
+    {
+      "type": "predicate",
+      "name": "select_1",
+      "probability": 0.9
+    },
+    {
+      "type": "score",
+      "name": "density",
+      "score": 1.0,
+      "probabilities": [
+        {
+          "value": 0,
+          "label": "sparse",
+          "probability": 0.2
+        },
+        {
+          "value": 1,
+          "label": "normal",
+          "probability": 0.3
+        },
+        {
+          "value": 2,
+          "label": "dense",
+          "probability": 0.5
+        }
+      ],
+      "confidence": 0.6
+    }
+  ],
+  "usage": {
+    "input_tokens": 505
+  }
+}
