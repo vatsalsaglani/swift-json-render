@@ -61,7 +61,7 @@ struct JRComponentMacroTests {
                 }
             }
 
-            extension Stat: JRComponentType {
+            extension Stat: nonisolated JRComponentType {
             }
             """)
     }
@@ -119,7 +119,7 @@ struct JRComponentMacroTests {
                 }
             }
 
-            extension Tabs: JRComponentType {
+            extension Tabs: nonisolated JRComponentType {
             }
             """)
     }
@@ -154,7 +154,7 @@ struct JRComponentMacroTests {
                 let fixed: String = "x"
             }
 
-            extension X: JRComponentType {
+            extension X: nonisolated JRComponentType {
             }
             """,
             diagnostics: [
@@ -191,7 +191,7 @@ struct JRComponentMacroTests {
                 }
             }
 
-            extension X: JRComponentType {
+            extension X: nonisolated JRComponentType {
             }
             """,
             diagnostics: [

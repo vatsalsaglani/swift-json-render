@@ -85,7 +85,13 @@ public struct JRComponentMacro: MemberMacro, ExtensionMacro {
         in context: some MacroExpansionContext
     ) throws -> [ExtensionDeclSyntax] {
         guard declaration.is(StructDeclSyntax.self), !protocols.isEmpty else { return [] }
-        return [try ExtensionDeclSyntax("extension \(type.trimmed): JRComponentType {}")]
+        // `nonisolated` conformance (SE-0470): in a module with MainActor default isolation,
+        // Swift 6.2/6.3 otherwise infer a main-actor-isolated conformance, which a
+        // nonisolated catalog build cannot use. Every requirement is already nonisolated
+        // (`definition`) or explicitly `@MainActor` (`init(context:)`).
+        return [
+            try ExtensionDeclSyntax("extension \(type.trimmed): nonisolated JRComponentType {}")
+        ]
     }
 }
 
