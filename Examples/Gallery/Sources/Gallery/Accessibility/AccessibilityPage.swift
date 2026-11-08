@@ -10,7 +10,8 @@ struct AccessibilityPage: GalleryPage {
     static let title = "Labels audit"
     static let group = GalleryGroup.accessibility
 
-    @State private var rows: [(String, [AccessibilityAudit.Entry])] = AccessibilityPage.load()
+    /// Loaded once, on first appearance (see `FixtureSpecsPage.models`).
+    @State private var rows: [(String, [AccessibilityAudit.Entry])]?
 
     var body: some View {
         GalleryPageLayout(
@@ -18,7 +19,7 @@ struct AccessibilityPage: GalleryPage {
             note:
                 "The label each element gets from its spec: label, title, text, alt, name, trigger."
         ) {
-            ForEach(rows, id: \.0) { file, entries in
+            ForEach(rows ?? [], id: \.0) { file, entries in
                 VStack(alignment: .leading, spacing: 4) {
                     Text(file.uppercased())
                         .font(.system(size: 10, weight: .semibold))
@@ -41,6 +42,9 @@ struct AccessibilityPage: GalleryPage {
                     }
                 }
             }
+        }
+        .onAppear {
+            if rows == nil { rows = AccessibilityPage.load() }
         }
     }
 

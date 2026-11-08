@@ -4,7 +4,8 @@ internal import SwiftUI
 
 /// Runs `WatchRunner` in a `.task` keyed by the element id, its row path and its watch
 /// map. The baseline is the state when the task subscribes; the task ends with the view.
-/// Attached only to elements that have a `watch` field.
+/// Attached only to elements that have a `watch` field, around every branch: hidden
+/// elements and unknown types run their watchers too (upstream parity).
 struct WatchHost: ViewModifier {
     let id: String
     let watch: [String: [ActionBinding]]

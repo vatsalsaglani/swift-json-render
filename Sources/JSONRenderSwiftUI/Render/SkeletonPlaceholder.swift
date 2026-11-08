@@ -18,8 +18,9 @@ public enum SkeletonShape: String, Sendable, Hashable, CaseIterable {
     }
 }
 
-/// A static redacted shape drawn from `surfaceRaised` with a hairline: no shimmer, no
-/// spinner. VoiceOver reads "Loading".
+/// A static redacted shape: `surfaceRaised` with a light ink over it (black 6 % in light
+/// appearance, white 10 % in dark) and a hairline. No shimmer, no spinner. VoiceOver reads
+/// "Loading".
 public struct JRSkeletonPlaceholder: View {
     let shape: SkeletonShape
     let width: CGFloat?
@@ -55,14 +56,15 @@ public struct JRSkeletonPlaceholder: View {
                 .frame(width: width ?? (fillsWidth ? nil : 160))
                 .frame(maxWidth: fillsWidth ? .infinity : nil, alignment: .leading)
         case .block:
-            RoundedRectangle(cornerRadius: rounded ? 999 : theme.radius.field, style: .continuous)
-                .fill(theme.color.surfaceRaised)
-                .overlay(outline(radius: rounded ? 999 : theme.radius.field))
-                .frame(width: width, height: height ?? 96)
-                .frame(maxWidth: width == nil ? .infinity : nil)
+            filled(
+                RoundedRectangle(
+                    cornerRadius: rounded ? 999 : theme.radius.field, style: .continuous)
+            )
+            .overlay(outline(radius: rounded ? 999 : theme.radius.field))
+            .frame(width: width, height: height ?? 96)
+            .frame(maxWidth: width == nil ? .infinity : nil)
         case .circle:
-            Circle()
-                .fill(theme.color.surfaceRaised)
+            filled(Circle())
                 .overlay(Circle().strokeBorder(theme.color.hairline, lineWidth: 1))
                 .frame(width: width ?? height ?? 32, height: height ?? width ?? 32)
         case .card:
@@ -91,9 +93,15 @@ public struct JRSkeletonPlaceholder: View {
         }
     }
 
+    /// The ink over the surface: `surfaceRaised` alone is too faint on a light window.
+    static let ink = DynamicColor.ink(light: 0.06, dark: 0.10)
+
+    private func filled(_ shape: some Shape) -> some View {
+        shape.fill(theme.color.surfaceRaised).overlay(shape.fill(JRSkeletonPlaceholder.ink))
+    }
+
     private func bar(height: CGFloat) -> some View {
-        RoundedRectangle(cornerRadius: rounded ? height / 2 : 4, style: .continuous)
-            .fill(theme.color.surfaceRaised)
+        filled(RoundedRectangle(cornerRadius: rounded ? height / 2 : 4, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: rounded ? height / 2 : 4, style: .continuous)
                     .strokeBorder(theme.color.hairline, lineWidth: 1)

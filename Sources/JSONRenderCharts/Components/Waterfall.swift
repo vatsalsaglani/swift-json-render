@@ -164,6 +164,30 @@ public enum WaterfallData {
     }
 }
 
+/// The geometry of the waterfall connectors, in band units: category `i` is centred at `i`
+/// and one category step is 1.
+enum WaterfallConnectors {
+    /// The bar width as a share of the category step.
+    static let barRatio = 0.62
+
+    /// One connector: from `start` to `end` (band units) at the value `level`.
+    struct Segment: Sendable, Hashable {
+        let start: Double
+        let end: Double
+        let level: Double
+    }
+
+    /// The connector from each bar to the next, at the running total after the first of
+    /// the two (`levels[i]`), from the far edge of bar `i` to the near edge of bar `i + 1`.
+    static func segments(levels: [Double], barRatio: Double = barRatio) -> [Segment] {
+        let half = barRatio / 2
+        return levels.indices.dropLast().map { index in
+            Segment(
+                start: Double(index) + half, end: Double(index + 1) - half, level: levels[index])
+        }
+    }
+}
+
 /// The default waterfall plot.
 struct WaterfallPlot: View {
     let input: ChartPlotInput
@@ -174,12 +198,6 @@ struct WaterfallPlot: View {
         let data = input.data
         let points = data.points
         Chart {
-            // Hairline connectors first, so the bars cover their ends.
-            ForEach(Array(zip(points, points.dropFirst())), id: \.0.id) { pair in
-                connector(from: pair.0, to: pair.1)
-                    .foregroundStyle(input.theme.color.textMuted)
-                    .lineStyle(StrokeStyle(lineWidth: 0.5))
-            }
             ForEach(points) { point in
                 bar(point)
                     .foregroundStyle(color(point))
@@ -195,7 +213,16 @@ struct WaterfallPlot: View {
             ReferenceLineMarks(input, horizontal: horizontal)
         }
         .jrMarkOverride(input)
-        .jrCompositeAxes(input, horizontal: horizontal)
+        .jrValueAxes(input, horizontal: horizontal, aligned: true)
+        // Hairline connectors behind the marks, from the edge of one bar to the edge of the
+        // next at the running total. Decoration only: no accessibility element.
+        .chartBackground { proxy in
+            GeometryReader { geometry in
+                connectors(proxy: proxy, geometry: geometry, points: points)
+                    .stroke(input.theme.color.textMuted, lineWidth: 0.5)
+            }
+            .accessibilityHidden(true)
+        }
         .chartLegend(.hidden)
         .jrCategorySelection(input, horizontal: horizontal)
     }
@@ -206,18 +233,44 @@ struct WaterfallPlot: View {
         let high = PlottableValue.value(input.data.yField, max(base, base + point.y))
         let category = PlottableValue.value(input.data.xField, point.xLabel)
         return horizontal
-            ? BarMark(xStart: low, xEnd: high, y: category, height: .ratio(0.62))
-            : BarMark(x: category, yStart: low, yEnd: high, width: .ratio(0.62))
+            ? BarMark(
+                xStart: low, xEnd: high, y: category, height: .ratio(WaterfallConnectors.barRatio))
+            : BarMark(
+                x: category, yStart: low, yEnd: high, width: .ratio(WaterfallConnectors.barRatio))
     }
 
-    /// The hairline from the end of `point` to the start of `next`, at the running total.
-    private func connector(from point: ChartPoint, to next: ChartPoint) -> RuleMark {
-        let level = PlottableValue.value(input.data.yField, (point.base ?? 0) + point.y)
-        let from = PlottableValue.value(input.data.xField, point.xLabel)
-        let to = PlottableValue.value(input.data.xField, next.xLabel)
-        return horizontal
-            ? RuleMark(x: level, yStart: from, yEnd: to)
-            : RuleMark(xStart: from, xEnd: to, y: level)
+    /// The connector path in plot coordinates. Band units map to points through the first
+    /// two category centres (a category scale has a uniform step).
+    private func connectors(proxy: ChartProxy, geometry: GeometryProxy, points: [ChartPoint])
+        -> Path
+    {
+        var path = Path()
+        guard let anchor = proxy.plotFrame, points.count > 1 else { return path }
+        let frame = geometry[anchor]
+        let labels = points.map(\.xLabel)
+        func centre(_ label: String) -> CGFloat? {
+            horizontal ? proxy.position(forY: label) : proxy.position(forX: label)
+        }
+        func level(_ value: Double) -> CGFloat? {
+            horizontal ? proxy.position(forX: value) : proxy.position(forY: value)
+        }
+        guard let first = centre(labels[0]), let second = centre(labels[1]) else { return path }
+        let step = second - first
+        let segments = WaterfallConnectors.segments(
+            levels: points.map { ($0.base ?? 0) + $0.y })
+        for segment in segments {
+            guard let at = level(segment.level) else { continue }
+            let start = first + step * segment.start
+            let end = first + step * segment.end
+            if horizontal {
+                path.move(to: CGPoint(x: frame.minX + at, y: frame.minY + start))
+                path.addLine(to: CGPoint(x: frame.minX + at, y: frame.minY + end))
+            } else {
+                path.move(to: CGPoint(x: frame.minX + start, y: frame.minY + at))
+                path.addLine(to: CGPoint(x: frame.minX + end, y: frame.minY + at))
+            }
+        }
+        return path
     }
 
     private func isTotal(_ point: ChartPoint) -> Bool { point.series == WaterfallData.totalSeries }

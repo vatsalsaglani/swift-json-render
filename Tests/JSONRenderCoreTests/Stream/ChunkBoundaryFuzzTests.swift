@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 
 @testable import JSONRenderCore
@@ -89,6 +90,65 @@ struct ChunkBoundaryFuzzTests {
                 + decoder.flush()
             for case .patch(let patch) in events { try? result.apply(patch) }
             #expect(result == whole.result, "split at byte \(split)")
+        }
+    }
+
+    /// The object-mode documents: the own fixture, joined, plus a non-ASCII document.
+    static func objectDocuments() throws -> [String] {
+        let fixture = try #require(StreamFixtures.own.first { $0.name == "object-mode-fragments" })
+        let document = try JSONDecoder().decode(JSONValue.self, from: Data(fixture.input.utf8))
+        let fragments = try #require(document["fragments"]?.arrayValue).compactMap(\.stringValue)
+        return [
+            fragments.joined(),
+            #"{"root":"m","elements":{"m":{"type":"Text","props":{"text":"héllo — 日本 🎉 \u00e9\"q\""}}},"state":{"n":-1.5e2,"ok":true,"z":null}}"#,
+        ]
+    }
+
+    /// Object mode emits different intermediate patches per split, so the check is the
+    /// applied result and the error events after `flush`.
+    static func objectResult(_ chunks: [ArraySlice<UInt8>]) -> (JSONValue, [SpecStreamEvent]) {
+        var decoder = SpecStreamDecoder(mode: .object)
+        var events: [SpecStreamEvent] = []
+        for chunk in chunks { events += decoder.push(bytes: chunk) }
+        events += decoder.flush()
+        var result: JSONValue = .object([:])
+        for case .patch(let patch) in events { try? result.apply(patch) }
+        return (result, events.filter { if case .error = $0 { true } else { false } })
+    }
+
+    @Test("Object mode: every two-way byte split gives the whole-document result")
+    func objectEveryByteSplit() throws {
+        for text in try Self.objectDocuments() {
+            let bytes = Array(text.utf8)
+            let whole = Self.objectResult([bytes[...]])
+            #expect(whole.1.isEmpty)
+            #expect(whole.0 == (try JSONDecoder().decode(JSONValue.self, from: Data(bytes))))
+            for split in 0...bytes.count {
+                let result = Self.objectResult([bytes[..<split], bytes[split...]])
+                #expect(result.0 == whole.0, "split at byte \(split)")
+                #expect(result.1 == whole.1, "split at byte \(split)")
+            }
+        }
+    }
+
+    @Test("Object mode: 200 seeded three-way splits give the whole-document result")
+    func objectRandomThreeWaySplits() throws {
+        for text in try Self.objectDocuments() {
+            let bytes = Array(text.utf8)
+            let whole = Self.objectResult([bytes[...]])
+            let seed = ChunkBoundaryFuzzTests.seed ^ UInt64(bytes.count)
+            var random = SplitMix64(seed: seed)
+            for round in 0..<200 {
+                let cuts = [
+                    Int.random(in: 0...bytes.count, using: &random),
+                    Int.random(in: 0...bytes.count, using: &random),
+                ].sorted()
+                let result = Self.objectResult([
+                    bytes[..<cuts[0]], bytes[cuts[0]..<cuts[1]], bytes[cuts[1]...],
+                ])
+                #expect(result.0 == whole.0, "seed \(seed) round \(round) cuts \(cuts)")
+                #expect(result.1 == whole.1, "seed \(seed) round \(round) cuts \(cuts)")
+            }
         }
     }
 

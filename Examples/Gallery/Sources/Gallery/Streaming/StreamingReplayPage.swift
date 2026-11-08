@@ -135,6 +135,9 @@ final class StreamReplay {
     @ObservationIgnored private var input: AsyncThrowingStream<String, any Error>.Continuation?
     @ObservationIgnored private var feeder: Task<Void, Never>?
     @ObservationIgnored private var runner: Task<Void, Never>?
+    /// Counts `start()` calls. A run clears `isRunning` only while it is still the latest
+    /// run, so a cancelled run that ends late does not mark a new run as ended.
+    @ObservationIgnored private var generation = 0
 
     init() {
         transcripts = StreamReplay.findTranscripts()
@@ -158,11 +161,13 @@ final class StreamReplay {
         self.input = input
         isRunning = true
         isPaused = false
+        generation += 1
+        let current = generation
         let previous = runner
         runner = Task { [model] in
             await previous?.value  // the cancelled run ends first
             await model.run(stream, mode: transcript.mode)
-            self.isRunning = false
+            if self.generation == current { self.isRunning = false }
         }
         feed()
     }

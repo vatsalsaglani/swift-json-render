@@ -162,44 +162,6 @@ public enum CandlestickData {
     }
 }
 
-/// Pointer selection on the index axis: hover highlights the period under the pointer
-/// (local), a click commits it (a second click deselects). `jrPointerSelection` reads a
-/// category or date from the x scale, which this index axis does not have.
-struct CandlestickPointer: View {
-    let input: ChartPlotInput
-    let periods: [CandlePeriod]
-    let proxy: ChartProxy
-
-    var body: some View {
-        GeometryReader { geometry in
-            Rectangle()
-                .fill(.clear)
-                .contentShape(Rectangle())
-                .onContinuousHover { phase in
-                    switch phase {
-                    case .active(let location):
-                        input.selection.wrappedValue = label(at: location, geometry: geometry)
-                    case .ended:
-                        input.selection.wrappedValue = nil
-                    }
-                }
-                .onTapGesture { location in
-                    input.commit(label(at: location, geometry: geometry))
-                }
-        }
-    }
-
-    private func label(at location: CGPoint, geometry: GeometryProxy) -> String? {
-        guard let anchor = proxy.plotFrame else { return nil }
-        let frame = geometry[anchor]
-        guard frame.contains(location),
-            let value = proxy.value(atX: location.x - frame.minX, as: Double.self)
-        else { return nil }
-        let index = Int(value.rounded())
-        return periods.indices.contains(index) ? periods[index].label : nil
-    }
-}
-
 /// The default candlestick plot. Periods sit on an index axis (0, 1, 2 …) labelled with the
 /// period names, so a hollow body can be drawn as four hairlines around a fixed width.
 struct CandlestickPlot: View {
@@ -314,9 +276,7 @@ struct CandlestickPlot: View {
         .chartXAxis(input.hidesAxes ? .hidden : .automatic)
         .chartYAxis(input.hidesAxes ? .hidden : .automatic)
         .chartLegend(.hidden)
-        .chartOverlay { proxy in
-            CandlestickPointer(input: input, periods: periods, proxy: proxy)
-        }
+        .jrPointerSelection(input, axis: .index)
     }
 
     private func rule(x: Double, from low: Double, to high: Double) -> RuleMark {

@@ -143,6 +143,9 @@ public enum BoxPlotData {
             groups.append((name, stats))
         }
         if skipped > 0 { warnings.append(.skippedRows(skipped)) }
+        if groups.count > CompositeBudgets.maxBoxPlotGroups {
+            warnings.append(.tooManyGroups(groups.count))
+        }
         let labels = CompositeData.unique(groups.map(\.0))
         var points: [ChartPoint] = []
         for (index, group) in groups.enumerated() {
@@ -167,6 +170,7 @@ public enum BoxPlotData {
         CompositeData.finish(
             &data, range: CompositeData.extent(points.map(\.y)), reader: reader,
             includeZero: false)
+        data.blocking = warnings.first(where: \.isBlocking)
         return (data, warnings)
     }
 
@@ -224,15 +228,9 @@ struct BoxPlotPlot: View {
     private var horizontal: Bool { input.data.options.orientation == .horizontal }
 
     var body: some View {
-        let groups = BoxPlotData.groups(in: input.data)
-        if groups.count > CompositeBudgets.maxBoxPlotGroups {
-            ChartMessage(
-                text:
-                    "BoxPlot: \(groups.count) groups; the limit is \(CompositeBudgets.maxBoxPlotGroups).",
-                theme: input.theme)
-        } else {
-            chart(groups)
-        }
+        // More than `maxBoxPlotGroups` is `ChartWarning.tooManyGroups`: the frame shows
+        // the message and never builds this plot.
+        chart(BoxPlotData.groups(in: input.data))
     }
 
     private func chart(_ groups: [(label: String, stats: BoxPlotStats)]) -> some View {
@@ -269,7 +267,7 @@ struct BoxPlotPlot: View {
             ReferenceLineMarks(input, horizontal: horizontal)
         }
         .jrMarkOverride(input)
-        .jrCompositeAxes(input, horizontal: horizontal)
+        .jrValueAxes(input, horizontal: horizontal, aligned: true)
         .chartLegend(.hidden)
         .jrCategorySelection(input, horizontal: horizontal)
     }

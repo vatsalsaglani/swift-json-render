@@ -189,7 +189,8 @@ public enum ChartSpecRules {
         mutating func checkBoxPlot(_ rows: [JSONValue]) {
             let groupField = string("group") ?? "group"
             let groups = Set(rows.compactMap { ChartValues.text($0[groupField]) })
-            if groups.count > 20 { error("\(groups.count) groups; the limit is 20.") }
+            let limit = CompositeBudgets.maxBoxPlotGroups
+            if groups.count > limit { error("\(groups.count) groups; the limit is \(limit).") }
         }
     }
 }

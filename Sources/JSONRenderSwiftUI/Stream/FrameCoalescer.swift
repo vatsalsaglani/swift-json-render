@@ -81,9 +81,9 @@ import os
     }
 
     /// Keeps `value` for the next tick. Returns `true` when nothing was pending before (a
-    /// new frame window starts).
+    /// new frame window starts). Internal: `run` drives it; tests use `@testable import`.
     @discardableResult
-    public func offer(_ value: Value) -> Bool {
+    func offer(_ value: Value) -> Bool {
         if pending != nil {
             dropped += 1
             signposter.emitEvent("jsonrender.stream.drop")
@@ -100,8 +100,8 @@ import os
         offer(value) ? generation : nil
     }
 
-    /// One display frame: publishes the kept value if it changed.
-    public func tick() {
+    /// One display frame: publishes the kept value if it changed. Internal, like `offer`.
+    func tick() {
         flush()
     }
 

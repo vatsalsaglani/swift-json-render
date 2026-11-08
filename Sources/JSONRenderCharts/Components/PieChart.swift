@@ -85,7 +85,7 @@ struct PieChartPlot: View {
             ForEach(data.points) { point in
                 SectorMark(
                     angle: .value(data.yField, point.y),
-                    innerRadius: .ratio(donut ? 0.62 : 0),
+                    innerRadius: .ratio(donut ? ChartPointer.donutInnerRatio : 0),
                     angularInset: input.tokens.sliceGap
                 )
                 .foregroundStyle(by: .value("Slice", point.xLabel))

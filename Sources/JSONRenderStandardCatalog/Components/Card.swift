@@ -9,7 +9,8 @@ public enum JRCardVariant: String, Sendable, CaseIterable {
     case outlined
     /// No surface, no hairline, no padding: the content groups by space only.
     case plain
-    /// Surface, hairline and one soft shadow. A card inside a card draws no shadow.
+    /// Surface, hairline and one soft shadow. A card inside a card draws no shadow. In dark
+    /// appearance, where a shadow hardly shows, a lighter top hairline marks the lift.
     case elevated
 }
 
@@ -102,6 +103,14 @@ private struct DefaultCardBody: View {
             if variant != .plain {
                 shape
                     .fill(theme.color.surface)
+                    .overlay(alignment: .top) {
+                        if showsTopHighlight {
+                            Rectangle()
+                                .fill(theme.color.hairline.opacity(0.6))
+                                .frame(height: 1)
+                        }
+                    }
+                    .clipShape(shape)
                     .shadow(
                         color: .black.opacity(shadowOpacity(theme)),
                         radius: variant == .elevated && !configuration.isNested
@@ -113,6 +122,11 @@ private struct DefaultCardBody: View {
         .standardHairline(theme, radius: theme.radius.card, isVisible: variant != .plain)
         .frame(
             maxWidth: .infinity, alignment: configuration.centered ? .center : .leading)
+    }
+
+    /// The 1 pt top hairline of an elevated, not nested card in dark appearance.
+    private var showsTopHighlight: Bool {
+        colorScheme == .dark && configuration.variant == .elevated && !configuration.isNested
     }
 
     /// 0.10 in light appearance and 0.18 in dark (the token scaled by 1.8).

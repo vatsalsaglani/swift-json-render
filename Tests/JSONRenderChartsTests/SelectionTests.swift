@@ -1,3 +1,4 @@
+import CoreGraphics
 import JSONRenderCore
 import JSONRenderSwiftUI
 import Testing
@@ -140,5 +141,59 @@ struct SelectionTests {
             ], kind: .pie)
         #expect(ChartSelection.slice(atFraction: 0.1, in: data) == "a")
         #expect(ChartSelection.slice(atFraction: 0.8, in: data) == "b")
+    }
+
+    @Test("A donut's hole selects nothing; a pie's centre selects a slice")
+    @MainActor
+    func donutHole() {
+        let rows: JSONValue = [["l": "a", "v": 3], ["l": "b", "v": 1]]
+        let (pie, _) = ChartData.make(
+            props: ["data": rows, "label": "l", "value": "v"], kind: .pie)
+        let (donut, _) = ChartData.make(
+            props: ["data": rows, "label": "l", "value": "v", "donut": true], kind: .pie)
+        #expect(donut.options.donut)
+        let frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        let ratio = ChartPointer.donutInnerRatio
+        func label(_ data: ChartData, _ point: CGPoint) -> String? {
+            ChartPointer.sliceLabel(
+                at: point, in: frame, data: data, innerRatio: data.options.donut ? ratio : 0)
+        }
+        // The centre, 0.5 R and 0.8 R straight up (12 o'clock: the first slice).
+        let centre = CGPoint(x: 100, y: 100)
+        let half = CGPoint(x: 100, y: 50)
+        let outer = CGPoint(x: 100, y: 20)
+        #expect(label(donut, centre) == nil)
+        #expect(label(donut, half) == nil)
+        #expect(label(donut, outer) == "a")
+        #expect(label(pie, centre) != nil)
+        #expect(label(pie, half) == "a")
+        #expect(label(pie, outer) == "a")
+        // Outside the outer radius: nothing.
+        #expect(label(pie, CGPoint(x: 199, y: 1)) == nil)
+    }
+
+    @Test("The index axis reads the label at the rounded index")
+    @MainActor
+    func indexAxis() {
+        var data = ChartData(kind: .candlestick)
+        data.categories = ["Mon", "Tue", "Wed"]
+        #expect(ChartPointer.indexLabel(0.4, in: data) == "Mon")
+        #expect(ChartPointer.indexLabel(1.6, in: data) == "Wed")
+        #expect(ChartPointer.indexLabel(-0.6, in: data) == nil)
+        #expect(ChartPointer.indexLabel(2.6, in: data) == nil)
+        #expect(ChartPointer.indexLabel(nil, in: data) == nil)
+        #expect(ChartPointer.indexLabel(.nan, in: data) == nil)
+    }
+
+    @Test("Candlestick categories are the period labels the index axis reads")
+    func candlestickCategories() {
+        let rows: JSONValue = [
+            ["d": "a", "open": 1, "high": 3, "low": 0, "close": 2],
+            ["d": "b", "open": 2, "high": 4, "low": 1, "close": 3],
+            ["d": "bad", "open": 2],
+        ]
+        let (data, _) = CandlestickData.make(props: ["data": rows, "x": "d"])
+        #expect(data.categories == ["a", "b"])
+        #expect(CandlestickData.periods(in: data).map(\.label) == data.categories)
     }
 }
