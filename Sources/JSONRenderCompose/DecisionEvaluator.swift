@@ -22,4 +22,6 @@ public enum DecisionError: Error, Sendable, Hashable {
     case tooManyQuestions(Int)
     /// The key provider threw or returned an empty key. No request was made.
     case keyUnavailable
+    /// The base URL is not `https`. No key is read and no request is made.
+    case insecureBaseURL
 }

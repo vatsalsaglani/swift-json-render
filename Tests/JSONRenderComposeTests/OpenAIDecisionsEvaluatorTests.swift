@@ -188,6 +188,26 @@ struct OpenAIDecisionsEvaluatorTests {
         #expect(await recorder.requests.isEmpty)
     }
 
+    @Test("A non-https base URL is refused before the key is read")
+    func insecureBaseURL() async throws {
+        let recorder = TransportRecorder()
+        let evaluator = OpenAIDecisionsEvaluator(
+            keyProvider: {
+                Issue.record("The key was read")
+                return Self.testKey
+            },
+            baseURL: try #require(URL(string: "http://api.openai.com/v1")),
+            transport: { request in
+                await recorder.record(request)
+                return (Data(), httpResponse(200, url: OpenAIDecisionsEvaluator.defaultBaseURL))
+            })
+        await #expect(throws: DecisionError.insecureBaseURL) {
+            _ = try await evaluator.decide(
+                input: DecisionInput(text: "{}"), questions: Self.probeQuestions)
+        }
+        #expect(await recorder.requests.isEmpty)
+    }
+
     @Test("More than 400 questions are refused before the key is read")
     func questionCap() async throws {
         let recorder = TransportRecorder()

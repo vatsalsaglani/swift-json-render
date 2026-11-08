@@ -97,6 +97,8 @@ public struct OpenAIDecisionsEvaluator: DecisionEvaluator, CustomStringConvertib
 
     /// The only place a `URLRequest` is built. The key lives in a local and in the header.
     private func makeRequest(body: Data) async throws -> URLRequest {
+        // The key never travels in clear text: refuse before the key provider runs.
+        guard baseURL.scheme?.lowercased() == "https" else { throw DecisionError.insecureBaseURL }
         let key: String
         do {
             key = try await keyProvider()

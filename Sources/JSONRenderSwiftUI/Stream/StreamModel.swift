@@ -84,7 +84,7 @@ public struct StreamFrameStats: Sendable, Hashable {
     }
 
     /// `run(_:mode:onFinish:)` for UTF-8 byte chunks (`Data`, `[UInt8]`, for example from
-    /// `URLSession.bytes` grouped into chunks). A scalar split across two chunks is safe.
+    /// a host network byte stream grouped into chunks). A scalar split across two chunks is safe.
     public func run<S: AsyncSequence & Sendable>(
         bytes source: S, mode: SpecStreamDecoder.Mode,
         onFinish: ((ValidationReport) -> Void)? = nil
