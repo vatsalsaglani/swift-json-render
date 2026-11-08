@@ -136,8 +136,11 @@ jobs:
             --enable-experimental-combined-documentation \
             --transform-for-static-hosting --hosting-base-path swift-json-render \
             --output-path "$RUNNER_TEMP/docs"
+      # DocC writes names such as `accentcolor(_:).json`; the artifact uploader refuses ':'.
+      - name: Archive the documentation
+        run: tar -czf "$RUNNER_TEMP/docs.tar.gz" -C "$RUNNER_TEMP" docs
       - uses: actions/upload-artifact@v4
         with:
           name: docc
-          path: ${{ runner.temp }}/docs
+          path: ${{ runner.temp }}/docs.tar.gz
           retention-days: 14

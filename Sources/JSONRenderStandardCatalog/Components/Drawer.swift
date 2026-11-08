@@ -1,6 +1,6 @@
 // Owner: jr-3 (wave 2). Drawer: a sheet (iOS: medium and large detents) bound to state.
 public import JSONRenderClient
-public import JSONRenderSwiftUI
+internal import JSONRenderSwiftUI
 public import SwiftUI
 
 /// What a drawer style receives.

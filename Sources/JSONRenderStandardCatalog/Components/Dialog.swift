@@ -1,6 +1,6 @@
 // Owner: jr-3 (wave 2). Dialog: a modal sheet bound to state.
 public import JSONRenderClient
-public import JSONRenderSwiftUI
+internal import JSONRenderSwiftUI
 public import SwiftUI
 
 /// What a dialog style receives.
